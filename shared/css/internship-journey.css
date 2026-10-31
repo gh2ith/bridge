@@ -6,7 +6,12 @@
 .journey-skill-entry { display:flex;align-items:end;gap:10px; }.journey-skill-entry .cycle-field { flex:1;min-width:0; }
 .journey-checklist { list-style:none;padding:0;margin:18px 0;display:grid;gap:10px; }
 .journey-checklist li { display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--bw-border); }.journey-checklist strong { margin-left:auto;font-size:13px; }.journey-checklist i.bi-check-circle-fill { color:var(--bw-primary); }
-.journey-certificate canvas { display:block;width:100%;height:auto;border-radius:12px;margin:20px 0;box-shadow:0 10px 30px #17365d10; }
+.journey-certificate .certificate-preview { display:flex;justify-content:center;padding:20px;margin:18px 0;background:var(--bw-bg-alt);border:1px solid var(--bw-border);border-radius:10px; }
+.journey-certificate .certificate-preview canvas { display:block;width:min(100%,640px);height:auto;max-height:400px;object-fit:contain;border-radius:4px;box-shadow:0 6px 20px #17365d14; }
+.certificate-actions { display:flex;justify-content:flex-end;align-items:center;gap:10px;flex-wrap:wrap; }
+.certificate-preview-dialog.cycle-dialog { width:min(1080px,calc(100vw - 64px));max-height:calc(100dvh - 64px);padding:24px; }
+.certificate-large-preview { display:flex;justify-content:center;min-width:0; }
+.certificate-large-preview canvas { display:block;width:100%;height:auto;max-height:calc(100dvh - 180px);object-fit:contain; }
 .journey-monitor-list { display:grid;gap:16px; }.journey-monitor-row { margin:0; }.journey-monitor-row h2 { font-size:19px; }
 .task-submissions { display:grid;gap:12px;margin-top:18px;padding-top:18px;border-top:1px solid var(--bw-border); }.task-submissions > .cycle-status { justify-self:start; }
 .task-submission-version { padding:12px;background:var(--bw-bg,#f4f6fa);border-radius:8px; }.task-submission-version summary { cursor:pointer;font-weight:600; }.task-submission-version p { white-space:pre-wrap;overflow-wrap:anywhere; }
@@ -28,3 +33,25 @@
 @media(max-width:1000px) { .student-sidebar-layout .student-sidebar { width:208px; }.student-sidebar-layout .bw-main-content { margin-left:208px!important;width:calc(100% - 208px)!important;padding:0 20px 32px!important; } }
 @media(max-width:760px) { .student-sidebar-layout .student-sidebar { width:250px;transform:translateX(-100%);transition:transform .18s ease;box-shadow:10px 0 40px #12243d20; }.student-sidebar-layout.student-menu-open .student-sidebar { transform:translateX(0); }.student-sidebar-layout .bw-main-content { margin-left:0!important;width:100%!important;padding:0 16px 28px!important; }.student-sidebar-layout .student-menu-toggle { display:inline-flex;position:relative;z-index:46; }.student-sidebar-layout .student-top-caption { display:none; }.student-sidebar-layout .studio-top { min-height:76px; }.student-sidebar-layout .studio-account-name { max-width:155px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }.journey-checklist li { align-items:flex-start; }.journey-checklist strong { min-width:55px; }.journey-skill-entry { align-items:stretch;flex-direction:column; } }
 @media(prefers-reduced-motion:reduce) { .student-sidebar-layout .student-sidebar { transition:none; } }
+.company-workspace #tab-completion .supervisor-assessment-workspace{display:grid;grid-template-columns:280px minmax(0,1fr);gap:24px;align-items:start}
+#tab-completion .supervisor-assessment-picker{padding:20px;margin:0;background:var(--bw-surface);border:1px solid var(--bw-border);border-radius:12px}
+#tab-completion .supervisor-assessment-picker .cycle-field{margin:18px 0 12px}
+#tab-completion .evaluation-student-list{display:grid;gap:8px;margin-top:18px}
+#tab-completion .evaluation-student-button{display:grid;gap:5px;width:100%;text-align:left;padding:14px;border:1px solid var(--bw-border);border-radius:10px;background:var(--bw-surface);color:var(--bw-text);font:inherit;cursor:pointer}
+#tab-completion .evaluation-student-button strong{font-size:14px}#tab-completion .evaluation-student-button :is(span,small){font-size:12px;color:var(--bw-text-secondary);line-height:1.6}
+#tab-completion .evaluation-student-button[aria-pressed=true]{border-color:var(--bw-primary);background:var(--bw-primary-light);box-shadow:inset 3px 0 var(--bw-primary)}
+#tab-completion .supervisor-assessment-detail{min-width:0}#tab-completion .supervisor-change-student{margin-bottom:16px}
+#tab-completion .supervisor-selection-prompt{padding:64px 28px;text-align:center;border:1px dashed var(--bw-border);border-radius:12px;color:var(--bw-text-secondary)}
+.completion-orbit{display:flex;align-items:center;gap:32px;margin:24px 0;padding:24px;background:var(--bw-bg-alt);border:1px solid var(--bw-border);border-radius:12px}
+.completion-orbit-ring{width:148px;height:148px;flex:0 0 148px;border-radius:50%;padding:9px;background:conic-gradient(var(--bw-primary) var(--completion-angle),var(--bw-border) 0);box-sizing:border-box}
+.completion-orbit-ring>div{height:100%;border-radius:50%;background:var(--bw-surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}.completion-orbit-ring strong{font-size:30px;font-weight:600;color:var(--bw-text)}.completion-orbit-ring span{font-size:11px;color:var(--bw-text-secondary)}
+.completion-orbit-content{flex:1;min-width:0}.completion-orbit-content>h3{font-size:17px;margin:0 0 18px}
+body .completion-orbit .portal-evaluation-progress{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 28px;margin:0;padding:0;list-style:none}
+body .completion-orbit .portal-evaluation-progress>li{display:flex;align-items:center;gap:10px;padding:0;border:0;background:transparent}
+.completion-orbit li>i{font-size:20px;color:var(--bw-text-secondary)}.completion-orbit li.is-done>i,.completion-orbit li[aria-current=step]>i{color:var(--bw-primary)}
+.completion-orbit li strong{display:block;font-size:13px;font-weight:500}.completion-orbit li span{display:block;font-size:12px;margin-top:4px;color:var(--bw-text-secondary)}
+.completion-orbit li[aria-current=step] strong{color:var(--bw-primary)}
+.supervisor-assessment-detail>.cycle-section>.cycle-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:24px}
+.supervisor-assessment-detail .review-change-student{flex-shrink:0;margin:0 0 0 auto;min-height:40px;padding:8px 14px;font-size:13px;font-weight:500;white-space:nowrap;background:var(--bw-surface);border:1px solid var(--bw-border);color:var(--bw-text-secondary);border-radius:8px;box-shadow:none}
+.supervisor-assessment-detail .review-change-student:hover{color:var(--bw-primary);border-color:var(--bw-primary);background:var(--bw-primary-light)}
+.supervisor-assessment-detail .review-change-student:focus-visible{outline:2px solid var(--bw-primary);outline-offset:3px}

@@ -15,8 +15,10 @@
     return ['Company evaluation','Academic assessment','College approval','Certificate'].map((label,index)=>({label,done:done[index],current:index===current}));
   }
   function evaluationProgress(id){
+    const steps=evaluationSteps(id),done=steps.filter(s=>s.done).length,tracker=E('section',null,'completion-orbit'),ring=E('div',null,'completion-orbit-ring');
+    tracker.setAttribute('aria-label',`${done} of 4 completion stages complete`);ring.setAttribute('aria-hidden','true');ring.style.setProperty('--completion-angle',`${done*90}deg`);ring.append(A(E('div'),E('strong',`${done} / 4`),E('span','stages complete')));
     const list=E('ol',null,'portal-evaluation-progress');list.setAttribute('aria-label','Completion stages');
-    evaluationSteps(id).forEach(step=>{const item=E('li',null,step.done?'is-done':'');if(step.current)item.setAttribute('aria-current','step');item.append(E('strong',step.label),E('span',step.done?'Complete':step.current?'Current stage':'Waiting'));list.append(item);});return list;
+    steps.forEach((step,index)=>{const item=E('li',null,step.done?'is-done':'');if(step.current)item.setAttribute('aria-current','step');const mark=E('i',null,step.done?'bi bi-check2-circle':step.current?'bi bi-arrow-right-circle':'bi bi-circle');mark.setAttribute('aria-hidden','true');item.append(mark,A(E('div'),E('strong',step.label),E('span',step.done?'Complete':step.current?'Current stage':'Waiting')));list.append(item);});tracker.append(ring,A(E('div',null,'completion-orbit-content'),E('h3',done===4?'Internship completed':'Completion journey'),list));return tracker;
   }
   const studentContext=id=>A(E('div',null,'portal-student-context'),E('strong',C.student(id).name),E('span',`Student ID ${C.student(id).studentId}`),E('span',C.org(placement(id)?.company||C.student(id).company)));
   // Populate the existing rubric before its DOMContentLoaded roster is built.
@@ -128,16 +130,17 @@
     const record=certificate(id),panel=section('Your completion certificate',record?'Approved by your college. Available to download and print.':'Available after company evaluation, academic assessment, and college completion approval.');
     if(!record)panel.append(evaluationProgress(id));
     if(!record)return panel;
-    panel.classList.add('journey-certificate');const canvas=certificateCanvas(record);panel.append(canvas);
-    panel.append(B('Download certificate PDF',()=>{const url=URL.createObjectURL(pdfBytes(canvas)),a=E('a');a.href=url;a.download=`Bridgeway-${record.id}.pdf`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);},true));return panel;
+    panel.classList.add('journey-certificate');const canvas=certificateCanvas(record),preview=A(E('div',null,'certificate-preview'),canvas);panel.append(preview);
+    const actions=E('div',null,'certificate-actions'),enlarge=B('View larger',()=>{const content=A(E('div',null,'certificate-large-preview'),certificateCanvas(record)),d=C.dialog('Completion certificate',content);d.classList.add('certificate-preview-dialog');});
+    actions.append(enlarge,B('Download certificate PDF',()=>{const url=URL.createObjectURL(pdfBytes(canvas)),a=E('a');a.href=url;a.download=`Bridgeway-${record.id}.pdf`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);},true));panel.append(actions);return panel;
   }
 
-  function supervisorAssessments(root){
+  function supervisorAssessments(root,completion=false){
     root.replaceChildren();
-    const directory=section('Assigned students','Company evaluations and academic assessments'),search=field('Find a student','','search'),count=E('p','','portal-muted'),list=E('div',null,'evaluation-student-list'),detail=E('div',null,'supervisor-assessment-detail');
+    const directory=section(completion?'Students':'Assigned students',completion?'Training completion and certificates':'Company evaluations and academic assessments'),search=field('Find a student','','search'),count=E('p','','portal-muted'),list=E('div',null,'evaluation-student-list'),detail=E('div',null,'supervisor-assessment-detail');
     directory.classList.add('supervisor-assessment-picker','evaluation-directory','bw-student-picker');search.input.placeholder='Name, student ID, or company';count.setAttribute('role','status');directory.append(search.wrap,count,list);
     root.append(A(E('div',null,'supervisor-assessment-workspace'),directory,detail));let selected='';
-    const statusFor=id=>certificate(id)?'Training completed':academic(id)?'Academic assessment forwarded':currentCompanyEvaluation(id)?'Ready for academic assessment':'Awaiting company evaluation';
+    const statusFor=id=>certificate(id)?'Certificate issued':completion?checklist(id).every(([,ok])=>ok)?'Ready for completion review':`${checklist(id).filter(([,ok])=>ok).length} of ${checklist(id).length} requirements ready`:academic(id)?'Academic assessment forwarded':currentCompanyEvaluation(id)?'Ready for academic assessment':'Awaiting company evaluation';
     function renderList(){
       const students=visibleStudents(),query=search.input.value.trim().toLowerCase(),matches=students.filter(s=>`${s.name} ${s.studentId} ${C.org(s.company)}`.toLowerCase().includes(query));list.replaceChildren();count.textContent=`${matches.length} of ${students.length} assigned students`;
       for(const s of matches){const button=B('',()=>choose(s.id));button.className='evaluation-student-button';button.setAttribute('aria-pressed',String(selected===s.id));button.setAttribute('aria-controls','supervisorAssessmentDetail');button.append(E('strong',s.name),E('span',`${s.studentId} / ${C.org(s.company)}`),E('small',statusFor(s.id)));list.append(button);}
@@ -145,8 +148,9 @@
     }
     function renderDetail(){
       detail.replaceChildren();detail.id='supervisorAssessmentDetail';
-      if(!selected){const icon=E('i',null,'bi bi-clipboard-check');icon.setAttribute('aria-hidden','true');detail.append(A(E('section',null,'supervisor-selection-prompt'),icon,E('h2','Select a student'),E('p','Choose an assigned student to read the company evaluation and prepare their academic assessment.')));return;}
-      const change=B('Change student',()=>choose(''));change.className='supervisor-change-student';detail.append(change,academicPanel(selected));const form=detail.querySelector('form');if(form)window.BridgewayUX?.remember(form);
+      if(!selected){const icon=E('i',null,'bi bi-clipboard-check');icon.setAttribute('aria-hidden','true');detail.append(A(E('section',null,'supervisor-selection-prompt'),icon,E('h2','Select a student'),E('p',completion?'Choose a student to review completion requirements, evaluations, and their certificate.':'Choose an assigned student to read the company evaluation and prepare their academic assessment.')));return;}
+      const change=B('Change student',()=>choose(''));change.className='cycle-button review-change-student';change.setAttribute('aria-label','Change selected student');
+      const panel=completion?completionPanel(selected):academicPanel(selected);panel.querySelector(':scope > .cycle-heading').append(change);detail.append(panel);const form=detail.querySelector('form');if(form)window.BridgewayUX?.remember(form);
     }
     async function choose(id){
       if(id===selected)return;const form=detail.querySelector('form');
@@ -197,7 +201,7 @@
     }
     if(role==='admin'){
       collegeListings();
-      const root=tab('tab-completion','Completion review'),picker=select('Student',visibleStudents().map(s=>[s.id,s.name]),visibleStudents()[0]?.id||''),detail=E('div');root.append(picker.wrap,detail);const render=()=>{detail.replaceChildren();if(picker.input.value)detail.append(completionPanel(picker.input.value));};picker.input.addEventListener('change',render);render();
+      supervisorAssessments(tab('tab-completion','Completion review'),true);
     }
     if(location.hash&&document.getElementById(location.hash.slice(1)))window.switchTab(location.hash.slice(1));
   });
