@@ -83,6 +83,29 @@
 #internshipEditor .ie-req-row .ie-remove{min-height:38px}
 #internshipEditor .ie-field>span.ie-hint{font-size:12px;font-weight:400}
 #internshipEditor .ie-review .ie-skills-edit{margin-top:12px}
+#internshipEditor .ie-review-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px}
+#internshipEditor .ie-review .ie-review-title{font-size:24px;font-weight:600;line-height:1.35;letter-spacing:-.03em;margin:0;overflow-wrap:anywhere}
+#internshipEditor .ie-review-overview .ie-review-meta{margin:0;gap:10px 16px}
+#internshipEditor .ie-review-overview .ie-summary{margin:20px 0 0;padding:18px 0;border-bottom:0}
+#internshipEditor .ie-summary dt{font-size:12px}
+#internshipEditor .ie-summary dd{font-size:14px}
+#internshipEditor .ie-review-section{padding:20px 0;border-top:1px solid var(--bw-line)}
+#internshipEditor .ie-review-section h3{font-size:16px;line-height:1.45;margin:0 0 10px}
+#internshipEditor .ie-review-heading h3{margin:0}
+#internshipEditor .ie-review-section h4{font-size:13px;font-weight:600;margin:18px 0 8px}
+#internshipEditor .ie-review-section p{font-size:14px;line-height:1.7;margin:0}
+#internshipEditor .ie-review-edit{flex-shrink:0;min-height:44px;color:var(--bw-blue);padding:8px!important;white-space:normal;text-align:left}
+#internshipEditor .ie-review-edit:hover{background:var(--bw-soft);border-radius:6px}
+#internshipEditor .ie-edit-short{display:none}
+#internshipEditor .ie-btn:focus-visible{outline:2px solid var(--bw-blue);outline-offset:3px}
+#internshipEditor .ie-question-heading{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#internshipEditor .ie-question-count{font-size:11px;font-weight:500;padding:3px 8px;border-radius:5px;background:var(--bw-muted);color:var(--bw-sub);white-space:nowrap}
+#internshipEditor .ie-review .ie-review-helper{font-size:13px;color:var(--bw-sub)}
+#internshipEditor .ie-question-review-list{margin:10px 0 0;padding-left:24px}
+#internshipEditor .ie-question-review-list li{padding:10px 8px;font-size:14px;color:var(--bw-ink);border-bottom:1px solid var(--bw-line)}
+#internshipEditor .ie-question-review-list li:last-child{border-bottom:0;padding-bottom:0}
+#internshipEditor .ie-question-review-list li::marker{color:var(--bw-sub);font-size:12px}
+#internshipEditor .ie-review .ie-notice{margin-top:8px}
 #internshipEditor button,#internshipEditor .ie-modes>label{cursor:pointer}
 #internshipEditor button:disabled{cursor:default}
 #internshipEditor .ie-suggestions:empty{display:none}
@@ -99,4 +122,13 @@
  #internshipEditor .ie-under{align-items:flex-start}
  #internshipEditor .ie-footer-actions{margin-left:auto}
  #internshipEditor .ie-review-title{font-size:21px}
+ #internshipEditor .ie-review .ie-review-title{font-size:21px}
+ #internshipEditor .ie-review-heading{align-items:flex-start;gap:10px}
+ #internshipEditor .ie-review-edit{font-size:12px;margin-top:-8px;white-space:nowrap}
+ #internshipEditor .ie-edit-long{display:none}
+ #internshipEditor .ie-edit-short{display:inline}
+ #internshipEditor .ie-review-section{padding:18px 0}
+ #internshipEditor .ie-question-heading{gap:6px}
+ #internshipEditor .ie-footer-actions{width:100%;margin:0}
+ #internshipEditor .ie-footer-actions .primary{flex:1;white-space:normal}
 }

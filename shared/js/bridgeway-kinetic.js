@@ -236,13 +236,13 @@
     const card=el('section',null,'bw-credential'+(complete?' is-complete':''));card.setAttribute('aria-label',complete?'Training completion card':'Training verification progress');
     if(!complete){
       card.classList.add('is-progress');
-      const bar=el('progress');bar.max=320;bar.value=hours;bar.setAttribute('aria-label',hours+' of 320 hours supervisor-verified');
-      card.append(el('h2','Your completion card'),el('p',hours+' / 320 h verified','bw-credential-company'),bar,el('small','The blue/silver card unlocks after all eight weeks and 320 hours are verified.'));return card;
+      const bar=el('progress');bar.max=120;bar.value=hours;bar.setAttribute('aria-label',hours+' of 120 hours supervisor-verified');
+      card.append(el('h2','Your completion card'),el('p',hours+' / 120 h verified','bw-credential-company'),bar,el('small','The blue/silver card unlocks after all eight weeks and 120 hours are verified.'));return card;
     }
     card.append(el('div',complete?'✓':'◷','bw-credential-seal'),el('p',complete?'Training completion card':'Your training record','bw-credential-kicker'),el('h2',complete?'Eight weeks. Earned.':'Building your experience.'),el('strong',student),el('p',company,'bw-credential-company'));
-    const facts=el('div',null,'bw-credential-facts');facts.append(el('strong',hours+' / 320 h'),el('span',complete?'Supervisor-verified':'Verified so far'));card.append(facts);
+    const facts=el('div',null,'bw-credential-facts');facts.append(el('strong',hours+' / 120 h'),el('span',complete?'Supervisor-verified':'Verified so far'));card.append(facts);
     if(start)card.append(el('p','Started '+start+(end?' · Finished '+end:''),'bw-credential-dates'));
-    card.append(el('small',complete?'Training summary · Not an official certificate.':'Your completion card unlocks when all eight weeks and 320 hours are verified.'));
+    card.append(el('small',complete?'Training summary · Not an official certificate.':'Your completion card unlocks when all eight weeks and 120 hours are verified.'));
     if(complete){
       card.tabIndex=0;
       card.addEventListener('pointermove',event=>{if(reduced.matches||event.pointerType==='touch')return;const r=card.getBoundingClientRect();card.style.setProperty('--foil-x',((event.clientX-r.left)/r.width*100)+'%');card.style.setProperty('--foil-y',((event.clientY-r.top)/r.height*100)+'%');});

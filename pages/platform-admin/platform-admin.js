@@ -1,4 +1,4 @@
-/* Static demo records and basic UI interactions. All edits reset on reload. */
+/* Organization and partnership interactions backed by the temporary local workspace. */
 document.addEventListener('DOMContentLoaded', () => {
   const organizations = window.BridgewayPartners.organizations;
   const partnerships = window.BridgewayPartners.links;
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('partnershipForm').addEventListener('submit',event=>{
     event.preventDefault(); const college=$('partnershipCollege').value,company=$('partnershipCompany').value;
     if(partnerships.some(link=>link.college===college&&link.company===company)) { $('partnershipError').textContent='This partnership already exists. You can reactivate it from the table if needed.'; $('partnershipError').hidden=false; return; }
-    partnerships.push({id:`partnership-${nextId++}`,college,company,status:'Active'}); $('partnershipDialog').close(); render(); showPortalToast('Partnership added to this workspace.');
+    partnerships.push({id:"partnership-"+crypto.randomUUID(),college,company,status:'Active'}); $('partnershipDialog').close(); render(); showPortalToast('Partnership added to this workspace.');
   });
   function openIssue(issue) {
     editingIssue=issue.id; $('issueDialogTitle').textContent=issue.title; $('issueOrganization').textContent=`${issue.id} · ${orgName(issue.organization)}`;

@@ -1,0 +1,363 @@
+/* Reference dashboard composition, scoped to the four staff overview grids.
+   Preserve DOM order because existing metric updates use positional selectors. */
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) {
+  --overview-height: 144px;
+  --overview-gap: 12px;
+  --overview-padding: 17px;
+  --overview-radius: 12px;
+  --overview-highlight: #163b69;
+  --overview-highlight-ink: #fff;
+  --overview-highlight-muted: #d0ddef;
+  --overview-pattern: #a9c6e8;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: var(--overview-gap);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+  margin-bottom: 16px;
+  reading-flow: grid-order;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin)[data-portal-role="admin"] [data-dashboard-overview] {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .dashboard-overview-title {
+  grid-column: 1 / -1;
+  order: -2;
+  color: var(--bw-text);
+  font-size: 15px !important;
+  font-weight: 500;
+  margin: 0;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] > :is(.bw-kpi-card, button) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+  min-height: var(--overview-height);
+  padding: var(--overview-padding);
+  box-sizing: border-box;
+  border: 1px solid var(--bw-border);
+  border-radius: var(--overview-radius);
+  background: var(--bw-surface);
+  color: var(--bw-text);
+  text-align: left;
+  box-shadow: 0 5px 18px rgb(22 59 105 / 3%);
+  overflow: hidden;
+  transform: none;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+  touch-action: manipulation;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] .bw-kpi-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  gap: 12px;
+  width: 100%;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] :is(.bw-kpi-label, .company-metric-label, button > span:first-child) {
+  order: -1;
+  padding-right: 30px;
+  color: var(--bw-text);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] :is(.bw-kpi-value, button > strong) {
+  color: inherit;
+  font-size: 32px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.045em;
+  line-height: 1.1;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] :is(.bw-kpi-desc, .company-metric-caption, button > small) {
+  color: var(--bw-text-secondary);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] :is(.bw-kpi-icon, .company-metric-label > i, button > span:first-child > i) {
+  position: absolute;
+  top: var(--overview-padding);
+  right: var(--overview-padding);
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--bw-primary);
+  font-size: 20px;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] > :is([data-onclick], button):hover {
+  border-color: var(--bw-primary);
+  box-shadow: 0 5px 18px rgb(22 59 105 / 8%);
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] > :focus-visible {
+  outline: 3px solid var(--bw-primary);
+  outline-offset: 4px;
+}
+body.dashboard-reference [data-dashboard-overview] > :is([data-onclick], button) { cursor: pointer; }
+body.dashboard-reference [data-dashboard-overview] > :is([data-onclick], button):active { box-shadow: inset 0 0 0 2px var(--bw-primary); }
+body.dashboard-reference [data-dashboard-overview] > .bw-kpi-card:not([data-onclick]):not(button) { cursor: default; }
+body.dashboard-reference .portal-next-action > button { min-height: 44px; }
+body.dashboard-reference .portal-next-action { margin-bottom: 24px; }
+/* One priority metric per role, with exactly the same footprint as its peers. */
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] > :is(
+  [data-onclick="querySelector--6"],
+  .bw-kpi-card:has(#kpiPendingReports),
+  [data-summary="published"],
+  [data-platform-tab="platform-partnerships"]
+) {
+  order: -1;
+  background: var(--overview-highlight);
+  border-color: var(--overview-highlight);
+  color: var(--overview-highlight-ink);
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] > :is([data-onclick="querySelector--6"], .bw-kpi-card:has(#kpiPendingReports), [data-summary="published"], [data-platform-tab="platform-partnerships"]) :is(.bw-kpi-label, .company-metric-label, span, strong, .bw-kpi-icon, i) {
+  color: var(--overview-highlight-ink);
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] > :is([data-onclick="querySelector--6"], .bw-kpi-card:has(#kpiPendingReports), [data-summary="published"], [data-platform-tab="platform-partnerships"]) :is(.bw-kpi-desc, .company-metric-caption, small) {
+  color: var(--overview-highlight-muted);
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] > :is([data-onclick="querySelector--6"], .bw-kpi-card:has(#kpiPendingReports), [data-summary="published"], [data-platform-tab="platform-partnerships"])::after {
+  content: '';
+  position: absolute;
+  right: -18px;
+  bottom: 8px;
+  width: 150px;
+  max-width: 65%;
+  height: 85px;
+  background: var(--overview-pattern);
+  mask: url('../assets/dashboard-bridge.svg') center / contain no-repeat;
+  opacity: .22;
+  pointer-events: none;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] > * > * { z-index: 1; }
+@media (max-width: 1000px) {
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) { --overview-padding: 16px; }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin)[data-portal-role="admin"] [data-dashboard-overview] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 600px) {
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) { --overview-height: 140px; --overview-gap: 12px; --overview-padding: 16px; }
+  body.dashboard-reference [data-dashboard-overview] .bw-kpi-info { gap: 16px; }
+  body.dashboard-reference .portal-next-action { align-items: stretch; flex-direction: column; gap: 16px; padding: 18px; }
+  body.dashboard-reference .portal-next-action > button { max-width: none; width: 100%; }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview],
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin)[data-portal-role="admin"] [data-dashboard-overview] { grid-template-columns: minmax(0, 1fr) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] > * { transition: none; }
+}
+
+/* Compact overview for laptop screens; details remain full-size in their views. */
+@media (min-width: 1200px) {
+  body.dashboard-reference:is(#page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .portal-next-action {
+  padding: 14px 18px;
+  margin: 0 0 16px;
+  gap: 16px;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .portal-next-action h2 {
+  font-size: 16px !important;
+  margin: 0 0 3px;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .portal-next-action p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-company-content {
+  gap: 16px;
+}
+/* Staff workspace density: size the UI itself, without browser zoom or transforms. */
+body.dashboard-reference {
+  --bw-type-page: 22px;
+  --bw-type-section: 18px;
+  --bw-type-item: 16px;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-company-content {
+  gap: 14px !important;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .company-topbar {
+  min-height: 44px;
+  padding: 0 0 10px !important;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) :is(.company-page-heading, .supervisor-page-heading, .bw-page-header) {
+  margin: 0;
+  padding-block: 2px;
+  gap: 12px;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) :is(.company-page-heading, .supervisor-page-heading, .bw-page-header) h1 {
+  margin: 0;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .portal-next-action {
+  margin-bottom: 4px;
+  padding: 10px 14px;
+}
+body.dashboard-reference .portal-next-action p { max-width: none; }
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) :is(.cycle-section, .platform-panel) {
+  padding: 18px;
+  border-radius: 12px;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-card-panel-header {
+  padding: 16px 18px;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .cycle-toolbar {
+  gap: 12px;
+  margin-bottom: 16px;
+}
+@media (min-width:1081px) {
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-company-layout {
+    padding: 16px 24px 32px;
+    gap: 24px;
+  }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail {
+    width: 64px;
+    top: 16px;
+  }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail.is-open { width: 236px; }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail .bw-masar-sidebar {
+    padding: 12px 9px;
+    height: calc(100dvh - 32px);
+    max-height: calc(100dvh - 32px);
+    border-radius: 16px;
+    overflow-y: auto;
+  }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail .bw-masar-header {
+    min-height: 52px;
+    padding-bottom: 8px;
+  }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-masar-nav { gap: 3px; }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-masar-item i { font-size: 18px; }
+}
+@media (pointer:fine) {
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) :is(.company-primary, .cycle-button, .bw-btn-block, .company-account) {
+    min-height: 36px !important;
+    padding: 8px 12px !important;
+  }
+}
+@media (max-width:1080px) {
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .company-topbar { padding-top: 12px !important; }
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) :is(.company-page-heading, .supervisor-page-heading, .bw-page-header) h1 {
+  font-size: 22px !important;
+  line-height: 1.3 !important;
+}
+
+/* Bounded workspace: breathing room outside, compact spacing inside. */
+@media (min-width:1081px) {
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-company-layout {
+    max-width: none;
+    width: 100%;
+    box-sizing: border-box;
+    margin-inline: 0;
+    padding: 22px 28px 36px;
+    gap: 28px;
+  }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail { top: 24px; }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail .bw-masar-sidebar {
+    height: calc(100dvh - 48px);
+    max-height: calc(100dvh - 48px);
+  }
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] > :is(.bw-kpi-card, button),
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] .bw-kpi-info { gap: 8px; }
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] :is(.bw-kpi-label, .company-metric-label, button > span:first-child) {
+  font-size: 13px;
+  padding-right: 24px;
+}
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] :is(.bw-kpi-desc, .company-metric-caption, button > small) { font-size: 12px; }
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] :is(.bw-kpi-icon, .company-metric-label > i, button > span:first-child > i) { width: 18px; height: 20px; font-size: 17px; }
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .portal-next-label { display: none; }
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .portal-next-action h2 { font-size: 14px !important; }
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) :is(.cycle-section, .platform-panel) { padding: 14px; }
+body.dashboard-reference#page-company-dashboard .company-publications { padding: 0; }
+body.dashboard-reference#page-company-dashboard .company-publications > .cycle-heading { padding: 16px 18px; margin: 0; }
+body.dashboard-reference#page-company-dashboard .company-publications > .cycle-publications { padding: 0 18px 18px; }
+body.dashboard-reference#page-company-dashboard .company-post-card { padding: 14px; border-radius: 10px; }
+body.dashboard-reference#page-company-dashboard .company-post-card > h3 { font-size: 15px !important; }
+body.dashboard-reference#page-company-dashboard .company-post-card-heading { margin-bottom: 8px; }
+body.dashboard-reference#page-company-dashboard .company-post-card-skills { margin-bottom: 12px; }
+body.dashboard-reference#page-company-dashboard .company-post-card-facts { padding-top: 12px; gap: 10px; }
+
+/* Balanced density between the spacious reference and the compact revision. */
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) [data-dashboard-overview] :is(.bw-kpi-label, .company-metric-label, button > span:first-child) { font-size: 14px; }
+body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .portal-next-action h2 { font-size: 15px !important; }
+body.dashboard-reference#page-company-dashboard .company-post-card { padding: 17px; }
+body.dashboard-reference#page-company-dashboard .company-post-card > h3 { font-size: 16px !important; }
+/* Desktop content gutters: retain the sidebar's position near the left edge. */
+@media (min-width:1081px) {
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-company-layout {
+    column-gap: 48px;
+    padding-right: 48px;
+  }
+}
+
+/* Desktop navigation fits its viewport rather than creating a nested scrollbar. */
+@media (min-width:1081px) {
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail .bw-masar-sidebar {
+    overflow: visible !important;
+  }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-masar-top { flex: 0 0 auto; }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-masar-bottom-group { flex: 0 0 auto; margin-top: auto; }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail:not(.is-open) .bw-sidebar-pin { display: none; }
+}
+@media (min-width:1081px) and (max-height:800px) and (pointer:fine) {
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail :is(.bw-masar-item, .bw-masar-link) {
+    min-height: 34px;
+    height: 34px;
+    padding-block: 5px !important;
+  }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail :is(.bw-masar-nav, .bw-masar-bottom) { gap: 2px; }
+  body.dashboard-reference:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-masar-divider { margin-block: 8px; }
+}
+
+/* Preserve the original full-width ticket view with edge-aligned, sticky chrome. */
+body.dashboard-reference.is-ticket-page:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-company-layout {
+  padding: 0 !important;
+  gap: 0 !important;
+}
+body.dashboard-reference.is-ticket-page:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-main-content {
+  padding: 0 var(--ticket-gutter) 40px !important;
+  gap: 0 !important;
+}
+body.dashboard-reference.is-ticket-page:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-main-content > .company-topbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 60;
+  width: calc(100% + 2 * var(--ticket-gutter)) !important;
+  margin: 0 calc(-1 * var(--ticket-gutter)) !important;
+  min-height: 76px;
+  padding: 12px var(--ticket-gutter) !important;
+  background: var(--bw-surface);
+}
+@media (min-width:1081px) {
+  body.dashboard-reference.is-ticket-page:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail {
+    position: sticky;
+    top: 0;
+  }
+  body.dashboard-reference.is-ticket-page:is(#page-admin-dashboard, #page-supervisor-dashboard, #page-company-dashboard, #page-platform-admin) .bw-sidebar-rail .bw-masar-sidebar {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    min-height: 0;
+    border-radius: 0;
+    border-width: 0 1px 0 0;
+    box-shadow: none;
+  }
+}

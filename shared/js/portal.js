@@ -1,17 +1,17 @@
 /* partnership-data */
 // CV metadata is a local preview marker, never an uploaded or analyzed document.
 window.BridgewayCV = {
-  get key() { return 'bridgeway:student-cv-preview:v1' + (window.BridgewayStudent?.current().id === 'lina' ? ':lina' : ''); },
+  get key() { const id=window.BridgewayStudent?.current().id||'ghaith';return 'bridgeway:student-cv-preview:v1'+(id==='ghaith'?'':':'+id); },
   read() {
     try {
-      const file = JSON.parse(sessionStorage.getItem(this.key));
+      const file = JSON.parse(localStorage.getItem(this.key));
       return file && typeof file.name === 'string' && Number.isFinite(file.size) && file.size > 0 && file.size <= 5 * 1024 * 1024 && /\.(pdf|docx)$/i.test(file.name) ? file : null;
     } catch { return null; }
   },
   set(file) {
     try {
-      if (file) sessionStorage.setItem(this.key, JSON.stringify({name:file.name, size:file.size}));
-      else sessionStorage.removeItem(this.key);
+      if (file) localStorage.setItem(this.key, JSON.stringify({name:file.name, size:file.size}));
+      else localStorage.removeItem(this.key);
       return true;
     } catch { return false; }
   }
@@ -96,10 +96,10 @@ window.BridgewayPartners = {
     {id:'partnership-4',college:'college-1',company:'company-3',status:'Active'}
   ],
   students: [
-    {studentId:'20220042',gpa:'3.50',weeks:4,hours:160,supervisor:'Dr. John Smith',id:'alice',name:'Alice Johnson',college:'college-2',company:'company-1',stage:'Placed',role:'Frontend React Developer Intern'},
-    {studentId:'20220148',gpa:'3.75',weeks:6,hours:240,supervisor:'Dr. Ahmad S.',id:'ghaith',name:'Ghaith Amourah',college:'college-1',company:'company-1',stage:'Placed',role:'Software Engineering Intern'},
+    {studentId:'20220042',gpa:'3.50',weeks:4,hours:60,supervisor:'Dr. John Smith',id:'alice',name:'Alice Johnson',college:'college-2',company:'company-1',stage:'Placed',role:'Frontend React Developer Intern'},
+    {studentId:'20220148',gpa:'3.75',weeks:6,hours:90,supervisor:'Dr. Ahmad S.',id:'ghaith',name:'Ghaith Amourah',college:'college-1',company:'company-1',stage:'Placed',role:'Software Engineering Intern'},
     {studentId:'20220088',gpa:'3.42',weeks:0,hours:0,supervisor:null,id:'omar',name:'Omar Majed',college:'college-1',company:'company-1',stage:'Applied',role:'Software Engineering Intern'},
-    {studentId:'20220019',gpa:'3.88',weeks:8,hours:320,supervisor:'Dr. Ahmad S.',id:'sarah',name:'Sarah Ahmad',college:'college-1',company:'company-2',stage:'Placed',role:'Full-Stack .NET Developer Intern'},
+    {studentId:'20220019',gpa:'3.88',weeks:8,hours:120,supervisor:'Dr. Ahmad S.',id:'sarah',name:'Sarah Ahmad',college:'college-1',company:'company-2',stage:'Placed',role:'Full-Stack .NET Developer Intern'},
     {studentId:'20260101',gpa:'3.60',weeks:0,hours:0,supervisor:null,id:'lina',name:'Lina Haddad',college:'college-1',company:null,stage:'Not applied',role:null}
   ],
   effective(link) {
@@ -107,9 +107,11 @@ window.BridgewayPartners = {
   }
 };
 
+const localModelRestored=window.BridgewayLocal?.restoreModel(window.BridgewayPartners);
+
 // Restore administrator-managed details without passwords or automatic placements.
 try {
-  const accounts=JSON.parse(sessionStorage.getItem('bridgeway:managed-accounts:v1')||'[]');
+  const accounts=JSON.parse(localStorage.getItem('bridgeway:managed-accounts:v1')||'[]');
   if(Array.isArray(accounts))accounts.forEach(a=>{
     if(a.type==='student'){
       let s=window.BridgewayPartners.students.find(s=>s.id===a.id);
@@ -118,7 +120,7 @@ try {
     }else if(['company','college'].includes(a.type)){
       let org=window.BridgewayPartners.organizations.find(o=>o.id===a.id);
       if(!org){org={id:a.id,students:0,listings:0,placements:0};window.BridgewayPartners.organizations.push(org);}
-      Object.assign(org,a);
+      if(!localModelRestored)Object.assign(org,a);else for(const [key,value]of Object.entries(a))if(org[key]==null)org[key]=value;
     }
   });
 }catch{}
@@ -126,13 +128,13 @@ try {
 // Academic assignment is independent of application and placement status.
 (() => {
   const key='bridgeway:academic-supervisor-assignments:v1',model=window.BridgewayPartners;
-  let assignments={};try{const value=JSON.parse(sessionStorage.getItem(key)||'{}');if(value&&typeof value==='object'&&!Array.isArray(value))assignments=value;}catch{}
+  let assignments={};try{const value=JSON.parse(localStorage.getItem(key)||'{}');if(value&&typeof value==='object'&&!Array.isArray(value))assignments=value;}catch{}
   const recordKey=(college,name)=>`${college}:${name}`;
   function get(name,college){const s=model.students.find(s=>s.name===name&&s.college===college),id=recordKey(college,name);return Object.prototype.hasOwnProperty.call(assignments,id)?assignments[id]:s?.supervisor||null;}
   function set(name,college,supervisor){
     const s=model.students.find(s=>s.name===name);if(s&&s.college!==college)return false;
     assignments[recordKey(college,name)]=supervisor||null;
-    try{sessionStorage.setItem(key,JSON.stringify(assignments));}catch{}
+    try{localStorage.setItem(key,JSON.stringify(assignments));}catch{}
     if(s)s.supervisor=supervisor||null;
     const C=window.BridgewayCycle;
     if(C){if(s)C.state.applications.filter(a=>a.student===s.id&&['Accepted','Placed'].includes(a.status)).forEach(a=>{a.supervisor=supervisor||null;});C.commit(`Academic supervisor ${supervisor?'assigned to':'unassigned from'} ${name}`);}
@@ -146,7 +148,8 @@ try {
 // URL context selects a sample persona, not a real account or authorization.
 window.BridgewayStudent = {
   current() {
-    const id = new URLSearchParams(location.search).get('student') === 'lina' ? 'lina' : 'ghaith';
+    const requested = new URLSearchParams(location.search).get('student');
+    const id = window.BridgewayPartners.students.some(s=>s.id===requested) ? requested : 'ghaith';
     return window.BridgewayPartners.students.find(student => student.id === id);
   },
   url(href) {
@@ -262,9 +265,9 @@ document.addEventListener('DOMContentLoaded', () => {
     appendManagedStudent('Lina Haddad','Software Engineering','3.60');
     // Removing a college directory entry is independent of hiring and retained training history.
     const removedKey=`bridgeway:college-student-directory:${college}`;
-    let removed=[];try{const stored=JSON.parse(sessionStorage.getItem(removedKey)||'[]');if(Array.isArray(stored))removed=stored;}catch{}
+    let removed=[];try{const stored=JSON.parse(localStorage.getItem(removedKey)||'[]');if(Array.isArray(stored))removed=stored;}catch{}
     const studentKey=row=>model.students.find(s=>row.cells[0].textContent.includes(s.name))?.id||row.dataset.directoryKey||(row.dataset.directoryKey=crypto.randomUUID());
-    const saveRemoved=()=>{try{sessionStorage.setItem(removedKey,JSON.stringify(removed));}catch{}};
+    const saveRemoved=()=>{try{localStorage.setItem(removedKey,JSON.stringify(removed));}catch{}};
     [...studentsBody.rows].forEach(row=>{if(removed.includes(studentKey(row)))row.remove();});
     window.removeCollegeStudentRecord=row=>{
       if(!row||row.parentElement!==studentsBody)return;
@@ -306,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if((role==='company'||role==='admin')&&dashboard) {
     let panel=document.getElementById(role==='admin'?'tab-companies':'tab-partners');
     if(!panel){panel=el('section',null,'bw-tab-panel');panel.id='tab-partners';document.querySelector('main').append(panel);const button=el('button',null,'bw-masar-item bw-tab-btn');button.type='button';button.innerHTML='<i class="bi bi-link-45deg" aria-hidden="true"></i><span>Partner colleges</span>';button.dataset.tab=panel.id;document.querySelector('.bw-masar-nav').append(button);}
-    panel.replaceChildren();const card=el('section',null,'partner-panel');card.append(el('h2',role==='company'?'Connected colleges':'Partner companies'),el('p',role==='company'?'College contacts and current placements with your company.':'Pause or resume your college’s partnerships. Pausing stops new applications and placements; existing training continues. Changes are temporary on this page.'));panel.append(card);
+    panel.replaceChildren();const card=el('section',null,'partner-panel');card.append(el('h2',role==='company'?'Connected colleges':'Partner companies'),el('p',role==='company'?'College contacts and current placements with your company.':'Pause or resume your college’s partnerships. Pausing stops new applications and placements; existing training continues. Changes are saved in this browser.'));panel.append(card);
     if(role==='company'){card.classList.add('company-college-directory');card.setAttribute('aria-label','Connected colleges');}
     model.links.filter(link=>role==='company'?link.company===company:link.college===college).forEach(link=>{
       const org=model.organizations.find(o=>o.id===(role==='company'?link.college:link.company));const row=el('div',null,'partner-row');const info=el('div');info.append(el('strong',org.name),el('small',org.email));const related=model.students.filter(s=>s.company===link.company&&s.college===link.college&&s.stage==='Placed');info.append(el('small',`${related.length} confirmed intern${related.length===1?'':'s'}  /  Fall 2026`));
@@ -412,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
       themeToggleBtn.addEventListener('click', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
         const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        applyTheme(nextTheme);
+        if(window.BridgewayMotion?.theme)window.BridgewayMotion.theme(()=>applyTheme(nextTheme));else applyTheme(nextTheme);
         try { localStorage.setItem('bridgeway:portal-theme', nextTheme); } catch {}
       });
     }
@@ -686,7 +689,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const studentReportData = {
     'Ghaith Amourah': {
       placement: 'Tech Corp Inc. • Company Mentor: Eng. Khalid T.',
-      hours: '240h / 320h',
+      hours: '90h / 120h',
       week: 'Week 6',
       badgeClass: 'bw-badge-amber',
       statusText: 'Week 6 Review',
@@ -704,7 +707,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     'Alice Johnson': {
       placement: 'Tech Corp Inc. • Company Mentor: Eng. Sarah L.',
-      hours: '160h / 320h',
+      hours: '60h / 120h',
       week: 'Week 4',
       badgeClass: 'bw-badge-blue',
       statusText: 'Week 4 On Track',
@@ -722,7 +725,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     'Sarah Ahmad': {
       placement: 'Nexus Cloud Systems • Company Mentor: Eng. Omar F.',
-      hours: '320h / 320h',
+      hours: '120h / 120h',
       week: 'Week 8',
       badgeClass: 'bw-badge-success',
       statusText: 'Week 8 Completed',
@@ -740,7 +743,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     'Omar Majed': {
       placement: 'Nexus Cloud Systems • Company Mentor: Eng. Zaid M.',
-      hours: '200h / 320h',
+      hours: '75h / 120h',
       week: 'Week 5',
       badgeClass: 'bw-badge-amber',
       statusText: 'Week 5 Review',

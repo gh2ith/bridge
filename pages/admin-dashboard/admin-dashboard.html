@@ -2,7 +2,7 @@
 <html lang="en" data-page="admin-dashboard">
 <head>
   <meta charset="UTF-8">
-  <script src="../../shared/js/portal-theme-init.js"></script>
+  <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bridgeway — College Admin Portal</title>
   <meta name="description" content="Bridgeway Executive Administration — Centralized academic internship governance across Orange Coding Academy, Al-Balqa Applied University, and Crown Prince Foundation.">
@@ -21,11 +21,14 @@
 
   <link rel="stylesheet" href="../../shared/css/interactions.css?v=portal-clean-2">
   <link rel="stylesheet" href="admin-dashboard.css?v=walkthrough-5">
-  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=portal-clean-2">
+  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-16">
 <link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
-<link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=ticket-curl-63"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=ticket-curl-68">  <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
+<link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=ticket-curl-68">  <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
+<link rel="stylesheet" href="../../shared/css/internship-journey.css?v=portal-ux-3">
+<link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
+  <link rel="stylesheet" href="../../shared/css/dashboard-overview.css?v=10">
 </head>
-<body class="company-workspace portal-unified" data-portal-role="admin" id="page-admin-dashboard">
+<body class="portal-layout dashboard-reference company-workspace portal-unified" data-portal-role="admin" id="page-admin-dashboard">
   <svg class="sprite" aria-hidden="true" focusable="false">
     <defs>
       <g id="mascot-art" stroke-linejoin="round" stroke-linecap="round">
@@ -97,9 +100,9 @@
         <i class="bi bi-speedometer2"></i><span>Overview</span></button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-users">
         <i class="bi bi-people"></i><span>College users</span><span class="bw-tab-badge">8</span>
       </button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-students">
-        <i class="bi bi-mortarboard"></i><span>Manage Students</span><span class="bw-tab-badge">5</span>
+        <i class="bi bi-mortarboard"></i><span>Students</span><span class="bw-tab-badge">5</span>
       </button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-supervisors">
-        <i class="bi bi-person-video3"></i><span>Manage Supervisors</span><span class="bw-tab-badge">4</span>
+        <i class="bi bi-person-video3"></i><span>Supervisors</span><span class="bw-tab-badge">4</span>
       </button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-posts">
         <i class="bi bi-briefcase"></i><span>Internship listings</span><span class="bw-tab-badge">6</span>
       </button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-approved">
@@ -117,16 +120,16 @@
         </div>
         <div data-style="s2">
           <button type="button" class="bw-btn-block bw-btn-outline" data-style="s3" data-open-modal="addSupervisorModal">
-            <i class="bi bi-person-plus me-1"></i> + Add Supervisor
+            <i class="bi bi-person-plus me-1"></i> + Add supervisor
           </button>
           <button type="button" class="bw-btn-block bw-btn-primary" data-style="s3" data-open-modal="registerStudentModal">
-            <i class="bi bi-person-badge me-1"></i> + Add Student
+            <i class="bi bi-person-badge me-1"></i> + Add student
           </button>
         </div>
       </div>
     </section>
 
-    <section class="bw-kpi-grid" data-style="s4" data-presentation="grid grid-template-columns">
+    <section class="bw-kpi-grid" data-dashboard-overview data-style="s4" data-presentation="grid grid-template-columns">
       <div class="bw-kpi-card" data-onclick="querySelector--1" data-style="s5">
         <div class="bw-kpi-icon icon--blue">
           <i class="bi bi-people-fill"></i>
@@ -205,7 +208,7 @@
             <div class="bw-card-panel-header">
               <div class="bw-card-panel-title">
                 <i class="bi bi-bar-chart-fill text-primary"></i>
-                <span>Department Placement Rates</span>
+                <span>Department placement rates</span>
               </div>
             </div>
 
@@ -240,11 +243,11 @@
             <div data-style="s12">
               <i class="bi bi-shield-check text-primary" data-style="s13"></i>
               <div data-style="s14" data-presentation="font-weight font-weight-800">
-                National Quality Standard Active
+                Training completion requirements
               </div>
             </div>
             <p data-style="s15">
-              All academic internships are accredited under university faculty standards and overseen by university-assigned faculty supervisors.
+              Completion requires eight verified weekly reports, 120 verified hours, completed tasks, both evaluations, and college confirmation.
             </p>
           </div>
         </div>
@@ -287,10 +290,10 @@
         <div class="bw-card-panel-header">
           <div class="bw-card-panel-title">
             <i class="bi bi-mortarboard-fill text-primary"></i>
-            <span>Registered Students Roster</span>
+            <span>Registered students</span>
           </div>
           <button type="button" class="bw-tag-btn" data-open-modal="registerStudentModal">
-            <i class="bi bi-plus-lg me-1"></i> Register Student
+            <i class="bi bi-plus-lg me-1"></i> Add student
           </button>
         </div>
         <div class="bw-table-responsive">
@@ -690,15 +693,25 @@
     </div>
   </div>
 
-  <script src="../../shared/js/portal.js?v=sitewide-dialogs-60"></script>
+  <script src="../../shared/js/portal.js?v=reference-motion-16"></script>
 
   <script src="../../shared/js/navigation.js"></script>
-  <script src="admin-dashboard.js?v=interface-9"></script>
-  <script src="../../shared/js/enhancements.js?v=desktop-audit-29"></script>
+  <script src="admin-dashboard.js?v=local-1"></script>
+  <script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
-  <script src="../../shared/js/interactions.js?v=portal-clean-2"></script>
-  <script src="../../shared/js/portal-motion.js?v=portal-clean-2"></script>
-  <script src="../../shared/js/portal-ux.js?v=sitewide-dialogs-60"></script>
-<script src="../../shared/js/report-visibility.js?v=1"></script><script src="../../shared/js/workbook-download.js?v=workbook-clean-44"></script><script src="../../shared/js/workspace-cycle.js?v=ticket-curl-68"></script><script src="../../shared/js/partnership-review.js?v=ticket-lifecycle-54"></script><link rel="stylesheet" href="../../shared/css/managed-account-editor.css?v=4"><script src="../../shared/js/managed-account-editor.js?v=4"></script><script src="../../shared/js/sidebar-activity.js?v=unseen-activity-62"></script>
+  <script src="../../shared/js/interactions.js?v=local-1"></script>
+  <script src="../../shared/js/portal-motion.js?v=reference-motion-16"></script>
+  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
+<script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=evaluation-gate-15"></script><script src="../../shared/js/partnership-review.js?v=local-1"></script><link rel="stylesheet" href="../../shared/css/managed-account-editor.css?v=4"><script src="../../shared/js/managed-account-editor.js?v=local-1"></script><script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
+<link rel="stylesheet" href="../../shared/css/weekly-tasks.css?v=task-chevron-12"><script src="../../shared/js/weekly-tasks.js?v=week-locked-14"></script><script src="../../shared/js/internship-journey.js?v=120-hours-1"></script>
+<script src="../../shared/vendor/xlsx.full.min.js"></script><script src="../../shared/js/student-import.js?v=local-1"></script>
+<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
+<script src="../../shared/js/dashboard-overview.js?v=3"></script>
+<link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
+<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
+<link rel="stylesheet" href="../../shared/css/dashboard-insights.css?v=5">
+<script src="../../shared/js/dashboard-insights.js?v=6"></script>
+<link rel="stylesheet" href="placements.css?v=1">
+<script src="placements.js?v=1"></script>
 </body>
 </html>

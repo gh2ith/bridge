@@ -47,3 +47,10 @@
 @media(prefers-reduced-motion:reduce) {
  #page-account-settings [data-style="s15"],#page-account-settings [data-style="s15"]::before { transition:none; }
 }
+#passwordChangeForm { scroll-margin-top:24px; }
+#passwordChangeForm .password-help { margin:0 0 24px;font-size:13px;line-height:1.7;color:var(--bw-text-secondary); }
+.password-input-wrap { position:relative; }
+#passwordChangeForm .password-input-wrap input { width:100%;padding-right:72px;box-sizing:border-box; }
+.password-reveal { position:absolute;right:4px;top:50%;transform:translateY(-50%);min-height:44px;min-width:60px;padding:8px;border:0;border-radius:8px;background:transparent;color:var(--bw-primary);font:inherit;font-size:12px;cursor:pointer; }
+#passwordChangeStatus:not(:empty) { padding:12px 16px;border:1px solid var(--bw-border);border-radius:9px;background:var(--bw-bg-alt);font-size:13px;line-height:1.7; }
+@media(max-width:600px) { #passwordChangeForm [data-style="s9"] { grid-template-columns:1fr; } }

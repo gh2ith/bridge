@@ -1,4 +1,15 @@
 /* Connected transitions and reading layouts. All colors follow the portal theme. */
+/* The underlying number remains the final value; only this visual overlay counts. */
+.bw-counting { position:relative;color:transparent!important; }
+.bw-counting::after { content:attr(data-motion-value) / "";position:absolute;inset:0;color:var(--bw-count-ink);font:inherit;letter-spacing:inherit;line-height:inherit;white-space:pre;pointer-events:none; }
+::view-transition-old(root),::view-transition-new(root) { animation:none;mix-blend-mode:normal; }
+::view-transition-old(root) { z-index:1; }
+::view-transition-new(root) { z-index:2; }
+::view-transition-group(root) { animation-duration:950ms; }
+::view-transition { pointer-events:none; }
+@media(prefers-reduced-motion:reduce) {
+  ::view-transition-old(root),::view-transition-new(root),::view-transition-group(root) { animation:none!important; }
+}
 .bw-motion-ready { --bw-reading-ease:cubic-bezier(.22,1,.36,1); }
 .bw-motion-ready :is(.bw-opp-card,.company-meeting-row,.evaluation-student-button,.company-student-button) { transition:border-color .2s,box-shadow .2s,background-color .2s; }
 .bw-motion-ready .bw-opp-card { position:relative;border-radius:16px;box-shadow:0 3px 12px rgb(15 23 42 / .03); }

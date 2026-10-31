@@ -657,12 +657,12 @@
 
       if (loginSubmitBtn) {
         loginSubmitBtn.disabled = true;
-        loginSubmitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Authenticating...';
+        loginSubmitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span> Opening workspace...';
       }
 
       setTimeout(() => {
         const roleData = ROLES[activeRole];
-        showToast(`Authenticated as ${roleData.title}! Returning to Journey...`);
+        showToast(`Opening ${roleData.title} workspace...`);
 
         setTimeout(() => {
           const dashboardMap = {
@@ -672,7 +672,9 @@
             admin: '../admin-dashboard/admin-dashboard.html',
             platform_admin: '../platform-admin/platform-admin.html'
           };
-          window.location.href = dashboardMap[activeRole] || '../student-dashboard/student-dashboard.html';
+          let destination=dashboardMap[activeRole]||'../student-dashboard/student-dashboard.html';
+          if(activeRole==='student'){const accounts=window.BridgewayLocal.read('bridgeway:managed-accounts:v1',[]),model=window.BridgewayLocal.read('bridgeway:partner-model:v1',{});const student=[...accounts,...(model.students||[])].find(a=>(!a.type||a.type==='student')&&a.email?.toLowerCase()===email.toLowerCase());if(student?.status==='Suspended'){showToast('This account is suspended. Contact your college administrator.');loginSubmitBtn.disabled=false;loginSubmitBtn.textContent='Sign in';pending=false;return;}destination+='?student='+encodeURIComponent(student?.id||(email.toLowerCase()==='lina@bau.edu.jo'?'lina':'ghaith'));}
+          window.location.href=destination;
         }, 1200);
       }, 700);
     });

@@ -1,0 +1,73 @@
+/* Supervisor workspace at the agreed desktop scale. */
+@media (min-width:1081px) {
+  #page-supervisor-dashboard {
+    --supervisor-gap: 24px;
+    --supervisor-pad: 22px;
+  }
+  #page-supervisor-dashboard #tab-roster > .bw-card-panel { padding: var(--supervisor-pad); }
+  #page-supervisor-dashboard #tab-roster .bw-card-panel-header {
+    margin: 0 0 18px;
+    padding: 0 0 18px;
+    align-items: center;
+    gap: 20px;
+  }
+  #page-supervisor-dashboard #supervisedStudentsTable { table-layout: auto; }
+  #page-supervisor-dashboard #supervisedStudentsTable :is(th,td) { padding: 18px 16px; }
+  #page-supervisor-dashboard #supervisedStudentsTable .bw-record-name { min-height: 28px; font-size: 14px; }
+  #page-supervisor-dashboard #supervisedStudentsTable th:nth-child(3) { width: 26%; }
+  #page-supervisor-dashboard #supervisedStudentsTable th:nth-child(4) { width: 230px; }
+  #page-supervisor-dashboard #supervisedStudentsTable .bw-progress-track { height: 5px; margin-top: 8px; }
+  #page-supervisor-dashboard .supervisor-evaluations,
+  #page-supervisor-dashboard .supervisor-assessment-workspace {
+    display: grid;
+    grid-template-columns: 280px minmax(0,1fr);
+    gap: var(--supervisor-gap);
+    align-items: start;
+  }
+  #page-supervisor-dashboard .supervisor-evaluations > .bw-card-panel,
+  #page-supervisor-dashboard .supervisor-assessment-picker { padding: 20px; margin: 0; }
+  #page-supervisor-dashboard .evaluation-student-button { padding: 14px; gap: 5px; }
+  #page-supervisor-dashboard .evaluation-student-button > span { font-size: 12px; line-height: 1.6; }
+  #page-supervisor-dashboard .evaluation-student-button > small { font-size: 12px; font-weight: 400; }
+  #page-supervisor-dashboard #supervisorReportDetail { padding: var(--supervisor-pad); }
+  #page-supervisor-dashboard #supervisorReportDetail > .cycle-heading:first-child { margin-bottom: 14px; padding-bottom: 14px; }
+  #page-supervisor-dashboard #supervisorReportDetail .cycle-supervisor-review > .cycle-heading:first-child {
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+  }
+  #page-supervisor-dashboard #supervisorReportDetail .cycle-weeks { gap: 8px; padding-bottom: 16px; margin-bottom: 16px; }
+  #page-supervisor-dashboard #supervisorReportDetail .cycle-weeks button { min-height: 54px; padding: 8px 4px; }
+  #page-supervisor-dashboard #supervisorReportDetail .supervisor-report-columns { grid-template-columns: minmax(0,1.6fr) minmax(310px,1fr); gap: 24px; }
+  #page-supervisor-dashboard #supervisorReportDetail .supervisor-review-footer {
+    position: sticky;
+    top: 20px;
+    padding: 20px;
+    background: var(--bw-surface);
+    border-top: 3px solid var(--bw-primary);
+  }
+  #page-supervisor-dashboard #supervisorReportDetail .supervisor-review-footer textarea { min-height: 112px; }
+  #page-supervisor-dashboard .supervisor-assessment-picker .cycle-field { margin-top: 20px; }
+  #page-supervisor-dashboard .supervisor-assessment-picker p { font-size: 13px; }
+  #page-supervisor-dashboard .supervisor-assessment-detail { min-width: 0; }
+  #page-supervisor-dashboard .supervisor-assessment-detail > .cycle-section { padding: var(--supervisor-pad); }
+  #page-supervisor-dashboard .supervisor-assessment-detail .portal-student-context { margin-top: 18px; }
+  #page-supervisor-dashboard .supervisor-assessment-detail .cycle-form { max-width: 800px; gap: 18px; margin-top: 20px; }
+  #page-supervisor-dashboard .supervisor-assessment-detail .portal-evaluation-progress { margin-block: 20px; }
+  #page-supervisor-dashboard .supervisor-assessment-detail .portal-company-evaluation { background: var(--bw-bg); }
+  #page-supervisor-dashboard .supervisor-assessment-detail textarea { min-height: 128px; }
+  #page-supervisor-dashboard .supervisor-selection-prompt { min-height: 300px; background: var(--bw-surface); border-style: solid; }
+  #page-supervisor-dashboard #tab-progress-monitor .journey-monitor-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+  #page-supervisor-dashboard #tab-progress-monitor .journey-monitor-row { margin: 0; padding: 20px; }
+  #page-supervisor-dashboard #tab-progress-monitor .cycle-toolbar { justify-content: flex-start; margin-bottom: 20px; }
+  #page-supervisor-dashboard #tab-progress-monitor .cycle-toolbar > .cycle-field:first-child { flex: 0 1 420px; }
+  #page-supervisor-dashboard #tab-progress-monitor .cycle-toolbar > .cycle-field:last-child { flex: 0 1 250px; }
+  #page-supervisor-dashboard #tab-progress-monitor .journey-monitor-metrics { padding-block: 20px; }
+}
+/* Evaluation student selection follows the weekly-report directory. */
+#page-supervisor-dashboard .supervisor-assessment-picker .cycle-heading { margin-bottom:20px; }
+#page-supervisor-dashboard .supervisor-assessment-picker .cycle-heading h2 { font-size:18px;margin:0 0 8px; }
+#page-supervisor-dashboard .supervisor-assessment-picker .cycle-field { margin:0 0 12px; }
+#page-supervisor-dashboard .supervisor-assessment-picker .cycle-field>span { font-size:13px; }
+#page-supervisor-dashboard .supervisor-assessment-picker .cycle-field input { width:100%;min-height:44px;font-size:13px; }
+#page-supervisor-dashboard .supervisor-assessment-picker>.portal-muted { font-size:13px;margin:0 0 18px; }
+#page-supervisor-dashboard .supervisor-assessment-picker .evaluation-student-button { width:100%;text-align:left; }

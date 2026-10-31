@@ -2,7 +2,7 @@
 <html lang="en" data-page="platform-admin">
 <head>
   <meta charset="UTF-8">
-  <script src="../../shared/js/portal-theme-init.js"></script>
+  <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bridgeway — Platform Admin</title>
   <meta name="description" content="Bridgeway Platform Admin: manage company and college accounts, partnerships, and escalated issues.">
@@ -21,10 +21,12 @@
 
   <link rel="stylesheet" href="../../shared/css/interactions.css?v=portal-clean-2">
   <link rel="stylesheet" href="platform-admin.css?v=account-actions-aligned-6">
-  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=portal-clean-2">
+  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-16">
 <link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
-<link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=ticket-curl-63"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=post-cards-85"><link rel="stylesheet" href="../../shared/css/evaluation-radar.css?v=portal-clean-2">  <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
-</head><body class="company-workspace portal-unified platform-admin" data-portal-role="platform_admin" id="page-platform-admin"><div class="bw-company-layout"><aside class="bw-masar-sidebar" aria-label="Platform Admin navigation"><div class="bw-masar-top"><div class="bw-masar-header">
+<link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=post-cards-85"><link rel="stylesheet" href="../../shared/css/evaluation-radar.css?v=portal-clean-2">  <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
+<link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
+  <link rel="stylesheet" href="../../shared/css/dashboard-overview.css?v=10">
+</head><body class="portal-layout dashboard-reference company-workspace portal-unified platform-admin" data-portal-role="platform_admin" id="page-platform-admin"><div class="bw-company-layout"><aside class="bw-masar-sidebar" aria-label="Platform Admin navigation"><div class="bw-masar-top"><div class="bw-masar-header">
           <a href="../home/index.html" class="bw-masar-brand" title="Bridgeway Home">
             <svg class="logo logo--nav" viewBox="0 0 400 232" role="img" aria-label="Bridgeway">
               <defs>
@@ -70,7 +72,7 @@
 </div><div class="portal-role-label">Platform Admin</div><nav class="bw-masar-nav"><button type="button" class="bw-masar-item bw-tab-btn is-active" data-tab="platform-overview"><i class="bi bi-grid" aria-hidden="true"></i><span>Overview</span></button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="platform-companies"><i class="bi bi-buildings" aria-hidden="true"></i><span>Companies</span></button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="platform-colleges"><i class="bi bi-mortarboard" aria-hidden="true"></i><span>Colleges</span></button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="platform-issues"><i class="bi bi-chat-left-text" aria-hidden="true"></i><span>Tickets</span></button><button type="button" class="bw-masar-item bw-tab-btn platform-partner-nav" data-tab="platform-partnerships"><i class="bi bi-link-45deg" aria-hidden="true"></i><span>Partnerships</span></button></nav></div><div class="bw-masar-bottom-group"><div class="bw-masar-divider"></div><div class="bw-masar-bottom"><a class="bw-masar-link" href="../account-settings/account-settings.html?role=platform_admin"><i class="bi bi-person-circle" aria-hidden="true"></i><span>Account</span></a><button type="button" class="bw-masar-link bw-masar-btn-link" id="bwThemeToggle"><i class="bi bi-moon-stars" id="bwThemeIcon" aria-hidden="true"></i><span id="bwThemeText">Dark Mode</span></button><a class="bw-masar-link" href="../login/login.html"><i class="bi bi-box-arrow-right" aria-hidden="true"></i><span>Logout</span></a></div></div></aside><main class="bw-company-content bw-main-content"><header class="company-topbar"><div class="company-breadcrumb">Workspace <span>/</span> <strong id="portalRoleLabel">Platform Admin</strong></div><div class="company-account-wrap"><button type="button" class="company-account" id="portalAccountToggle" aria-expanded="false" aria-controls="portalAccountDropdown" aria-label="Account options"><span class="company-monogram" id="portalInitials">PA</span><span id="portalAccountName">Platform Admin</span><i class="bi bi-chevron-down" aria-hidden="true"></i></button><nav class="company-account-dropdown" id="portalAccountDropdown" aria-label="Account options" hidden><a href="../account-settings/account-settings.html?role=platform_admin" data-portal-profile>Account profile</a><a href="../login/login.html" class="company-account-logout">Logout</a></nav></div></header>
 <section class="company-page-heading"><div><div class="company-eyebrow">PLATFORM WORKSPACE</div><h1 id="platformPageTitle">Platform overview</h1><p id="platformPageDescription">Manage the colleges and companies that make Bridgeway possible.</p></div><div id="platformOverviewTools"></div></section>
 <section class="bw-tab-panel is-active" id="platform-overview">
-<div class="platform-metrics">
+<div class="platform-metrics" data-dashboard-overview>
 <button type="button" data-platform-tab="platform-companies"><span>Company accounts<i class="bi bi-buildings" aria-hidden="true"></i></span><strong id="platformCompanyCount">2</strong><small>Manage host organizations <i class="bi bi-arrow-up-right" aria-hidden="true"></i></small></button>
 <button type="button" data-platform-tab="platform-colleges"><span>College accounts<i class="bi bi-mortarboard" aria-hidden="true"></i></span><strong id="platformCollegeCount">2</strong><small>Manage institutions <i class="bi bi-arrow-up-right" aria-hidden="true"></i></small></button>
 <button type="button" data-platform-tab="platform-partnerships"><span>Active partnerships<i class="bi bi-link-45deg" aria-hidden="true"></i></span><strong id="platformPartnershipCount">3</strong><small>College–company connections <i class="bi bi-arrow-up-right" aria-hidden="true"></i></small></button>
@@ -106,12 +108,18 @@
 <!-- Company and college accounts use the shared administrator account editor. -->
 <dialog class="platform-dialog" id="partnershipDialog" aria-labelledby="partnershipDialogTitle"><form id="partnershipForm"><div class="platform-dialog-heading"><div><h2 id="partnershipDialogTitle">Add partnership</h2><p>Connect a college with a company offering internships.</p></div><button type="button" class="platform-close" data-close-dialog aria-label="Close partnership form">×</button></div><div class="platform-form-body"><div class="bw-form-group"><label class="bw-form-label" for="partnershipCollege">College *</label><select class="bw-select" id="partnershipCollege" name="college" required></select></div><div class="bw-form-group"><label class="bw-form-label" for="partnershipCompany">Company *</label><select class="bw-select" id="partnershipCompany" name="company" required></select></div><p class="platform-form-error" id="partnershipError" role="alert" hidden></p></div><div class="platform-dialog-footer"><button type="button" class="bw-tag-btn" data-close-dialog>Cancel</button><button type="submit" class="company-primary">Add partnership</button></div></form></dialog>
 <dialog class="platform-dialog" id="issueDialog" aria-labelledby="issueDialogTitle"><form id="issueForm"><div class="platform-dialog-heading"><div><h2 id="issueDialogTitle">Issue details</h2><p id="issueOrganization"></p></div><button type="button" class="platform-close" data-close-dialog aria-label="Close issue">×</button></div><div class="platform-form-body"><p class="platform-issue-description" id="issueDescription"></p><div class="bw-form-group"><label class="bw-form-label" for="issueStatus">Status</label><select class="bw-select" id="issueStatus" name="status"><option>Open</option><option>In progress</option><option>Resolved</option></select></div><div class="bw-form-group"><label class="bw-form-label" for="issueResolution">Resolution notes</label><textarea class="bw-textarea" id="issueResolution" name="resolution" rows="4" maxlength="1500"></textarea></div></div><div class="platform-dialog-footer"><button type="button" class="bw-tag-btn" data-close-dialog>Cancel</button><button type="submit" class="company-primary">Save changes</button></div></form></dialog>
-<script src="../../shared/js/portal.js?v=sitewide-dialogs-60"></script>
+<script src="../../shared/js/portal.js?v=reference-motion-16"></script>
 
-  <script src="../../shared/js/navigation.js"></script><script src="platform-admin.js?v=my-tickets-52"></script>  <script src="../../shared/js/enhancements.js?v=desktop-audit-29"></script>
+  <script src="../../shared/js/navigation.js"></script><script src="platform-admin.js?v=local-1"></script>  <script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
-  <script src="../../shared/js/interactions.js?v=portal-clean-2"></script>
-  <script src="../../shared/js/portal-motion.js?v=portal-clean-2"></script>
-  <script src="../../shared/js/portal-ux.js?v=sitewide-dialogs-60"></script>
-<script src="../../shared/js/evaluation-radar.js?v=1"></script><script src="../../shared/js/report-visibility.js?v=1"></script><script src="../../shared/js/workspace-cycle.js?v=post-cards-85"></script><script src="../../shared/js/workbook-download.js?v=workbook-clean-44"></script><script src="../../shared/js/partnership-review.js?v=ticket-lifecycle-54"></script><link rel="stylesheet" href="../../shared/css/managed-account-editor.css?v=4"><script src="../../shared/js/managed-account-editor.js?v=4"></script><script src="../../shared/js/sidebar-activity.js?v=unseen-activity-62"></script>
+  <script src="../../shared/js/interactions.js?v=local-1"></script>
+  <script src="../../shared/js/portal-motion.js?v=reference-motion-16"></script>
+  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
+<script src="../../shared/js/evaluation-radar.js?v=local-1"></script><script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=evaluation-gate-15"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/partnership-review.js?v=local-1"></script><link rel="stylesheet" href="../../shared/css/managed-account-editor.css?v=4"><script src="../../shared/js/managed-account-editor.js?v=local-1"></script><script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
+<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
+<script src="../../shared/js/dashboard-overview.js?v=3"></script>
+<link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
+<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
+<link rel="stylesheet" href="../../shared/css/dashboard-insights.css?v=5">
+<script src="../../shared/js/dashboard-insights.js?v=6"></script>
 </body></html>

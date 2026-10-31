@@ -2,8 +2,8 @@
 <html lang="en" data-page="student-dashboard">
 <head>
   <meta charset="UTF-8">
-  <script src="../../shared/js/portal-theme-init.js"></script>
-  <script src="../../shared/js/student-workspace-init.js?v=1"></script>
+  <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
+  <script src="../../shared/js/student-workspace-init.js?v=local-1"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bridgeway — Student Portal Dashboard</title>
   <meta name="description" content="Bridgeway Student Portal — Curated internship discovery, 1-click applications, and verified 8-week logbook tracking.">
@@ -21,18 +21,21 @@
   <link rel="stylesheet" href="../../shared/css/portal-enhancements.css?v=layout-2">
 
   <link rel="stylesheet" href="../../shared/css/interactions.css?v=portal-clean-2">
-  <link rel="stylesheet" href="student-dashboard.css?v=compact-grid-10">
-  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=portal-clean-2">
+  <link rel="stylesheet" href="student-dashboard.css?v=courses-16">
+  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-9">
 <link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
-<link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=ticket-curl-63"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=internship-editor-71">
+<link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=internship-editor-71">
   <link rel="stylesheet" href="../../shared/css/opportunity-deck.css?v=catalog-search-49">
-  <link rel="stylesheet" href="../../shared/css/student-chrome.css?v=my-tickets-7">
+  <link rel="stylesheet" href="../../shared/css/student-chrome.css?v=shared-sidebar-9">
   <link rel="stylesheet" href="../../shared/css/student-training.css?v=journal-2">
-  <link rel="stylesheet" href="../../shared/css/student-training-journal.css?v=apple-3">
+  <link rel="stylesheet" href="../../shared/css/student-training-journal.css?v=portal-ux-3">
+  <link rel="stylesheet" href="../../shared/css/weekly-tasks.css?v=task-chevron-12">
   <link rel="stylesheet" href="../student-profile/student-profile.css?v=persistent-profile-7">
 <link rel="stylesheet" href="../../shared/css/evaluation-radar.css?v=portal-clean-2">  <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
+<link rel="stylesheet" href="../../shared/css/internship-journey.css?v=portal-ux-3">
+<link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
 </head>
-<body class="company-workspace portal-unified" data-portal-role="student" id="page-student-dashboard">
+<body class="portal-layout company-workspace portal-unified" data-portal-role="student" id="page-student-dashboard">
   <svg class="sprite" aria-hidden="true" focusable="false">
     <defs>
       <g id="mascot-art" stroke-linejoin="round" stroke-linecap="round">
@@ -108,7 +111,7 @@
         </button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-progress">
           <i class="bi bi-graph-up-arrow"></i><span>Training Progress</span>
           <span class="bw-tab-badge" id="tabBadgeProgress" data-style="s1">6/8 Wks</span>
-        </button></nav></div><div class="bw-masar-bottom-group"><div class="bw-masar-divider"></div><div class="bw-masar-bottom"><a class="bw-masar-link" href="../student-profile/student-profile.html"><i class="bi bi-person-circle" aria-hidden="true"></i><span>Profile</span></a><button type="button" class="bw-masar-link bw-masar-btn-link" id="bwThemeToggle"><i class="bi bi-moon-stars" id="bwThemeIcon" aria-hidden="true"></i><span id="bwThemeText">Dark Mode</span></button><a class="bw-masar-link" href="../login/login.html"><i class="bi bi-box-arrow-right" aria-hidden="true"></i><span>Logout</span></a></div></div></aside><main class="bw-company-content bw-main-content"><header class="company-topbar"><div class="company-breadcrumb">Workspace <span>/</span> <strong id="portalRoleLabel">Student</strong></div><div class="company-account-wrap"><button type="button" class="company-account" id="portalAccountToggle" aria-expanded="false" aria-controls="portalAccountDropdown" aria-label="Account options"><span class="company-monogram" id="portalInitials">GA</span><span id="portalAccountName">Ghaith Amourah</span><i class="bi bi-chevron-down" aria-hidden="true"></i></button><nav class="company-account-dropdown" id="portalAccountDropdown" aria-label="Account options" hidden><a href="../student-profile/student-profile.html" data-portal-profile>Account profile</a><a href="../login/login.html" class="company-account-logout">Logout</a></nav></div></header>
+        </button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-courses"><i class="bi bi-journal-bookmark" aria-hidden="true"></i><span>Courses</span></button></nav></div><div class="bw-masar-bottom-group"><div class="bw-masar-divider"></div><div class="bw-masar-bottom"><a class="bw-masar-link" href="../student-profile/student-profile.html"><i class="bi bi-person-circle" aria-hidden="true"></i><span>Profile</span></a><button type="button" class="bw-masar-link bw-masar-btn-link" id="bwThemeToggle"><i class="bi bi-moon-stars" id="bwThemeIcon" aria-hidden="true"></i><span id="bwThemeText">Dark Mode</span></button><a class="bw-masar-link" href="../login/login.html"><i class="bi bi-box-arrow-right" aria-hidden="true"></i><span>Logout</span></a></div></div></aside><main class="bw-company-content bw-main-content"><header class="company-topbar"><div class="company-breadcrumb">Workspace <span>/</span> <strong id="portalRoleLabel">Student</strong></div><div class="company-account-wrap"><button type="button" class="company-account" id="portalAccountToggle" aria-expanded="false" aria-controls="portalAccountDropdown" aria-label="Account options"><span class="company-monogram" id="portalInitials">GA</span><span id="portalAccountName">Ghaith Amourah</span><i class="bi bi-chevron-down" aria-hidden="true"></i></button><nav class="company-account-dropdown" id="portalAccountDropdown" aria-label="Account options" hidden><a href="../student-profile/student-profile.html" data-portal-profile>Account profile</a><a href="../login/login.html" class="company-account-logout">Logout</a></nav></div></header>
 
     <section class="bw-page-header" id="studentDashboardHeading">
       <div><span class="bw-eyebrow">Academic Internship Management</span>
@@ -154,15 +157,65 @@
           <i class="bi bi-clock-history"></i>
         </div>
         <div class="bw-kpi-info">
-          <div class="bw-kpi-value">240 h</div>
+          <div class="bw-kpi-value">90 h</div>
           <div class="bw-kpi-label">Training Hours</div>
-          <div class="bw-kpi-desc">320h Total Degree Requirement</div>
+          <div class="bw-kpi-desc">120h Total Degree Requirement</div>
         </div>
       </div>
     </section>
 
     <section class="bw-dashboard-workspace">
 
+        <section class="bw-tab-panel courses-page" id="tab-courses" aria-labelledby="courses-title">
+          <header class="courses-intro">
+            <svg class="courses-bridge" viewBox="0 0 1200 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M-80 232Q85 232 175 56Q600 329 1025 56Q1115 232 1280 232"/><path d="M-80 252Q85 252 175 76Q600 349 1025 76Q1115 252 1280 252"/><path d="M175 56v230M1025 56v230"/><path d="M60 180v90M110 133v137M230 89v181M285 115v155M915 115v155M970 89v181M1090 133v137M1140 180v90"/></svg>
+            <p class="courses-kicker"><i class="bi bi-journal-bookmark" aria-hidden="true"></i> Bridgeway learning</p>
+            <h1 id="courses-title">Build your career toolkit.</h1>
+            <p class="courses-intro-text">Practical courses for a stronger CV, portfolio,<br> and professional presence.</p>
+          </header>
+          <div class="courses-collection">
+            <div><h2>Find your starting point</h2><p>Three essentials. Choose the one you need next.</p></div>
+            <button class="courses-bundle" type="button" data-course="bundle" aria-haspopup="dialog" aria-controls="courseDialog" aria-describedby="coursesCheckoutNote">Unlock all 3 for $4.99 <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+          </div>
+          <p class="courses-checkout-note" id="coursesCheckoutNote"><i class="bi bi-info-circle" aria-hidden="true"></i> Checkout is not available yet. Explore the course outlines below.</p>
+          <div class="courses-grid">
+            <article class="course-card" aria-labelledby="course-title-cv">
+              <div class="course-cover"><svg viewBox="0 0 400 236" fill="none" aria-hidden="true"><circle cx="200" cy="120" r="96" class="ca-halo"/><g transform="translate(116 20) rotate(-9 86 110)"><rect x="12" y="12" width="172" height="220" rx="9" class="ca-back"/><rect width="172" height="220" rx="9" class="ca-paper"/><rect x="20" y="24" width="46" height="6" rx="3" class="ca-ink"/><rect x="20" y="38" width="92" height="4" rx="2" class="ca-line"/><rect x="126" y="22" width="26" height="26" rx="7" class="ca-blue"/><path d="M133 35h12m-6-6v12" stroke="white" stroke-width="2"/><path d="M20 64h132" class="ca-stroke"/><text x="20" y="83" class="ca-label">EXPERIENCE</text><rect x="20" y="94" width="109" height="4" rx="2" class="ca-line"/><rect x="20" y="105" width="126" height="4" rx="2" class="ca-line"/><rect x="20" y="116" width="98" height="4" rx="2" class="ca-line"/><text x="20" y="145" class="ca-label">SELECTED PROJECTS</text><rect x="20" y="155" width="127" height="4" rx="2" class="ca-line"/><rect x="20" y="166" width="100" height="4" rx="2" class="ca-line"/><rect x="20" y="190" width="40" height="12" rx="4" class="ca-tint"/><rect x="66" y="190" width="40" height="12" rx="4" class="ca-tint"/></g><g transform="translate(257 94) rotate(7)"><rect width="94" height="47" rx="10" class="ca-paper"/><circle cx="22" cy="24" r="11" class="ca-blue"/><path d="m17 24 3 3 6-7" stroke="white" stroke-width="2" stroke-linecap="round"/><text x="40" y="27" class="ca-note">Your story.</text></g></svg><span class="course-lock"><span class="course-lock-icon"><i class="bi bi-lock" aria-hidden="true"></i></span><span>Locked</span></span></div>
+              <div class="course-body"><p class="course-meta"><span>01</span><span>3 topics</span></p><h3 id="course-title-cv">Build a stronger CV</h3><p class="course-description">Write a clear, compelling CV for your next opportunity.</p>
+                <div class="course-actions"><button type="button" class="course-buy" data-course="cv" aria-label="Buy for $1.99: Build a stronger CV (USD)" aria-haspopup="dialog" aria-controls="courseDialog" aria-describedby="coursesCheckoutNote">Buy for $1.99</button></div>
+              </div>
+            </article>
+            <article class="course-card" aria-labelledby="course-title-portfolio">
+              <div class="course-cover"><svg viewBox="0 0 400 236" fill="none" aria-hidden="true"><circle cx="208" cy="119" r="97" class="ca-halo"/><g transform="translate(55 36) rotate(-4 145 90)"><rect x="10" y="12" width="290" height="185" rx="10" class="ca-back"/><rect width="290" height="185" rx="10" class="ca-paper"/><path d="M0 25h290" class="ca-stroke"/><circle cx="14" cy="13" r="3" class="ca-line"/><circle cx="25" cy="13" r="3" class="ca-line"/><circle cx="36" cy="13" r="3" class="ca-line"/><rect x="196" y="11" width="72" height="4" rx="2" class="ca-line"/><text x="20" y="55" class="ca-heading">Selected work.</text><rect x="20" y="65" width="125" height="3" rx="1.5" class="ca-line"/><rect x="20" y="85" width="119" height="78" rx="5" class="ca-blue"/><circle cx="80" cy="125" r="25" stroke="white" stroke-opacity=".75" stroke-width="1.5"/><path d="m56 139 24-42 24 42H56Z" stroke="white" stroke-opacity=".75" stroke-width="1.5"/><rect x="150" y="85" width="119" height="78" rx="5" class="ca-tint"/><rect x="170" y="103" width="33" height="42" rx="3" class="ca-paper"/><rect x="209" y="103" width="40" height="18" rx="3" class="ca-blue"/><rect x="209" y="127" width="40" height="18" rx="3" class="ca-line"/></g><path d="m305 152 4 27 7-8 10-1-21-18Z" class="ca-ink" stroke="var(--bw-surface)" stroke-width="2"/></svg><span class="course-lock"><span class="course-lock-icon"><i class="bi bi-lock" aria-hidden="true"></i></span><span>Locked</span></span></div>
+              <div class="course-body"><p class="course-meta"><span>02</span><span>3 topics</span></p><h3 id="course-title-portfolio">Create your portfolio</h3><p class="course-description">Turn your projects into a portfolio that shows what you can do.</p>
+                <div class="course-actions"><button type="button" class="course-buy" data-course="portfolio" aria-label="Buy for $1.99: Create your portfolio (USD)" aria-haspopup="dialog" aria-controls="courseDialog" aria-describedby="coursesCheckoutNote">Buy for $1.99</button></div>
+              </div>
+            </article>
+            <article class="course-card" aria-labelledby="course-title-linkedin">
+              <div class="course-cover"><svg viewBox="0 0 400 236" fill="none" aria-hidden="true"><circle cx="203" cy="120" r="96" class="ca-halo"/><path d="M61 64c0 86 267 25 273 113" class="ca-orbit"/><g transform="translate(102 34) rotate(5 98 84)"><rect x="10" y="12" width="196" height="173" rx="10" class="ca-back"/><rect width="196" height="173" rx="10" class="ca-paper"/><circle cx="32" cy="33" r="14" class="ca-tint"/><path d="M25 39c0-8 14-8 14 0m-3-12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" class="ca-orbit"/><rect x="56" y="25" width="91" height="5" rx="2.5" class="ca-ink"/><rect x="56" y="37" width="65" height="3" rx="1.5" class="ca-line"/><text x="19" y="73" class="ca-heading">Start a conversation.</text><rect x="19" y="86" width="151" height="4" rx="2" class="ca-line"/><rect x="19" y="98" width="132" height="4" rx="2" class="ca-line"/><rect x="19" y="110" width="145" height="4" rx="2" class="ca-line"/><path d="M19 132h158" class="ca-stroke"/><path d="M22 146h11v8H22v-8Zm0 8-3 3v-11m29 1 3-3 3 3m-3-3v12" class="ca-orbit"/><rect x="70" y="146" width="73" height="4" rx="2" class="ca-line"/></g><g transform="translate(54 141) rotate(-6)"><rect width="53" height="53" rx="12" class="ca-blue"/><text x="13" y="37" fill="white" font-family="Arial,sans-serif" font-size="34" font-weight="bold">in</text></g><g transform="translate(294 52)"><rect width="55" height="43" rx="12" class="ca-paper"/><path d="M16 14h23v14H27l-6 5v-5h-5V14Z" class="ca-orbit"/></g></svg><span class="course-lock"><span class="course-lock-icon"><i class="bi bi-lock" aria-hidden="true"></i></span><span>Locked</span></span></div>
+              <div class="course-body"><p class="course-meta"><span>03</span><span>3 topics</span></p><h3 id="course-title-linkedin">Grow on LinkedIn</h3><p class="course-description">Build your presence, share better posts, and grow your network.</p>
+                <div class="course-actions"><button type="button" class="course-buy" data-course="linkedin" aria-label="Buy for $1.99: Grow on LinkedIn (USD)" aria-haspopup="dialog" aria-controls="courseDialog" aria-describedby="coursesCheckoutNote">Buy for $1.99</button></div>
+              </div>
+            </article>
+          </div>
+          <footer class="courses-access-note"><div><span class="courses-access-icon"><i class="bi bi-lock" aria-hidden="true"></i></span><p><strong>Learn when you're ready.</strong><span>Course content unlocks after payment. All prices are in USD.</span></p></div></footer>
+          <dialog class="course-dialog" id="courseDialog" aria-labelledby="courseDialogTitle" aria-describedby="courseCheckoutMessage">
+            <div class="course-dialog-top"><span><i class="bi bi-journal-bookmark" aria-hidden="true"></i> Bridgeway courses</span><button type="button" class="course-dialog-close" data-course-close aria-label="Close course details"><i class="bi bi-x-lg" aria-hidden="true"></i></button></div>
+            <div class="course-dialog-layout">
+              <section class="course-dialog-main"><p class="course-category" id="courseDialogCategory"></p><h2 id="courseDialogTitle" tabindex="-1"></h2><p id="courseDialogDescription"></p><h3 id="courseDialogOutlineTitle">Course outline</h3><ol id="courseDialogOutline" role="list"></ol></section>
+              <aside class="course-enrollment" aria-labelledby="courseEnrollmentTitle">
+                <span class="course-enrollment-icon"><i class="bi bi-lock" aria-hidden="true"></i></span>
+                <h3 id="courseEnrollmentTitle">Unlock this course</h3>
+                <p class="course-price"><strong id="courseDialogPrice">$1.99</strong> <span id="courseDialogPriceUnit">USD / course</span></p>
+                <p class="course-bundle-saving" id="courseBundleSaving" hidden>Save $0.98 compared with buying separately.</p>
+                <p>Full course access begins after payment.</p>
+                <div class="course-checkout-status"><strong>Checkout is not available yet</strong><p id="courseCheckoutMessage">Purchases are currently unavailable. Course content remains locked.</p></div>
+                <button type="button" class="course-checkout-disabled" disabled>Checkout unavailable</button>
+                <button type="button" class="course-dialog-back" data-course-close>Back to courses</button>
+              </aside>
+            </div>
+          </dialog>
+        </section>
         <div class="bw-tab-panel is-active" id="tab-opportunities">
           <div class="internship-intro">
             <span id="acceptedInternshipNotice" hidden><i class="bi bi-lock" aria-hidden="true"></i> Accepted internship · View-only</span>
@@ -216,7 +269,7 @@
                   </div>
                 </div>
                 <div class="bw-opp-meta-row">
-                  <span><i class="bi bi-clock"></i> 40 hrs / Wk</span>
+                  <span><i class="bi bi-clock"></i> 15 hrs / Wk</span>
                   <span><i class="bi bi-calendar-event"></i> Ends Nov 30, 2026</span>
                 </div>
                 <button type="button" class="bw-btn-block bw-btn-primary bw-apply-btn" data-role=".NET Full-Stack Developer Intern" data-company="Nexus Cloud Systems">
@@ -251,7 +304,7 @@
                   </div>
                 </div>
                 <div class="bw-opp-meta-row">
-                  <span><i class="bi bi-clock"></i> 40 hrs / Wk</span>
+                  <span><i class="bi bi-clock"></i> 15 hrs / Wk</span>
                   <span><i class="bi bi-calendar-event"></i> Ends Dec 15, 2026</span>
                 </div>
                 <button type="button" class="bw-btn-block bw-btn-primary bw-apply-btn" data-role="Cybersecurity SOC Analyst Intern" data-company="Cybershield Defense">
@@ -286,7 +339,7 @@
                   </div>
                 </div>
                 <div class="bw-opp-meta-row">
-                  <span><i class="bi bi-clock"></i> 40 hrs / Wk</span>
+                  <span><i class="bi bi-clock"></i> 15 hrs / Wk</span>
                   <span><i class="bi bi-calendar-event"></i> Ends Nov 25, 2026</span>
                 </div>
                 <button type="button" class="bw-btn-block bw-btn-primary bw-apply-btn" data-role="Cloud & DevOps Trainee" data-company="Aspire Cloud Services">
@@ -321,7 +374,7 @@
                   </div>
                 </div>
                 <div class="bw-opp-meta-row">
-                  <span><i class="bi bi-clock"></i> 40 hrs / Wk</span>
+                  <span><i class="bi bi-clock"></i> 15 hrs / Wk</span>
                   <span><i class="bi bi-calendar-event"></i> Ends Dec 05, 2026</span>
                 </div>
                 <button type="button" class="bw-btn-block bw-btn-primary bw-apply-btn" data-role="AI & Big Data Analytics Intern" data-company="Orange Telecom Jordan">
@@ -356,7 +409,7 @@
                   </div>
                 </div>
                 <div class="bw-opp-meta-row">
-                  <span><i class="bi bi-clock"></i> 40 hrs / Wk</span>
+                  <span><i class="bi bi-clock"></i> 15 hrs / Wk</span>
                   <span><i class="bi bi-calendar-event"></i> Ends Dec 10, 2026</span>
                 </div>
                 <button type="button" class="bw-btn-block bw-btn-primary bw-apply-btn" data-role="Frontend React Developer Intern" data-company="Tech Corp Inc.">
@@ -391,7 +444,7 @@
                   </div>
                 </div>
                 <div class="bw-opp-meta-row">
-                  <span><i class="bi bi-clock"></i> 40 hrs / Wk</span>
+                  <span><i class="bi bi-clock"></i> 15 hrs / Wk</span>
                   <span><i class="bi bi-calendar-event"></i> Ends Nov 28, 2026</span>
                 </div>
                 <button type="button" class="bw-btn-block bw-btn-primary bw-apply-btn" data-role="Mobile Flutter Developer Intern" data-company="FinTech Solutions">
@@ -509,27 +562,27 @@
               <div class="training-filters" role="group" aria-label="Filter weekly reports"><button type="button" data-training-filter="all" aria-pressed="true">All weeks</button><button type="button" data-training-filter="verified" aria-pressed="false">Verified <span>5</span></button><button type="button" data-training-filter="submitted" aria-pressed="false">In review <span>1</span></button><button type="button" data-training-filter="upcoming" aria-pressed="false">Upcoming <span>2</span></button></div>
               <div class="training-report-list">
               <details class="training-report" id="training-week-1" data-report-status="verified">
-                <summary><span class="training-week-number">01</span><span class="training-report-title"><strong>Workspace onboarding</strong><span>Week 1</span></span><span class="training-status training-status--verified">Verified</span><span class="training-hours">40 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
+                <summary><span class="training-week-number">01</span><span class="training-report-title"><strong>Workspace onboarding</strong><span>Week 1</span></span><span class="training-status training-status--verified">Verified</span><span class="training-hours">15 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
                 <div class="training-report-body"><p>Initial workspace onboarding, development environment setup, and C# repo cloning.</p><div class="training-tools"><span>Tools used</span><span>VS Code</span><span>Git</span><span>.NET SDK</span></div><div class="training-review-note"><i class="bi bi-check2-circle" aria-hidden="true"></i>Verified by Mentor &amp; Supervisor</div></div>
               </details>
               <details class="training-report" id="training-week-2" data-report-status="verified">
-                <summary><span class="training-week-number">02</span><span class="training-report-title"><strong>API development</strong><span>Week 2</span></span><span class="training-status training-status--verified">Verified</span><span class="training-hours">40 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
+                <summary><span class="training-week-number">02</span><span class="training-report-title"><strong>API development</strong><span>Week 2</span></span><span class="training-status training-status--verified">Verified</span><span class="training-hours">15 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
                 <div class="training-report-body"><p>Built RESTful API controllers with DTO validation and swagger documentation.</p><div class="training-tools"><span>Tools used</span><span>ASP.NET Core</span><span>Postman</span></div><div class="training-review-note"><i class="bi bi-check2-circle" aria-hidden="true"></i>Verified by Mentor &amp; Supervisor</div></div>
               </details>
               <details class="training-report" id="training-week-3" data-report-status="verified">
-                <summary><span class="training-week-number">03</span><span class="training-report-title"><strong>Database foundations</strong><span>Week 3</span></span><span class="training-status training-status--verified">Verified</span><span class="training-hours">40 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
+                <summary><span class="training-week-number">03</span><span class="training-report-title"><strong>Database foundations</strong><span>Week 3</span></span><span class="training-status training-status--verified">Verified</span><span class="training-hours">15 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
                 <div class="training-report-body"><p>Entity Framework migration scripting and query optimization with MySQL.</p><div class="training-tools"><span>Tools used</span><span>EF Core</span><span>MySQL Workbench</span></div><div class="training-review-note"><i class="bi bi-check2-circle" aria-hidden="true"></i>Verified by Mentor &amp; Supervisor</div></div>
               </details>
               <details class="training-report" id="training-week-4" data-report-status="verified">
-                <summary><span class="training-week-number">04</span><span class="training-report-title"><strong>Testing &amp; deployment</strong><span>Week 4</span></span><span class="training-status training-status--verified">Verified</span><span class="training-hours">40 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
+                <summary><span class="training-week-number">04</span><span class="training-report-title"><strong>Testing &amp; deployment</strong><span>Week 4</span></span><span class="training-status training-status--verified">Verified</span><span class="training-hours">15 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
                 <div class="training-report-body"><p>Integrated unit test suites with xUnit and established CI deployment checks.</p><div class="training-tools"><span>Tools used</span><span>xUnit</span><span>GitHub Actions</span></div><div class="training-review-note"><i class="bi bi-check2-circle" aria-hidden="true"></i>Verified by Mentor &amp; Supervisor</div></div>
               </details>
               <details class="training-report" id="training-week-5" data-report-status="verified">
-                <summary><span class="training-week-number">05</span><span class="training-report-title"><strong>Integration &amp; optimization</strong><span>Week 5</span></span><span class="training-status training-status--verified">Verified</span><span class="training-hours">40 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
+                <summary><span class="training-week-number">05</span><span class="training-report-title"><strong>Integration &amp; optimization</strong><span>Week 5</span></span><span class="training-status training-status--verified">Verified</span><span class="training-hours">15 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
                 <div class="training-report-body"><p>Database query optimization and integration testing.</p><div class="training-review-note"><i class="bi bi-check2-circle" aria-hidden="true"></i>Supervisor verified</div></div>
               </details>
               <details class="training-report" id="training-week-6" data-report-status="submitted" open>
-                <summary><span class="training-week-number">06</span><span class="training-report-title"><strong>Endpoints &amp; evaluation features</strong><span>Week 6</span></span><span class="training-status training-status--submitted">In review</span><span class="training-hours">40 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
+                <summary><span class="training-week-number">06</span><span class="training-report-title"><strong>Endpoints &amp; evaluation features</strong><span>Week 6</span></span><span class="training-status training-status--submitted">In review</span><span class="training-hours">15 h</span><i class="bi bi-chevron-down" aria-hidden="true"></i></summary>
                 <div class="training-report-body"><p>RESTful API endpoints and evaluation features. Awaiting supervisor review.</p><div class="training-review-note"><i class="bi bi-clock" aria-hidden="true"></i>Awaiting supervisor review</div></div>
               </details>
               <details class="training-report" id="training-week-7" data-report-status="upcoming">
@@ -624,23 +677,28 @@
     </div>
   </div>
 
-  <script src="../../shared/js/portal.js?v=sitewide-dialogs-60"></script>
+  <script src="../../shared/js/portal.js?v=reference-motion-9"></script>
 
   <script src="../../shared/js/navigation.js"></script>
-  <script src="student-dashboard.js?v=interface-9"></script>
-  <script src="../../shared/js/portal-motion.js?v=discovery-8"></script>
-  <script src="../../shared/js/enhancements.js?v=desktop-audit-29"></script>
+  <script src="student-dashboard.js?v=local-1"></script>
+  <script src="../../shared/js/portal-motion.js?v=reference-motion-9"></script>
+  <script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
-  <script src="../../shared/js/interactions.js?v=portal-clean-2"></script>
-  <script src="../../shared/js/portal-ux.js?v=sitewide-dialogs-60"></script>
-  <script src="../../shared/js/evaluation-radar.js?v=1"></script><script src="../../shared/js/report-visibility.js?v=1"></script><script src="../../shared/js/workbook-download.js?v=workbook-clean-44"></script><script src="../../shared/js/workspace-cycle.js?v=internship-editor-71"></script>
-  <script src="../../shared/js/partnership-review.js?v=ticket-lifecycle-54"></script>
-  <script src="../../shared/js/application-interviews.js?v=desktop-audit-29"></script>
-  <script src="../../shared/js/student-training-journal.js?v=private-status-4"></script>
-  <script src="../../shared/js/student-chrome.js?v=my-tickets-6"></script><script src="../../shared/js/opportunity-deck.js?v=internship-editor-71"></script><script src="../../shared/js/student-studio.js?v=catalog-search-49"></script>
-  <script src="../student-profile/student-profile.js?v=interface-9"></script>
-  <script src="../../shared/js/student-profile-content.js?v=interface-9"></script>
-  <script src="../../shared/js/student-profile-view.js?v=file-profile-2"></script>
-<script src="../../shared/js/sidebar-activity.js?v=unseen-activity-62"></script>
+  <script src="../../shared/js/interactions.js?v=local-1"></script>
+  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
+  <script src="../../shared/js/evaluation-radar.js?v=local-1"></script><script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=evaluation-gate-15"></script>
+  <script src="../../shared/js/weekly-tasks.js?v=week-locked-14"></script>
+  <script src="../../shared/js/partnership-review.js?v=local-1"></script>
+  <script src="../../shared/js/application-interviews.js?v=local-1"></script>
+  <script src="../../shared/js/student-training-journal.js?v=week-focus-7"></script>
+  <script src="../../shared/js/student-chrome.js?v=local-1"></script><script src="../../shared/js/opportunity-deck.js?v=120-hours-1"></script><script src="../../shared/js/student-studio.js?v=local-1"></script>
+  <script src="../student-profile/student-profile.js?v=local-1"></script>
+  <script src="../../shared/js/student-profile-content.js?v=local-1"></script>
+  <script src="../../shared/js/student-profile-view.js?v=local-1"></script>
+<script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
+<script src="../../shared/js/internship-journey.js?v=120-hours-1"></script>
+<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
+<link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
+<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
 </body>
 </html>

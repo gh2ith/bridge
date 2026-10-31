@@ -2,7 +2,7 @@
 <html lang="en" data-page="company-dashboard">
 <head>
   <meta charset="UTF-8">
-  <script src="../../shared/js/portal-theme-init.js"></script>
+  <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bridgeway — Partner Company Portal</title>
   <meta name="description" content="Bridgeway Partner Company Portal — Manage verified internship postings, review candidate applications, track weekly curriculum progress, and complete final degree rubrics.">
@@ -22,12 +22,16 @@
   <link rel="stylesheet" href="company-dashboard.css?v=college-directory-87">
   <link rel="stylesheet" href="../../shared/css/evaluation-radar.css?v=portal-clean-2">
   <link rel="stylesheet" href="../../shared/css/company-evaluation.css?v=night-2">
-  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=portal-clean-2">
+  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-16">
 <link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
-<link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=ticket-curl-63"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=college-directory-87">
+<link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=college-directory-87">
   <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
+  <link rel="stylesheet" href="../../shared/css/weekly-tasks.css?v=task-chevron-12">
+<link rel="stylesheet" href="../../shared/css/internship-journey.css?v=portal-ux-3">
+<link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
+  <link rel="stylesheet" href="../../shared/css/dashboard-overview.css?v=10">
 </head>
-<body class="company-workspace" data-portal-role="company" id="page-company-dashboard">
+<body class="portal-layout dashboard-reference company-workspace" data-portal-role="company" id="page-company-dashboard">
   <svg class="sprite" aria-hidden="true" focusable="false">
     <defs>
       <g id="mascot-art" stroke-linejoin="round" stroke-linecap="round">
@@ -126,7 +130,7 @@
 
           <button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-weekly-reports">
             <i class="bi bi-calendar3"></i>
-            <span>Weekly Reports</span>
+            <span>Weekly training</span>
           </button>
 
           <button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-final-evaluation">
@@ -178,7 +182,7 @@
         <div class="company-heading-tools"><div id="companyOverviewTools"></div></div>
       </section>
 
-      <section class="bw-kpi-grid" aria-label="Program overview">
+      <section class="bw-kpi-grid" data-dashboard-overview aria-label="Program overview">
         <button type="button" class="bw-kpi-card" data-kpi-tab="tab-posts" data-summary="published">
           <span class="company-metric-label">Active internships <i class="bi bi-briefcase" aria-hidden="true"></i></span>
           <span class="bw-kpi-value" id="kpiActivePosts">0</span>
@@ -392,16 +396,16 @@
       <div class="bw-tab-panel" id="tab-weekly-reports">
         <div class="bw-weekly-overview-grid">
 
-          <aside class="company-student-directory" aria-label="Students for weekly reports">
-            <h2>Students</h2><p>Select a student to write their weekly report.</p>
-            <label class="company-search"><i class="bi bi-search" aria-hidden="true"></i><input id="weeklyStudentSearch" type="search" placeholder="Search name, ID, or college" aria-label="Search students for weekly reports"></label>
+          <aside class="company-student-directory" aria-label="Students for weekly training">
+            <h2>Students</h2><p>Select an intern to manage their weekly tasks and reports.</p>
+            <label class="company-search"><i class="bi bi-search" aria-hidden="true"></i><input id="weeklyStudentSearch" type="search" placeholder="Search name, ID, or college" aria-label="Search students for weekly training"></label>
             <div id="weeklyStudentList" class="company-student-list">
               <button type="button" class="company-student-button bw-intern-status-card" data-weekly-id="1" data-weekly-week="4" aria-pressed="false" aria-controls="companyWeeklyDetail"><strong class="bw-intern-status-name">Alice Johnson</strong><span class="bw-intern-status-role" hidden>Frontend React Developer Intern</span><span hidden data-student-college="alice"></span><small>ID 20220042 · Week 4 of 8</small></button>
               <button type="button" class="company-student-button bw-intern-status-card" data-weekly-id="2" data-weekly-week="6" aria-pressed="false" aria-controls="companyWeeklyDetail"><strong class="bw-intern-status-name">Ghaith Amourah</strong><span class="bw-intern-status-role" hidden>Software Engineering Intern</span><span hidden data-student-college="ghaith"></span><small>ID 20220148 · Week 6 of 8</small></button>
             </div><p id="weeklyStudentsEmpty" role="status" hidden>No matching students.</p>
           </aside>
           <div class="company-selection-content">
-            <section id="companyWeeklyPrompt" class="company-selection-prompt"><i class="bi bi-journal-text" aria-hidden="true"></i><h2>Select a student</h2><p>Choose a student from the list to open their weekly report form.</p></section>
+            <section id="companyWeeklyPrompt" class="company-selection-prompt"><i class="bi bi-journal-text" aria-hidden="true"></i><h2>Select a student</h2><p>Choose an intern, then open a week to assign tasks or review their training report.</p></section>
             <div id="companyWeeklyDetail" hidden><button type="button" class="company-change-student" id="clearCompanyWeekly">Change student</button>
           <div class="bw-card-panel weekly-report-panel">
             <div class="weekly-section-heading"><h2>Write weekly report</h2><p>Record the selected intern’s work for one training week.</p></div>
@@ -651,20 +655,30 @@
     </div>
   </div>
 
-  <script src="../../shared/js/portal.js?v=college-directory-87"></script>
+  <script src="../../shared/js/portal.js?v=reference-motion-16"></script>
 
-  <script src="company-dashboard.js?v=college-directory-87"></script>
-  <script src="../../shared/js/evaluation-radar.js?v=3"></script>
-  <script src="../../shared/js/portal-motion.js?v=portal-clean-2"></script>
-  <script src="../../shared/js/enhancements.js?v=desktop-audit-29"></script>
+  <script src="company-dashboard.js?v=local-1"></script>
+  <script src="../../shared/js/evaluation-radar.js?v=local-1"></script>
+  <script src="../../shared/js/portal-motion.js?v=reference-motion-16"></script>
+  <script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
-  <script src="../../shared/js/interactions.js?v=portal-clean-2"></script>
-  <script src="../../shared/js/portal-ux.js?v=sitewide-dialogs-60"></script>
-  <script src="../../shared/js/report-visibility.js?v=1"></script><script src="../../shared/js/workbook-download.js?v=workbook-clean-44"></script><script src="../../shared/js/workspace-cycle.js?v=college-directory-87"></script>
-  <script src="../../shared/js/partnership-review.js?v=ticket-lifecycle-54"></script>
+  <script src="../../shared/js/interactions.js?v=local-1"></script>
+  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
+  <script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=evaluation-gate-15"></script>
+  <script src="../../shared/js/weekly-tasks.js?v=week-locked-14"></script>
+  <script src="../../shared/js/partnership-review.js?v=local-1"></script>
   <link rel="stylesheet" href="../../shared/css/student-training.css?v=1">
-  <script src="../../shared/js/application-interviews.js?v=college-directory-87"></script>
+  <script src="../../shared/js/application-interviews.js?v=local-1"></script>
 
-<script src="../../shared/js/sidebar-activity.js?v=unseen-activity-62"></script>
+<script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
+<script src="../../shared/js/internship-journey.js?v=120-hours-1"></script>
+<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
+<script src="../../shared/js/dashboard-overview.js?v=3"></script>
+<link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
+<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
+<link rel="stylesheet" href="../../shared/css/dashboard-insights.css?v=5">
+<script src="../../shared/js/dashboard-insights.js?v=6"></script>
+<link rel="stylesheet" href="weekly-training.css?v=evaluation-gate-7">
+<script src="evaluation-gate.js?v=3"></script>
 </body>
 </html>

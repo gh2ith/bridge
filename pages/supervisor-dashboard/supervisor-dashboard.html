@@ -2,7 +2,7 @@
 <html lang="en" data-page="supervisor-dashboard">
 <head>
   <meta charset="UTF-8">
-  <script src="../../shared/js/portal-theme-init.js"></script>
+  <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bridgeway — Academic Supervisor Portal</title>
   <meta name="description" content="Bridgeway Academic Supervisor Portal — Review weekly student logbooks, verify training hours, and view company evaluations.">
@@ -21,13 +21,16 @@
 
 <link rel="stylesheet" href="supervisor-dashboard.css?v=report-review-88">
   <link rel="stylesheet" href="../../shared/css/evaluation-radar.css?v=portal-clean-2">
-  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=portal-clean-2">
+  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-16">
   <link rel="stylesheet" href="../../shared/css/interactions.css?v=portal-clean-2">
 <link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
-<link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=ticket-curl-63"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=report-review-88">
+<link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=report-review-88">
   <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
+<link rel="stylesheet" href="../../shared/css/internship-journey.css?v=portal-ux-3">
+<link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
+  <link rel="stylesheet" href="../../shared/css/dashboard-overview.css?v=10">
 </head>
-<body class="company-workspace portal-unified" data-portal-role="supervisor" id="page-supervisor-dashboard">
+<body class="portal-layout dashboard-reference company-workspace portal-unified" data-portal-role="supervisor" id="page-supervisor-dashboard">
   <svg class="sprite" aria-hidden="true" focusable="false">
     <defs>
       <g id="mascot-art" stroke-linejoin="round" stroke-linecap="round">
@@ -99,7 +102,7 @@
           <i class="bi bi-people-fill"></i><span>Assigned Students</span>
           <span class="bw-tab-badge">2</span>
         </button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-reports">
-          <i class="bi bi-clipboard-check-fill"></i><span>Weekly Reports Review</span>
+          <i class="bi bi-clipboard-check-fill"></i><span>Weekly reports</span>
           <span class="bw-tab-badge" id="tabBadgeMissingReports">1</span>
         </button><button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-endorsement">
           <i class="bi bi-award-fill"></i><span>Evaluations</span>
@@ -111,7 +114,7 @@
       <div id="supervisorHeadingTools" class="supervisor-heading-tools"></div>
     </section>
 
-    <section class="bw-kpi-grid">
+    <section class="bw-kpi-grid" data-dashboard-overview>
       <div class="bw-kpi-card" data-style="s3" data-onclick="switchTab-tab-roster-1">
         <div class="bw-kpi-icon icon--blue">
           <i class="bi bi-people-fill"></i>
@@ -166,10 +169,10 @@
             <div>
               <div class="bw-card-panel-title">
                 <i class="bi bi-person-lines-fill text-primary"></i>
-                <span>Supervised Students Roster</span>
+                <span>Assigned students</span>
               </div>
               <div data-style="s5">
-                Officially assigned undergraduate students • Al-Balqa Applied University
+                Student placements and verified training progress • Al-Balqa Applied University
               </div>
             </div>
 
@@ -178,7 +181,7 @@
                 <i class="bi bi-search bw-search-icon"></i>
                 <input type="text" id="rosterSearchInput" class="bw-search-input" placeholder="Search student, ID, or company..." aria-label="Search students">
               </div>
-              <span class="bw-badge bw-badge-purple">2 Assigned Interns</span>
+              <span class="bw-badge bw-badge-purple">2 assigned students</span>
             </div>
           </div>
 
@@ -188,7 +191,7 @@
                 <tr>
                   <th>Student</th>
                   <th>Department &amp; GPA</th>
-                  <th>Host Company &amp; Mentor</th>
+                  <th>Host company &amp; mentor</th>
                   <th>Training progress</th>
                   <th>Standing</th>
                   <th>Action</th>
@@ -218,7 +221,7 @@
                     <div class="bw-progress-track">
                       <div class="bw-progress-fill" data-style="s18"></div>
                     </div>
-                    <div class="roster-hours">240 / 320 hours</div>
+                    <div class="roster-hours">90 / 120 hours</div>
                   </td>
                   <td>
                     <span class="bw-badge bw-badge-amber"><i class="bi bi-clock-history me-1"></i>Review W6</span>
@@ -253,7 +256,7 @@
                     <div class="bw-progress-track">
                       <div class="bw-progress-fill" data-style="s21"></div>
                     </div>
-                    <div class="roster-hours">320 / 320 hours</div>
+                    <div class="roster-hours">120 / 120 hours</div>
                   </td>
                   <td>
                     <span class="bw-badge bw-badge-success"><i class="bi bi-patch-check-fill me-1"></i>Verified</span>
@@ -300,7 +303,7 @@
               <div data-style="s33">
                 <div data-style="s34" data-presentation="font-weight">Logged Training Hours</div>
                 <div data-style="s35" data-presentation="font-weight font-weight-800" id="activeStudentHours">
-                  240h / 320h
+                  90h / 120h
                 </div>
               </div>
               <span class="bw-badge bw-badge-amber" id="activeStudentWeekBadge">Week 6 Review</span>
@@ -508,19 +511,28 @@
     </div>
   </div>
 
-  <script src="../../shared/js/portal.js?v=sitewide-dialogs-60"></script>
+  <script src="../../shared/js/portal.js?v=reference-motion-16"></script>
 
   <script src="../../shared/js/navigation.js"></script>
-  <script src="../../shared/js/evaluation-radar.js?v=1"></script>
-  <script src="supervisor-dashboard.js?v=student-details-1"></script>
-<script src="../../shared/js/enhancements.js?v=desktop-audit-29"></script>
+  <script src="../../shared/js/evaluation-radar.js?v=local-1"></script>
+  <script src="supervisor-dashboard.js?v=supervisor-polish-3"></script>
+<script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
-  <script src="../../shared/js/interactions.js?v=portal-clean-2"></script>
-  <script src="../../shared/js/portal-motion.js?v=portal-clean-2"></script>
-  <script src="../../shared/js/portal-ux.js?v=sitewide-dialogs-60"></script>
-  <script src="../../shared/js/report-visibility.js?v=1"></script><script src="../../shared/js/workbook-download.js?v=workbook-clean-44"></script><script src="../../shared/js/workspace-cycle.js?v=report-review-88"></script>
-  <script src="../../shared/js/partnership-review.js?v=ticket-lifecycle-54"></script>
+  <script src="../../shared/js/interactions.js?v=local-1"></script>
+  <script src="../../shared/js/portal-motion.js?v=reference-motion-16"></script>
+  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
+  <script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=supervisor-polish-3"></script>
+  <script src="../../shared/js/partnership-review.js?v=local-1"></script>
 
-<script src="../../shared/js/sidebar-activity.js?v=unseen-activity-62"></script>
+<script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
+<link rel="stylesheet" href="../../shared/css/weekly-tasks.css?v=task-chevron-12"><script src="../../shared/js/weekly-tasks.js?v=week-locked-14"></script><script src="../../shared/js/internship-journey.js?v=supervisor-polish-2"></script>
+<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
+<script src="../../shared/js/dashboard-overview.js?v=3"></script>
+<link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
+<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
+<link rel="stylesheet" href="supervisor-polish.css?v=assessment-picker-3">
+<link rel="stylesheet" href="../../shared/css/dashboard-insights.css?v=5">
+<script src="../../shared/js/dashboard-insights.js?v=6"></script>
 </body>
 </html>
+

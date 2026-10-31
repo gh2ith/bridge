@@ -1,3 +1,23 @@
+// Roster progress comes from supervisor-verified reports, never seeded week labels.
+document.addEventListener('DOMContentLoaded',()=>{
+  function syncRoster(){
+    const C=window.BridgewayCycle;if(!C)return;
+    document.querySelectorAll('#supervisedStudentsTable tbody tr').forEach(row=>{
+      const student=window.BridgewayPartners.students.find(s=>s.supervisor==='Dr. Ahmad S.'&&row.cells[0]?.textContent.includes(s.studentId));
+      if(!student)return;
+      const plan=C.state.plans[student.id]||[],verified=plan.filter(w=>w.status==='verified').length;
+      const track=row.querySelector('.bw-progress-track'),progress=track?.previousElementSibling,bar=row.querySelector('.bw-progress-fill'),hours=row.querySelector('.roster-hours');
+      if(progress)progress.textContent=`${verified} of 8 weeks verified`;
+      if(bar){bar.style.width=`${verified/8*100}%`;bar.parentElement.setAttribute('role','progressbar');bar.parentElement.setAttribute('aria-label',`${student.name}: verified weeks`);bar.parentElement.setAttribute('aria-valuemin','0');bar.parentElement.setAttribute('aria-valuemax','8');bar.parentElement.setAttribute('aria-valuenow',String(verified));}
+      if(hours)hours.textContent=`${C.hours(student.id)} / 120 hours verified`;
+      const badge=row.cells[4]?.querySelector('.bw-badge'),pending=plan.filter(w=>w.status==='submitted').length,revision=plan.some(w=>w.status==='revision');
+      if(badge){badge.textContent=pending?`${pending} to review`:revision?'Revision requested':verified===8?'All weeks verified':'Training in progress';badge.className='bw-badge '+(pending||revision?'bw-badge-warning':'bw-badge-success');}
+    });
+  }
+  queueMicrotask(syncRoster);
+  document.addEventListener('bridgeway:cycle-change',syncRoster);
+});
+
 // Compact, read-only student details without replacing or expanding the dashboard.
 document.addEventListener('DOMContentLoaded',()=>{
   const table=document.getElementById('supervisedStudentsTable');if(!table)return;
@@ -22,8 +42,8 @@ document.addEventListener('DOMContentLoaded',()=>{
       ['Training dates',current?`${current.start||'Not recorded'} — ${current.end||'Ongoing'}`:null]
     ].forEach(([label,value])=>{const pair=make('div');pair.append(make('dt',label),make('dd',value||'Not provided'));facts.append(pair);});body.append(facts);
     const summary=make('section',null,'supervisor-details-progress');
-    summary.append(make('strong',`${C.hours(s.id)} / 320 h verified`),make('span',`${plan.filter(w=>w.status==='verified').length} of 8 weeks verified`));
-    const bar=make('progress');bar.max=320;bar.value=C.hours(s.id);bar.setAttribute('aria-label',`${C.hours(s.id)} of 320 hours verified`);summary.append(bar);
+    summary.append(make('strong',`${C.hours(s.id)} / 120 h verified`),make('span',`${plan.filter(w=>w.status==='verified').length} of 8 weeks verified`));
+    const bar=make('progress');bar.max=120;bar.value=C.hours(s.id);bar.setAttribute('aria-label',`${C.hours(s.id)} of 120 hours verified`);summary.append(bar);
     const pending=plan.filter(w=>w.status==='submitted').length;
     summary.append(make('p',`${pending?pending+' '+(pending===1?'report awaiting':'reports awaiting')+' review':'No reports awaiting review'} · Company evaluation ${C.state.evaluations[s.id]?'submitted':'not submitted'}`));body.append(summary);
     const actions=make('div',null,'cycle-actions'),reports=make('button','Weekly reports','cycle-button is-primary');reports.type='button';actions.append(reports);body.append(actions);
@@ -106,10 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const revision=review && reviewStates.get(student.id)==='revision';
       const item=document.createElement('div');item.className=`report-week ${verified?'is-verified':review?'is-review':'is-upcoming'}`;
       item.setAttribute('role','listitem');
-      item.setAttribute('aria-label',`Week ${week}: ${verified?'Verified, 40 hours':revision?'Revision requested, 40 hours':review?'In review, 40 hours':'Upcoming'}`);
+      item.setAttribute('aria-label',`Week ${week}: ${verified?'Verified, 15 hours':revision?'Revision requested, 15 hours':review?'In review, 15 hours':'Upcoming'}`);
       const title=document.createElement('strong');title.textContent=week;title.setAttribute('aria-hidden','true');
       const state=document.createElement('span');state.textContent=verified?'Verified':revision?'Revision':review?'In review':'Upcoming';state.setAttribute('aria-hidden','true');
-      const hours=document.createElement('small');hours.textContent=verified||review?'40 h':'—';hours.setAttribute('aria-hidden','true');
+      const hours=document.createElement('small');hours.textContent=verified||review?'15 h':'—';hours.setAttribute('aria-hidden','true');
       item.append(title,state,hours);timeline.append(item);
     }
   }
@@ -171,12 +191,12 @@ document.addEventListener('DOMContentLoaded', () => {
     element.onclick = function(event) { window.switchTab('tab-reports'); };
   });
   document.querySelectorAll('[data-onclick="reviewStudentReport-GA-3"]').forEach(element => {
-    element.onclick = function(event) { reviewStudentReport('Ghaith Amourah', 'Tech Corp Inc. • Company Mentor: Eng. Khalid T.', '240h / 320h', 'Week 6', 'GA') };
+    element.onclick = function(event) { reviewStudentReport('Ghaith Amourah', 'Tech Corp Inc. • Company Mentor: Eng. Khalid T.', '90h / 120h', 'Week 6', 'GA') };
   });
   document.querySelectorAll('[data-onclick="switchTab-tab-endorsement-4"]').forEach(element => {
     element.onclick = function(event) { window.switchTab('tab-endorsement') };
   });
   document.querySelectorAll('[data-onclick="reviewStudentReport-SA-5"]').forEach(element => {
-    element.onclick = function(event) { reviewStudentReport('Sarah Ahmad', 'Nexus Cloud Systems • Company Mentor: Eng. Omar F.', '320h / 320h', 'Week 8', 'SA') };
+    element.onclick = function(event) { reviewStudentReport('Sarah Ahmad', 'Nexus Cloud Systems • Company Mentor: Eng. Omar F.', '120h / 120h', 'Week 8', 'SA') };
   });
 })();

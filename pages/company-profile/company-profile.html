@@ -2,7 +2,7 @@
 <html lang="en" data-page="company-profile">
 <head>
   <meta charset="UTF-8">
-  <script src="../../shared/js/portal-theme-init.js"></script>
+  <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bridgeway — Company Profile Settings</title>
   <meta name="description" content="Manage partner company corporate information, location, and host organization profile.">
@@ -23,8 +23,10 @@
   <link rel="stylesheet" href="company-profile.css?v=2">
 <link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
   <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
+<link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
+<link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-9">
 </head>
-<body class="company-workspace portal-unified" data-portal-role="company" id="page-company-profile">
+<body class="portal-layout company-workspace portal-unified" data-portal-role="company" id="page-company-profile">
 
   <div class="bw-company-layout"><aside class="bw-masar-sidebar" aria-label="Company navigation"><div class="bw-masar-top"><div class="bw-masar-header">
           <a href="../home/index.html" class="bw-masar-brand" title="Bridgeway Home">
@@ -80,7 +82,7 @@
       <div data-style="s3">
         <div>
           <span class="bw-eyebrow">Enterprise Identity • Al-Balqa Applied University Industry Partner</span>
-          <h1 class="bw-title">Company Profile</h1>
+          <h1 class="bw-title">Company profile</h1>
           <p class="bw-subtitle">Manage company corporate credentials, office locations, HR contact email, and host partner information.</p>
         </div>
         <div class="bw-badge bw-badge-success" data-style="s4">
@@ -110,17 +112,17 @@
 
         <form id="companyProfileForm">
           <div class="bw-form-group">
-            <label class="bw-form-label" for="companyNameInput">Legal Company Name *</label>
+            <label class="bw-form-label" for="companyNameInput">Legal company name *</label>
             <input type="text" id="companyNameInput" class="bw-input" value="Tech Corp Inc." required>
           </div>
 
           <div data-style="s16" data-presentation="grid grid-template-columns">
             <div class="bw-form-group">
-              <label class="bw-form-label" for="companyLocationInput">Office Location *</label>
+              <label class="bw-form-label" for="companyLocationInput">Office location *</label>
               <input type="text" id="companyLocationInput" class="bw-input" value="Amman, Jordan (Downtown Tech Hub)" required>
             </div>
             <div class="bw-form-group">
-              <label class="bw-form-label" for="companyIndustryInput">Industry / Tech Focus *</label>
+              <label class="bw-form-label" for="companyIndustryInput">Industry / focus *</label>
               <input type="text" id="companyIndustryInput" class="bw-input" value="Enterprise Cloud Software &amp; Fintech" required>
             </div>
           </div>
@@ -133,7 +135,7 @@
           </div>
 
           <div class="bw-form-group">
-            <label class="bw-form-label" for="companyWebsiteInput">Company Website / Career URL</label>
+            <label class="bw-form-label" for="companyWebsiteInput">Company website / careers URL</label>
             <input type="url" id="companyWebsiteInput" class="bw-input" value="https://techcorp.example.com">
           </div>
 
@@ -150,7 +152,7 @@
               Cancel
             </a>
             <button type="submit" class="bw-btn-block bw-btn-primary" data-style="s23">
-              Review profile
+              Save profile changes
             </button>
           </div>
         </form>
@@ -158,14 +160,18 @@
     </div>
   </main></div>
 
-  <script src="../../shared/js/portal.js?v=sitewide-dialogs-60"></script>
+  <script src="../../shared/js/portal.js?v=reference-motion-9"></script>
 
   <script src="../../shared/js/navigation.js"></script>
-  <script src="company-profile.js?v=interface-9"></script>
-  <script src="../../shared/js/enhancements.js?v=desktop-audit-29"></script>
+  <script src="company-profile.js?v=local-1"></script>
+  <script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
-  <script src="../../shared/js/interactions.js?v=portal-clean-2"></script>
-  <script src="../../shared/js/portal-ux.js?v=sitewide-dialogs-60"></script>
-<script src="../../shared/js/sidebar-activity.js?v=unseen-activity-62"></script>
+  <script src="../../shared/js/interactions.js?v=local-1"></script>
+  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
+<script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
+<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
+<link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
+<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
+<script src="../../shared/js/portal-motion.js?v=reference-motion-9"></script>
 </body>
 </html>

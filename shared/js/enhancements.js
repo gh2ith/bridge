@@ -5,80 +5,7 @@ document.addEventListener('DOMContentLoaded',()=>{
  if(!main.id)main.id='portalMain';main.tabIndex=-1;
  const skip=document.createElement('a');skip.className='portal-skip';skip.href=`#${main.id}`;skip.textContent='Skip to content';document.body.prepend(skip);
  const sidebar=document.querySelector('.bw-masar-sidebar'),toggle=document.getElementById('bwSidebarToggle');
- if(sidebar&&toggle){
-   sidebar.id='portalNavigation';toggle.setAttribute('aria-controls',sidebar.id);
-   const small=matchMedia('(max-width:1080px)');
-   const rail=document.createElement('div');rail.className='bw-sidebar-rail';sidebar.before(rail);rail.append(sidebar);
-   const pinKey='bridgeway:sidebar:pinned',holdKey='bridgeway:sidebar:hold-until';
-   const sidebarDelay=1200;
-   const readPreference=key=>{try{return sessionStorage.getItem(key);}catch{return null;}};
-   const writePreference=(key,value)=>{try{sessionStorage.setItem(key,String(value));}catch{/* UI still works without storage. */}};
-   let pinned=readPreference(pinKey)==='true',holdUntil=Math.min(Number(readPreference(holdKey))||0,Date.now()+sidebarDelay);
-   const pin=document.createElement('button');pin.type='button';pin.className='bw-sidebar-pin';pin.setAttribute('role','switch');
-   const pinLabel=document.createElement('span');pinLabel.textContent='Keep sidebar open';
-   const pinSwitch=document.createElement('span');pinSwitch.className='bw-sidebar-pin-track';pinSwitch.setAttribute('aria-hidden','true');
-   pin.append(pinLabel,pinSwitch);sidebar.querySelector('.bw-masar-bottom-group').prepend(pin);
-   let hovering=false,keyboardFocus=false,keyboardInput=false,mobileOpen=false,holdTimer=0;
-   function renderNavigation(){
-     const open=small.matches?mobileOpen:pinned||hovering||keyboardFocus||Date.now()<holdUntil;
-     sidebar.classList.toggle('is-collapsed',!open);rail.classList.toggle('is-open',open&&!small.matches);rail.classList.toggle('is-pinned',pinned&&!small.matches);
-     toggle.setAttribute('aria-expanded',String(open));
-     const label=small.matches?(open?'Close navigation':'Open navigation'):(open?'Collapse navigation':'Expand navigation');
-     toggle.setAttribute('aria-label',label);toggle.title=label;
-     toggle.removeAttribute('aria-pressed');pin.setAttribute('aria-checked',String(pinned));
-     const icon=toggle.querySelector('i');if(icon)icon.className=small.matches?'bi bi-list':open?'bi bi-chevron-left':'bi bi-chevron-right';
-   }
-   function scheduleCollapse(){
-     clearTimeout(holdTimer);
-     const remaining=holdUntil-Date.now();
-     if(remaining>0)holdTimer=setTimeout(()=>{
-       holdUntil=0;writePreference(holdKey,0);renderNavigation();
-     },remaining);
-   }
-   sidebar.querySelectorAll('.bw-masar-item,.bw-masar-link').forEach(item=>{
-     const label=item.querySelector('span')?.textContent.trim()||item.textContent.trim();
-     if(!item.hasAttribute('aria-label'))item.setAttribute('aria-label',label);
-     if(!item.title)item.title=label;
-   });
-   sidebar.addEventListener('pointerenter',event=>{if(small.matches||event.pointerType==='touch')return;hovering=true;renderNavigation();});
-   sidebar.addEventListener('pointerleave',()=>{
-     const wasHovering=hovering;hovering=false;
-     if(wasHovering&&!small.matches&&!pinned){holdUntil=Date.now()+sidebarDelay;writePreference(holdKey,holdUntil);scheduleCollapse();}
-     renderNavigation();
-   });
-   document.addEventListener('keydown',event=>{if(event.key==='Tab')keyboardInput=true;});
-   sidebar.addEventListener('pointerdown',()=>{keyboardInput=false;keyboardFocus=false;});
-   sidebar.addEventListener('focusin',()=>{if(keyboardInput){keyboardFocus=true;renderNavigation();}});
-   sidebar.addEventListener('focusout',event=>{if(!sidebar.contains(event.relatedTarget)){keyboardFocus=false;renderNavigation();}});
-   toggle.addEventListener('click',()=>{
-     if(small.matches)mobileOpen=!mobileOpen;
-     else if(!sidebar.classList.contains('is-collapsed')){
-       pinned=false;hovering=false;keyboardFocus=false;holdUntil=0;clearTimeout(holdTimer);writePreference(pinKey,false);writePreference(holdKey,0);
-     }else{holdUntil=Date.now()+sidebarDelay;writePreference(holdKey,holdUntil);scheduleCollapse();}
-     renderNavigation();
-   });
-   pin.addEventListener('click',()=>{
-     pinned=!pinned;hovering=false;holdUntil=pinned?0:Date.now()+sidebarDelay;
-     writePreference(pinKey,pinned);writePreference(holdKey,holdUntil);scheduleCollapse();renderNavigation();
-   });
-   sidebar.addEventListener('click',event=>{
-     if(event.target.closest('#bwSidebarToggle,.bw-sidebar-pin')||!event.target.closest('a,button'))return;
-     if(small.matches){
-       if(event.target.closest('.bw-masar-nav [data-tab]')){mobileOpen=false;renderNavigation();toggle.focus();}
-       return;
-     }
-     holdUntil=Date.now()+sidebarDelay;writePreference(holdKey,holdUntil);renderNavigation();scheduleCollapse();
-   },true);
-   sidebar.addEventListener('keydown',event=>{
-     if(event.key==='Escape'&&small.matches&&mobileOpen){mobileOpen=false;renderNavigation();toggle.focus();event.preventDefault();return;}
-     if(event.key==='Escape'&&!small.matches&&!pinned){
-       holdUntil=0;hovering=false;keyboardFocus=false;clearTimeout(holdTimer);writePreference(holdKey,0);
-       keyboardInput=false;sidebar.querySelector('.bw-masar-item')?.focus();renderNavigation();event.preventDefault();
-     }
-   });
-   small.addEventListener('change',()=>{hovering=false;keyboardFocus=false;mobileOpen=false;renderNavigation();});
-   renderNavigation();scheduleCollapse();
- }
+ if(sidebar&&toggle&&(document.body.dataset.portalRole!=='student'||document.body.id==='page-account-settings'))window.BridgewayPortalNavigation(sidebar,toggle,main);
  const role=document.body.dataset.portalRole;
  // Dashboard headers share the approved compact supervisor layout.
  const profilePage=/\/(student-profile|company-profile|account-settings)\//.test(location.pathname);
@@ -110,9 +37,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   'tab-opportunities':['Available internships','Explore opportunities from your college partners and find a role that fits your studies.'],
   'tab-applications':['My applications','Track the progress of your internship applications.'],
   'tab-progress':['Training progress','Review your weekly activity, completed hours, and evaluations.'],
+  'tab-courses':['Courses','Build your career skills.'],
   'tab-roster':['My students','Review your assigned students and their internship progress.'],
   'tab-reports':['Weekly reports','Review submitted work, verify training hours, and share feedback.'],
-  'tab-endorsement':['Evaluations','View company-submitted end-of-term evaluations for your assigned students.'],
+  'tab-endorsement':['Evaluations','Review the company evaluation, add your academic assessment, and forward it to the college administrator.'],
+  'tab-progress-monitor':['Progress monitor','Track tasks, submissions, verified hours, and report reviews.'],
+  'tab-completion':['Completion review','Review both evaluations and training requirements before issuing a certificate.'],
   'tab-overview':['College overview','Manage students, supervisors, and placements for your college.'],
   'tab-users':['College users','Accounts belonging to your college. Partner company accounts are managed by Platform Admin.'],
   'tab-students':['Students','Manage academic records and assign a supervisor to each student.'],
@@ -134,7 +64,7 @@ document.addEventListener('DOMContentLoaded',()=>{
  // Shared presentation hooks keep role-specific selection and filtering intact.
  document.querySelectorAll('.company-student-directory,.evaluation-student-picker,.evaluation-directory').forEach(picker=>picker.classList.add('bw-student-picker'));
  // The same header position for every student detail, independent of its content.
- for(const [buttonId,label] of [['clearCompanyWeekly','Weekly report'],['clearCompanyEvaluation','End-of-term evaluation'],['clearSupervisorReport','Weekly reports'],['clearSupervisorEvaluation','Company evaluation']]){
+ for(const [buttonId,label] of [['clearCompanyWeekly','Weekly training'],['clearCompanyEvaluation','End-of-term evaluation'],['clearSupervisorReport','Weekly reports'],['clearSupervisorEvaluation','Company evaluation']]){
    const button=document.getElementById(buttonId);if(!button)continue;
    const root=button.closest('#companyWeeklyDetail,#companyEvaluationDetail,#supervisorReportDetail,.evaluation-detail');if(!root)continue;
    const toolbar=document.createElement('header');toolbar.className='bw-detail-toolbar';
@@ -232,11 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const panel=$(`#${id}`), table=panel?.querySelector('table'); if(!table)continue;
       const title=({ 'tab-users':'college users','tab-students':'students','tab-supervisors':'supervisors','tab-approved':'student internships','tab-posts':'internship posts'})[id];
       const toolbar=make('div','','portal-directory-search'); const label=make('label',`Search ${title}`);
-      const input=make('input','', 'bw-input'); input.type='search'; input.id=`${id}-search`; label.htmlFor=input.id; input.placeholder='Search by name or details';
+      const input=make('input','', 'bw-input'); input.type='search'; input.id=`${id}-search`; label.htmlFor=input.id; input.placeholder=id==='tab-students'?'Name, email, or student ID':'Search by name or details';
       const count=make('span','','portal-muted'); count.setAttribute('role','status'); toolbar.append(label,input,count);
       const wrapper=table.parentElement; wrapper.before(toolbar);
       const empty=make('p',`No matching ${title}. Clear the search to return to the directory.`,'portal-muted');empty.id=`${id}-empty`;empty.hidden=true;wrapper.after(empty);
-      const filter=()=>{let n=0; [...table.tBodies[0].rows].forEach(row=>{row.hidden=!row.textContent.toLowerCase().includes(input.value.trim().toLowerCase());if(!row.hidden)n++;});count.textContent=`${n} of ${table.tBodies[0].rows.length}`;empty.hidden=n>0;};
+      const filter=()=>{let n=0; [...table.tBodies[0].rows].forEach(row=>{const copy=row.cloneNode(true);copy.querySelectorAll('button,select,details').forEach(node=>node.remove());const record=model.students.find(s=>s.id===row.dataset.accountId||s.name===row.dataset.studentName),text=`${copy.textContent} ${record?.studentId||''} ${record?.email||''}`;row.hidden=!text.toLowerCase().includes(input.value.trim().toLowerCase());if(!row.hidden)n++;});count.textContent=`${n} of ${table.tBodies[0].rows.length} records`;empty.hidden=n>0;};
       input.addEventListener('input',filter); new MutationObserver(filter).observe(table.tBodies[0],{childList:true}); filter();
     }
     document.querySelectorAll('#adminStudentsTableBody tr').forEach(row=>{
@@ -284,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const labels=[...document.querySelectorAll('label')].filter(l=>l.querySelector('input[type="checkbox"]'));
     (variants[role]||[]).forEach(([title,description],i)=>{const parts=labels[i]?.querySelectorAll('div > div');if(parts?.length>=2){parts[0].textContent=title;parts[1].textContent=description;}});
-    const card=labels[0]?.closest('.bw-card-panel'); if(card)card.querySelector('.bw-card-panel-header > div > div').textContent='Review your notification preferences.';
+    const card=labels[0]?.closest('.bw-card-panel'); if(card)card.querySelector('.bw-card-panel-header > div > div').textContent='Preferences are saved in this browser. External notifications are not connected.';
   }
 });
 
@@ -307,4 +237,11 @@ document.addEventListener('DOMContentLoaded',()=>{
   const update=()=>{const scrolling=area.clientWidth>0&&area.scrollWidth>area.clientWidth+1;hint.hidden=!scrolling;area.setAttribute('aria-label',scrolling?'Scrollable data table':'Data table');if(scrolling)area.tabIndex=0;else area.removeAttribute('tabindex');};
   const observer=new ResizeObserver(update);observer.observe(area);observer.observe(table);update();
  });
+});
+
+// Security belongs inside the profile, alongside account details.
+document.addEventListener('DOMContentLoaded',()=>{
+ if(document.documentElement.dataset.page!=='company-profile')return;
+ const section=document.createElement('section');section.className='bw-card-panel profile-account-security';section.setAttribute('aria-labelledby','companySecurityHeading');
+ window.BridgewayAccountSecurity(section);document.querySelector('.bw-main-content').append(section);
 });

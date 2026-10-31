@@ -1,5 +1,5 @@
 /* Interviews belong to applications, never to a student's training plan.
-   Uses the existing browser-session workspace; no invitation is transmitted. */
+   Uses the existing local workspace; no invitation is transmitted. */
 (() => {
   'use strict';
   const C=window.BridgewayCycle;if(!C)return;

@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'tab-meetings': ['Application interviews', 'Arrange a conversation with applicants before making a hiring decision.'],
     'tab-accepted-students': ['Interns', 'Your internship roster and training status, separate from applications.'],
     'tab-partners': ['Partner colleges', 'Your company college connections and internship cycle.'],
-    'tab-weekly-reports': ['Weekly reports', 'Choose an intern, then complete their report for the selected week.'],
+    'tab-weekly-reports': ['Weekly training', 'Assign tasks, follow the weekly plan, and report on your intern’s progress.'],
     'tab-final-evaluation': ['Evaluations', 'Complete the internship evaluation required by the college at the end of term.']
   };
   function updateHeading() {

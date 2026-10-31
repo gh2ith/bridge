@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   const key='bridgeway:managed-accounts:v1';
-  let records=[];try{const saved=JSON.parse(sessionStorage.getItem(key)||'[]');if(Array.isArray(saved))records=saved;}catch{}
+  let records=[];try{const saved=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(saved))records=saved;}catch{}
   const E=(tag,text,cls)=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;if(cls)n.className=cls;return n;};
   const labels={student:'student',supervisor:'supervisor',company:'company',college:'college administrator'};
   const roles={student:'Student',supervisor:'Academic supervisor',company:'Company administrator',college:'College administrator'};
@@ -21,7 +21,7 @@
     ];
   }
   function supervisors(){return [...new Set(['Dr. Ahmad S.',...records.filter(a=>a.type==='supervisor'&&a.college==='college-1'&&a.status!=='Suspended').map(a=>a.name)])];}
-  function persist(){sessionStorage.setItem(key,JSON.stringify(records));}
+  function persist(){localStorage.setItem(key,JSON.stringify(records));}
   function accountDefaults(type,existing){return {status:existing?.status||'Active',...(type==='supervisor'?{staffId:existing?.staffId||`SUP-${crypto.randomUUID()}`}:{})};}
   function validate(values,id){
     const email=values.email.toLowerCase();
@@ -113,7 +113,18 @@
     if(!student)document.querySelectorAll('#adminStudentsTableBody select').forEach(select=>{const old=[...select.options].find(o=>o.value===previous?.name);if(old){old.value=a.name;old.textContent=a.name;}else if(![...select.options].some(o=>o.value===a.name)){const option=E('option',a.name);option.value=a.name;select.append(option);}});
     D.refresh();
   }
-  window.BridgewayAccountEditor={open,validate,schema,accountDefaults};
+  function importStudents(rows){
+    const C=window.BridgewayCycle;if(C?.identity()!=='admin:college-1')throw new Error('Only the college administrator can import students.');
+    if(!Array.isArray(rows)||!rows.length||rows.length>500||window.BridgewayStudentImport?.validate(rows).some(r=>r.errors.length))throw new Error('Resolve student import validation errors first.');
+    const staged=rows.map(row=>({...row,id:`student-${crypto.randomUUID()}`,type:'student',college:'college-1',status:'Active'}));
+    if(staged.some(a=>!a.name||!a.studentId||!a.email))throw new Error('Validate every student before importing.');
+    for(const a of staged){const message=validate(a,a.id);if(message)throw new Error(message);}
+    if(new Set(staged.map(a=>a.email.toLowerCase())).size!==staged.length||new Set(staged.map(a=>a.studentId)).size!==staged.length)throw new Error('Duplicate students in this import.');
+    const previous=records.length;records.push(...staged);try{persist();}catch{records.splice(previous);throw new Error('Browser storage is unavailable. No students were imported.');}
+    staged.forEach(a=>{applyModel(a);if(a.supervisor)window.BridgewayAcademicAssignments.set(a.name,a.college,a.supervisor);renderCollege(a);});
+    return staged;
+  }
+  window.BridgewayAccountEditor={open,validate,schema,accountDefaults,importStudents,supervisors};
   document.addEventListener('DOMContentLoaded',()=>{
     if(!document.getElementById('adminStudentsTableBody'))return;
     const model=window.BridgewayPartners;
@@ -131,7 +142,7 @@
       });
     }
     records.filter(a=>['student','supervisor'].includes(a.type)&&a.college==='college-1').forEach(a=>{
-      let deleted=[];try{deleted=JSON.parse(sessionStorage.getItem('bridgeway:college-student-directory:college-1')||'[]');}catch{}
+      let deleted=[];try{deleted=JSON.parse(localStorage.getItem('bridgeway:college-student-directory:college-1')||'[]');}catch{}
       if(!deleted.includes(a.id))renderCollege(a,a);
     });persist();
     document.addEventListener('click',event=>{const button=event.target.closest('[data-open-modal="registerStudentModal"],[data-open-modal="addSupervisorModal"]');if(!button)return;event.preventDefault();event.stopImmediatePropagation();open(button.dataset.openModal==='registerStudentModal'?'student':'supervisor');},true);

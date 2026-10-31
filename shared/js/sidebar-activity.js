@@ -19,7 +19,17 @@
    items['tab-candidates']=state.applications.filter(a=>a.company==='company-1'&&a.status==='Pending').map(a=>[a.id,a.at||a.id]);
    items['tab-meetings']=state.applications.filter(a=>a.company==='company-1'&&['Confirmed','Reschedule requested'].includes(a.interview?.status)).map(a=>[a.id,JSON.stringify(a.interview)]);
   }
-  if(role==='student')items['tab-applications']=state.applications.filter(a=>'student:'+a.student===viewer&&(a.status!=='Pending'||a.interview)).map(a=>[a.id,JSON.stringify([a.status,a.interview])]);
+  if(role==='student'){
+   items['tab-applications']=state.applications.filter(a=>'student:'+a.student===viewer&&(a.status!=='Pending'||a.interview)).map(a=>[a.id,JSON.stringify([a.status,a.interview])]);
+   const id=viewer.slice('student:'.length);
+   items['tab-progress']=(state.plans[id]||[]).flatMap((w,i)=>(w.tasks||[]).filter(t=>!t.removedAt).map(t=>[t.id,JSON.stringify([t.updatedAt,t.submissions?.at(-1)?.review])]));
+   if(state.certificates?.[id])items['tab-progress'].push(['certificate',state.certificates[id].id]);
+  }
+  if(['company','supervisor','admin'].includes(role)){
+   const students=model.students.filter(s=>role==='company'?s.company==='company-1':role==='admin'?s.college==='college-1':s.supervisor==='Dr. Ahmad S.');
+   items['tab-progress-monitor']=students.flatMap(s=>(state.plans[s.id]||[]).flatMap(w=>(w.tasks||[]).filter(t=>!t.removedAt).map(t=>[t.id,JSON.stringify([t.updatedAt,t.submissions?.length,t.submissions?.at(-1)?.review])])));
+   if(role==='admin')items['tab-completion']=students.filter(s=>state.academicEvaluations?.[s.id]).map(s=>[s.id,JSON.stringify(state.academicEvaluations[s.id])]);
+  }
   if(role==='admin')items['tab-approved']=state.applications.filter(a=>a.status==='Accepted'&&model.students.find(s=>s.id===a.student)?.college==='college-1').map(a=>[a.id,JSON.stringify([a.status,a.at])]);
   if(role==='platform_admin')items['platform-publications']=state.listings.filter(l=>l.status==='Pending review').map(l=>[l.id,JSON.stringify([l.updated,l.review,l.title])]);
   return items;
@@ -28,8 +38,8 @@
  document.addEventListener('DOMContentLoaded',()=>queueMicrotask(()=>{
   const C=window.BridgewayCycle,model=window.BridgewayPartners;if(!C||!model)return;
   const role=document.body.dataset.portalRole,key='bridgeway:sidebar-seen:v1:'+C.identity();let seen={};
-  try{const saved=JSON.parse(sessionStorage.getItem(key)||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))seen=saved;}catch{}
-  const save=()=>{try{sessionStorage.setItem(key,JSON.stringify(seen));}catch{}};
+  try{const saved=JSON.parse(localStorage.getItem(key)||'{}');if(saved&&typeof saved==='object'&&!Array.isArray(saved))seen=saved;}catch{}
+  const save=()=>{try{localStorage.setItem(key,JSON.stringify(seen));}catch{}};
   function mark(tab,records){seen[tab]=Object.fromEntries(records);save();}
   function sync(){
    const records=sources(C,role,model);

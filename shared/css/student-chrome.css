@@ -35,3 +35,56 @@
   .student-studio .studio-top .studio-navigation { min-width:0;gap:2px;padding:4px; }
   .student-studio .studio-top .studio-navigation :is(button,a) { padding:9px 7px;gap:4px; }
 }
+
+/* Student content uses the same sidebar and navigation controller as all portals. */
+.student-shared-navigation .bw-company-layout { display:flex!important;gap:32px!important;padding:28px 32px 48px!important;align-items:flex-start; }
+.student-shared-navigation .bw-sidebar-rail .bw-masar-sidebar { display:flex!important; }
+.student-shared-navigation .bw-main-content { flex:1;min-width:0;width:auto!important;margin:0!important;padding:0!important; }
+.student-shared-navigation .bw-masar-nav { flex:none;justify-content:flex-start; }
+.student-shared-navigation .bw-masar-item[aria-current=page] { background:var(--bw-primary);color:#fff; }
+.student-shared-navigation .studio-top { min-height:72px;padding:0 0 16px; }
+.student-shared-navigation .portal-mobile-menu { display:none; }
+@media(max-width:1080px) {
+ .student-shared-navigation .bw-company-layout { display:block!important;padding:0 16px 28px!important; }
+ .student-shared-navigation .bw-main-content { width:100%!important; }
+ .student-shared-navigation .portal-mobile-menu { display:inline-flex; }
+ .student-shared-navigation .studio-top { flex-wrap:wrap; }
+}
+
+/* Keep the student account anchored to the end of the header. */
+.student-shared-navigation .studio-top { display:flex;align-items:center;flex-wrap:nowrap;gap:16px; }
+.student-shared-navigation .studio-header-actions { margin-left:auto;min-width:0; }
+.student-shared-navigation .studio-account { min-width:0;margin-left:0; }
+.student-shared-navigation .studio-account-name { display:block;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.student-shared-navigation .studio-appearance { width:44px;height:44px;min-height:44px; }
+.student-shared-navigation .student-top-caption { color:var(--bw-text-secondary);font-size:14px; }
+@media(max-width:600px) {
+ .student-shared-navigation .studio-top { gap:8px; }
+ .student-shared-navigation .student-top-caption { display:none; }
+ .student-shared-navigation .studio-header-actions { gap:2px; }
+ .student-shared-navigation .studio-account-toggle { gap:6px;padding:6px; }
+ .student-shared-navigation .studio-account-name { max-width:120px;font-size:12px; }
+ .student-shared-navigation .studio-account-menu { max-width:calc(100vw - 32px);box-sizing:border-box; }
+}
+
+/* Enough room for student labels without taking excessive workspace width. */
+@media (min-width:1081px) {
+  .student-shared-navigation:not(.is-ticket-page) .bw-sidebar-rail.is-open { width:240px; }
+}
+
+/* Match the staff portals' desktop navigation frame and control density. */
+@media (min-width:1081px) {
+  body.student-shared-navigation:not(.is-ticket-page) .bw-company-layout { padding:24px 48px 24px 28px!important;gap:48px!important; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-sidebar-rail { width:64px;top:24px; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-sidebar-rail.is-open { width:240px; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-sidebar-rail .bw-masar-sidebar { width:100%;min-width:0;min-height:0;height:calc(100dvh - 48px);max-height:calc(100dvh - 48px);padding:12px 9px;border-radius:16px;overflow:visible; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-sidebar-rail .bw-masar-header { min-height:52px;padding-bottom:8px; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-masar-top { flex:0 0 auto; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-masar-bottom-group { flex:0 0 auto;margin-top:auto; }
+  body.student-shared-navigation:not(.is-ticket-page) :is(.bw-masar-nav,.bw-masar-bottom) { gap:3px; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-sidebar-rail :is(.bw-masar-item,.bw-masar-link) { height:44px;min-height:44px;padding:10px 12px;font-size:13px;border-radius:10px; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-sidebar-rail :is(.bw-masar-item,.bw-masar-link) i { font-size:18px; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-sidebar-rail:not(.is-open) :is(.bw-masar-item,.bw-masar-link) { justify-content:center;padding:10px 0;gap:0; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-sidebar-rail:not(.is-open) .bw-sidebar-pin { display:none; }
+  body.student-shared-navigation:not(.is-ticket-page) .bw-masar-toggle { width:44px;height:44px;min-height:44px;border-radius:9px; }
+}

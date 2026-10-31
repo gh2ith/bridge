@@ -49,3 +49,9 @@ Edit the actual pages inside `pages/`. Use these folder-based URLs for links and
 Pushes to `main` deploy [the live demo](https://gh2ith.github.io/Bridgeway-frontend/). GitHub Pages receives only `index.html`, `.nojekyll`, `pages/`, `shared/`, and `assets/`. Documentation, tools, and local archives are not published to the demo.
 
 Local IDE files, backup archives, and superseded audit screenshots/reports are ignored. Existing local copies are preserved; previously committed material remains recoverable through Git history. Keep `AGENTS.md` as the workflow authority; historical specifications are reference material only. The saved Orbit login concept remains in `docs/login-concepts/`.
+
+## Temporary local persistence
+
+Portal records use localStorage on the current browser and origin. Applications, training, tasks/PDFs, evaluations, certificates, support tickets, accounts, profiles, and preferences survive reloads. Existing session records migrate once. Use the same URL origin (for example http://127.0.0.1:8080/) across all portal tabs. Cross-tab changes refresh safe views; drafts require loading the latest changes before saving. This adapter is temporary and is not backend authentication. Passwords are never stored.
+
+Checks: node --test tools/check-weekly-tasks.cjs tools/check-internship-journey.cjs tools/check-local-workspace.cjs.

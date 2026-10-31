@@ -1,38 +1,55 @@
-# Connected workspace redesign
+# Connected workspace
 
-The student portal now uses a card deck, explicit card selection, compact role dialogs, and a separate learning itinerary. The company, supervisor, college, and platform portals share a browser-session sample workspace.
+## Task submissions
 
-## Workflow
+Companies assign weekly tasks with a title, instructions, and optional due date. Students submit a description, HTTP(S) work link, and/or PDF. Company PDFs are task resources; student PDFs are deliverables. PDFs are validated and limited to 1 MB each in browser-local storage.
 
-1. A company submits an internship for Platform Admin review. Pending or rejected listings never enter the student deck. Approved listings reach all active colleges rather than only partner colleges.
-2. Student applications remain pending until the host company accepts or rejects them. Acceptance does not create a placement.
-3. The student's college assigns an academic supervisor and activates the placement. This creates an eight-week checklist plan.
-4. The company edits future or revision-requested plans, records objective completion and evidence, and submits hours. Earlier plan revisions remain inspectable.
-5. The assigned supervisor assesses each objective, verifies hours, or returns required revision notes. Submitted and verified reports are read-only for the company until a revision is requested.
-6. Supervisor visibility controls hide report evidence, completion results, and review notes from the student. Planned objectives remain visible. Platform oversight can inspect hidden reports.
-7. Company final evaluation submission requires 320 verified hours. Platform completion requires verified hours and a company evaluation. Ended placement history is retained.
-8. Support tickets retain threaded replies, priority, status, and a reference to the relevant report or listing. Requester portals show their own tickets; Platform Admin sees the complete sample queue.
+The task lifecycle is Assigned → Submitted → Changes requested → Resubmitted → Completed. Companies review pending submissions, give feedback, and request revisions or mark work completed. Revision requests require feedback. Versions retain their submitted text, links, PDF references, and review history. Submitted PDFs cannot be removed from their historical submissions. Ended placements are read-only. Overdue is a separate deadline indicator.
 
-## Platform oversight
+Task completion never verifies report hours or changes objective results. Weekly report visibility remains one supervisor-wide control, independent of task assignments and submissions.
 
-The student register filters by name, ID, institution, company, and placement outcome. Student records include current and former placements, dates, exit reasons, verified hours, plans, reports, and company evaluations. CSV export follows the current filters and includes placement rows rather than discarding earlier placements.
+## Applications and profile skills
 
-## Preview boundaries
+Companies may add up to ten application questions when creating or editing listings. Students answer every question and may have multiple pending applications. Company acceptance closes their other pending applications, without automatically activating training. Academic supervisor assignment and college placement setup remain separate.
 
-`shared/js/workspace-cycle.js` stores sample workspace state under `bridgeway:workspace-cycle:v1` in session storage. Navigate between portals in the same tab to inspect handoffs. Independent tabs may have separate session copies. No server, real messaging, uploads, real account authorization, or organization-wide data synchronization is implemented. Browser storage is not secure access control. CV handling retains filename and size only. There is no reset action in the user interface.
+Students can save up to twenty profile skills. Application dialogs show skill tags and highlight exact overlaps with role requirements. These are not AI scores. Each application stores a snapshot of the skills, questions, and answers submitted; the company can read them in Student details.
 
-## Student workbench and report access
+Student navigation uses a sidebar, with unseen-activity dots instead of numeric counts. The header retains the student name and the profile/sign-out dropdown. On mobile the sidebar uses a keyboard-accessible menu with Escape dismissal and focus return.
 
-The Career Launchpad uses a perspective coverflow rather than a directory or a large landing-page hero. A 240ms eased slide moves cards on selection without spring overshoot; rotation and depth are restrained. Only the active card tilts with a fine pointer. Company-tinted light stays behind the stage. Search, category filters, arrow controls, keyboard navigation and a role index remain available. A native-dialog blueprint drawer contains the role description, skills, practical details and application action; the application remains a separate, guarded preview step. Narrow screens use flat horizontal card movement, and reduced-motion mode disables slide, tilt and drawer entrance motion. Cards and drawers retain the AI role-fit preview: no CV means no percentage; known fixture scores are labeled as illustrative samples, never real analysis or acceptance probability. Only CV filename and size are retained.
+## Evaluations and completion
 
-A floating dock connects Explore, Applications and My training; Support and My profile remain in the top bar. The profile shares that shell and keeps the academic dossier beside personal-details and CV panels; editing remains preview-only. Placed students with a plan default to My training unless an explicit tab link was requested. Light/dark surfaces reuse the portal tokens, and bottom padding keeps the dock from covering the last controls when scrolled to the end.
+1. The company records weekly reports and the assigned academic supervisor verifies hours or requests revisions.
+2. After 120 verified hours, the company submits its final evaluation to the assigned academic supervisor.
+3. The supervisor reads the company ratings without modifying them, records a separate qualitative academic assessment, and forwards both to the college administrator. This is separate from company objective results and weekly report approval.
+4. College Completion review checks the placement, all eight verified reports, 120 verified hours, completed active tasks, company evaluation, and the forwarded academic assessment. Every academic criterion must meet requirements. The administrator explicitly confirms the college requirements before a separate issuance confirmation.
+5. Approval ends the active placement as Completed and creates the blue-and-silver Bridgeway certificate, available to the student in My training and Training record. The PDF is generated locally and can be downloaded and printed. The existing verification card remains a training summary.
 
-Supervisor report access appears immediately below the selected week's heading, before objectives and assessments. It explicitly states whether that week's report is visible or hidden; locking does not hide the weekly plan. The former top issue-report shortcut is removed; support lives in the ticket workspace.
+Academic assessments are tied to both the placement and the company evaluation version. A replaced company evaluation or new placement requires a fresh academic assessment. Certificates snapshot the approved student, company, dates, hours, and issuing college.
 
-The existing partnership/account previews still use their own page-local fixtures. Home, login, and the standalone theatre are outside this redesign.
+## Student imports
 
-## Browser checks
+College administrators can import CSV or XLSX from Manage Students. A downloadable CSV template defines the supported columns: name, studentId, email, phone, faculty, department, year, gpa, and optional supervisor. The import previews validation errors and rejects duplicate IDs/emails, missing essentials, invalid contacts, GPA/year errors, and unknown supervisors. Limits are 500 students and a 2 MB source file. Creation is all-or-nothing and defaults to Active; no passwords are persisted.
 
-Checked the student deck, card selection, role dialog, light/dark themes, training plans, company acceptance, college supervisor assignment, initial plan setup, checklist submission, supervisor revision, objective assessment, hour verification, student report locking, publication submission/approval, linked ticket replies, placement history, and filtered CSV download. Responsive checks target 1920×1080, 1280×720, and a narrow 480px viewport.
+Excel parsing uses the locally bundled SheetJS CE 0.20.3 distribution in shared/vendor, with its Apache 2.0 license. Only selected student fields are imported; spreadsheet formulas are not executed.
 
-The repository site checker continues to flag the existing embedded script in root `exploded-view.html`; that unrelated file is preserved.
+## Progress monitoring
+
+Company, academic supervisor, and college administrator portals have a Progress monitor scoped to their students. Filters cover overdue tasks, missing submissions, work awaiting company review, reports awaiting verification, and verified hours below planned report hours. A student record opens the existing training view with tasks and submissions.
+
+## Local storage boundaries
+
+The workspace remains a browser-local frontend. Records now use localStorage and survive reloads and browser restarts on the same origin. Existing session records migrate once without overwriting newer local records. Open tabs reload safe views after changes; a page with a draft offers to load the latest changes before further saves. These actions do not create backend accounts, transmit evaluations or notifications, upload files to a server, or synchronize an organization. CV handling still retains filename and size only. Actual task PDFs are retained locally for downloads, subject to browser quota.
+
+The workflow authority is AGENTS.md. Historical screenshots and documents may show superseded behavior.
+
+## Verification
+
+Run node --test tools/check-weekly-tasks.cjs tools/check-internship-journey.cjs tools/check-local-workspace.cjs. Browser checks cover submission/revision history, CSV/XLSX validation and imports, skills in applications, academic handoff, college approval, student certificate download, PDF rendering, and desktop/mobile sidebar behavior.
+
+Student and company profile edits save locally. Notification preferences save per role. College listing restrictions persist and control student discovery for that college. Account passwords are never saved; sign-in is local role navigation, and password changes remain validation-only until authentication is connected.
+
+## Weekly hours
+
+Training is eight weeks of 15 hours (120 total). The company opens Weekly training, selects a student and week, records feedback, and chooses **End week & submit report**. Submission records 15 reported hours but adds no verified hours. The assigned supervisor reviews the report and confirms **Approve report · 15 h**; the verified counter then increases once by 15. Revision requests add no hours; the company revises and resubmits the same report. Dates and task completion do not automatically verify hours.
+
+Existing current plans migrate to the 15-hour allocation, retaining original values in `legacyHours`. Archived plans and issued certificates remain unchanged. All actions persist only in this browser and origin; this is not backend synchronization.

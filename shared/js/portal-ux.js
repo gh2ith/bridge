@@ -103,7 +103,7 @@
     const rules=[
       [/^Restrict view$/, 'Restrict all student reports?', 'Company feedback, objective results and review notes will be hidden from every student assigned to you, for all weeks. Plans and verified hours remain visible.', 'Restrict view'],
       [/^Make reports visible$/, 'Show all student reports?', 'All assigned students will be able to read their company feedback, objective results and review notes for every submitted week.', 'Make reports visible'],
-      [/^Accept applicant$/, 'Accept this applicant?', 'This records the company’s acceptance. The college then assigns the academic supervisor and administers placement; no training placement is created automatically.', 'Accept applicant'],
+      [/^Accept applicant$/, 'Accept this applicant?', 'This records the company’s acceptance and automatically closes the student’s other pending applications. The college then administers placement and training activation.', 'Accept applicant'],
       [/^Reject applicant$/, 'Reject this applicant?', 'This records a rejection for this internship application. Other applications and existing training records are unchanged.', 'Reject applicant'],
       [/^Withdraw(?: application)?$/, 'Withdraw this application?', 'The company will no longer consider this application. This does not affect other applications or existing training.', 'Withdraw application'],
       [/^Approve & publish$/, 'Approve and publish this internship?', 'The listing becomes discoverable by students at all active colleges, subject to each college’s local availability restrictions.', 'Approve & publish'],
