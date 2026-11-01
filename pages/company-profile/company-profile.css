@@ -53,3 +53,29 @@
  #companyProfileForm { grid-template-columns:minmax(0,1fr);gap:20px; }
  .company-profile-preview-note { width:100%; }
 }
+/* Organization reference beside a focused editor; original form controls are retained. */
+#page-company-profile.platform-rework .bw-page-header { position: static !important; width: auto; height: auto; margin: 28px 0; overflow: visible; clip-path: none; }
+#page-company-profile.platform-rework .bw-page-header h1 { font-size: 32px !important; line-height: 1.2 !important; }
+#page-company-profile.platform-rework .bw-portal-layout[data-style="s5"] { grid-template-columns: 260px minmax(0,1fr); gap: 32px; align-items: start; }
+#page-company-profile.platform-rework .company-profile-identity { position: sticky; top: 28px; padding: 28px 24px; border: 0; border-radius: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 24px; background: var(--bw-surface); }
+#page-company-profile.platform-rework .company-profile-avatar { width: 64px; height: 64px; border-radius: 12px; }
+#page-company-profile.platform-rework .company-profile-identity h2 { font-size: 22px !important; font-weight: 600 !important; }
+#page-company-profile.platform-rework .company-profile-identity :is(p,span) { font-size: 14px; line-height: 1.7; }
+#page-company-profile.platform-rework .bw-portal-layout > .bw-card-panel { min-width: 0; padding: 32px; border: 0; }
+#page-company-profile.platform-rework #companyProfileForm { display: flex; flex-direction: column; gap: 32px; }
+#page-company-profile.platform-rework .internal-fieldset { padding: 0; margin: 0; border: 0; min-width: 0; }
+#page-company-profile.platform-rework .internal-fieldset legend { padding: 0; margin: 0 0 20px; font-size: 16px !important; font-weight: 600 !important; color: var(--bw-text); }
+#page-company-profile.platform-rework .internal-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+#page-company-profile.platform-rework .internal-fields > :has(#companyAboutInput),#page-company-profile.platform-rework .internal-fields > :has(#companyEmailInput) { grid-column: 1 / -1; }
+#page-company-profile.platform-rework #companyProfileForm textarea { min-height: 168px; }
+#page-company-profile.platform-rework #companyProfileForm [data-style="s21"] { display: flex; flex-wrap: wrap; gap: 12px; padding-top: 24px; margin-top: 0; border-top: 1px solid var(--bw-border); }
+#page-company-profile.platform-rework .account-security { grid-column: 2; margin-top: 32px; padding: 32px; border: 0; border-radius: 12px; background: var(--bw-surface); max-width: none; }
+@media(max-width:1000px) {
+  #page-company-profile.platform-rework .bw-portal-layout[data-style="s5"] { grid-template-columns: 220px minmax(0,1fr); gap: 24px; }
+  #page-company-profile.platform-rework .internal-fields { grid-template-columns: minmax(0,1fr); }
+}
+@media(max-width:760px) {
+  #page-company-profile.platform-rework .bw-portal-layout[data-style="s5"] { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  #page-company-profile.platform-rework .company-profile-identity { position: static; flex-direction: row; gap: 20px; padding: 24px; }
+  #page-company-profile.platform-rework .bw-portal-layout > .bw-card-panel,#page-company-profile.platform-rework .account-security { padding: 24px; grid-column: auto; }
+}

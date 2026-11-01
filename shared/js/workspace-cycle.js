@@ -444,7 +444,7 @@
     }render();return render;
   }
   window.BridgewayCycle.training=training;
-  function archivedRecord(h){const body=section('Archived training record',`${org(h.company)} · ${h.start} — ${h.end}`);for(const [i,w]of state.archivedPlans[h.id].entries()){const week=E('details',null,'cycle-plan-editor');week.append(E('summary',`Week ${i+1} · ${w.title} · ${w.status}`),E('p',`${w.actualHours} reported hours · ${w.hours} planned hours`,'cycle-muted'));w.objectives.forEach((o,j)=>week.append(E('p',`${o.done?'Completed':'Not completed'}: ${o.text}${o.evidence?' · '+o.evidence:''}`,'cycle-muted')));if(w.notes)week.append(E('p',w.notes));if(w.review)week.append(E('p',`Supervisor: ${w.review}`,'cycle-callout'));body.append(week);}const evaluation=state.archivedEvaluations?.[h.id];if(evaluation){body.append(E('h3','Company final evaluation'),E('p',`${evaluation.scores.reduce((a,b)=>a+b,0)} / 40 · ${date(evaluation.date)}`),E('p',evaluation.comments||'No mentor comments.'));}dialog('Placement archive',body);}
+  function archivedRecord(h){const body=section('Archived training record',`${org(h.company)} · ${h.start} to ${h.end}`);for(const [i,w]of state.archivedPlans[h.id].entries()){const week=E('details',null,'cycle-plan-editor');week.append(E('summary',`Week ${i+1} · ${w.title} · ${w.status}`),E('p',`${w.actualHours} reported hours · ${w.hours} planned hours`,'cycle-muted'));w.objectives.forEach((o,j)=>week.append(E('p',`${o.done?'Completed':'Not completed'}: ${o.text}${o.evidence?' · '+o.evidence:''}`,'cycle-muted')));if(w.notes)week.append(E('p',w.notes));if(w.review)week.append(E('p',`Supervisor: ${w.review}`,'cycle-callout'));body.append(week);}const evaluation=state.archivedEvaluations?.[h.id];if(evaluation){body.append(E('h3','Company final evaluation'),E('p',`${evaluation.scores.reduce((a,b)=>a+b,0)} / 40 · ${date(evaluation.date)}`),E('p',evaluation.comments||'No mentor comments.'));}dialog('Placement archive',body);}
   window.BridgewayCycle.evaluation=(id)=>{const record=state.evaluations[id],body=E('div',null,'cycle-evaluation');if(!record){body.append(E('h3','Evaluation not submitted'),E('p','The host company submits the final assessment after training.','cycle-muted'));return body;}const names=['Performance','Responsibility','Accuracy','Attendance','Teamwork','Adaptability','Learning','Curriculum'];body.append(status('Company-submitted evaluation'),E('h3',student(id).name),E('p',`${org(record.company)} · ${date(record.date)}`,'cycle-muted'),E('h2',`${record.scores.reduce((a,b)=>a+b,0)} / 40`));if(window.BridgewayRadar){const radar=E('div',null,'cycle-evaluation-radar');body.append(radar);queueMicrotask(()=>{if(radar.isConnected)window.BridgewayRadar.mount(radar).update(record.scores,{submitted:true});});}names.forEach((name,i)=>body.append(A(E('div',null,'cycle-evaluation-row'),E('span',name),E('strong',`${record.scores[i]} / 5`))));body.append(E('p',record.comments||'No additional mentor comments.'));return body;};
   window.BridgewayCycle.seedPlan=id=>{if(!state.plans[id])state.plans[id]=topics.map((title,i)=>({title,hours:15,revision:1,objectives:objectives[i].map((text,j)=>({id:`${i}-${j}`,text,done:false,evidence:''})),status:'draft',actualHours:0,notes:'',review:'',ratings:[],locked:false,updated:now()}));};
 
@@ -512,6 +512,7 @@
   }
   function publications(root,company=false){
     let filter='All',drawer=null,drawerListing='',drawerOpener=null;
+    const dedicatedCompanyPage=company&&root.id==='companyListingsPage';
     const deadlineLabel=value=>value&&Number.isFinite(Date.parse(value))?new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Amman'}).format(new Date(value+'T00:00:00Z')):'Not recorded';
     const panel=section(company?'Publication desk':'Listing review desk',company?'Submit for platform review. Approved opportunities are available across all active colleges.':'Review the opportunity before students from all colleges can discover it.');
     root.append(panel);
@@ -541,12 +542,13 @@
       list.classList.add('cycle-publications','is-company-posts');
 
       sort.input.prepend(new Option('Published first','Published first'));sort.input.value='Published first';
-      const sectionHeading=A(E('header',null,'company-listing-heading'),A(E('div'),E('h2','Publication desk'),E('p','Submit for platform review. Approved opportunities are available across all active colleges.','cycle-muted')));panel.prepend(sectionHeading);
-      const create=E('a','Post an internship','cycle-button is-primary');create.href='../company-post-role/company-post-role.html';sectionHeading.append(create);
+      const sectionHeading=A(E('header',null,'company-listing-heading'),A(E('div'),E(dedicatedCompanyPage?'h1':'h2','Internship listings'),E('p','Manage submitted, reviewed, and published roles from one place.','cycle-muted')));panel.prepend(sectionHeading);
+      const create=E('a','Post internship','cycle-button is-primary');create.href='../company-post-role/company-post-role.html?v=company-pages-4';sectionHeading.append(create);
       document.addEventListener('bridgeway:publication-filter',ev=>{filter=ev.detail;search.input.value='';render();});
       document.addEventListener('bridgeway:cycle-change',render);
     }
     function applicants(l,pending=false){
+      if(dedicatedCompanyPage){location.href='../company-dashboard/company-dashboard.html#tab-candidates';return;}
       const inbox=document.querySelector('.cycle-applicant-inbox');if(!inbox)return;
       const input=inbox.querySelector('input'),statusSelect=inbox.querySelector('select');input.value=l?.title||'';statusSelect.value=pending?'Pending':'All';input.dispatchEvent(new Event('input',{bubbles:true}));statusSelect.dispatchEvent(new Event('change',{bubbles:true}));window.switchTab('tab-candidates');
     }
@@ -766,13 +768,14 @@ function admissions(root,college=false){const panel=section(college?'Placement s
       new MutationObserver(()=>{if(ticketPanel.classList.contains('is-active')&&role!=='student'){const heading=main.querySelector('h1');if(heading)heading.textContent='My Tickets';}}).observe(ticketPanel,{attributes:true,attributeFilter:['class']});
       document.querySelectorAll('.portal-report-issue').forEach(old=>old.remove());
     }
+    const companyListingsPage=document.getElementById('companyListingsPage');
+    if(role==='company'&&companyListingsPage)publications(companyListingsPage,true);
     if(role==='company'&&document.getElementById('companyWeeklyDetail')){
       const old=document.getElementById('companyWeeklyForm');old.dataset.cycleManaged='true';old.hidden=true;document.querySelector('.weekly-section-heading').hidden=true;document.querySelector('.weekly-report-context').hidden=true;
       const mount=E('section',null,'cycle-training');old.after(mount);const original=window.selectWeeklyIntern;window.selectWeeklyIntern=(id,...args)=>{original(id,...args);training(mount,id==='1'?'alice':'ghaith','company');};
-      const list=document.getElementById('tab-posts');if(list){[...list.children].forEach(n=>n.hidden=true);const body=E('div');list.prepend(body);publications(body,true);}
       const reviewPending=()=>{window.switchTab('tab-candidates');const inbox=document.querySelector('.cycle-applicant-inbox');if(!inbox)return;const search=inbox.querySelector('input'),select=inbox.querySelector('select');search.value='';select.value='Pending';search.dispatchEvent(new Event('input',{bubbles:true}));select.dispatchEvent(new Event('change',{bubbles:true}));};
       document.querySelectorAll('[data-summary]').forEach(button=>button.addEventListener('click',()=>{
-        if(button.dataset.summary==='published'){window.switchTab('tab-posts');document.dispatchEvent(new CustomEvent('bridgeway:publication-filter',{detail:'Published'}));}
+        if(button.dataset.summary==='published')location.href='../company-listings/company-listings.html';
         else if(button.dataset.summary==='applications')reviewPending();
         else{window.switchTab(button.dataset.kpiTab);if(button.dataset.summary==='interns')document.querySelector('[data-accepted-filter="accepted"]')?.click();}
       }));
@@ -818,8 +821,17 @@ function admissions(root,college=false){const panel=section(college?'Placement s
         const assigned=model.students.filter(s=>s.supervisor==='Dr. Ahmad S.'),total=reportTotal(assigned.map(s=>s.id));
         const badge=document.querySelector('[data-tab="tab-reports"] .bw-tab-badge');if(badge)badge.textContent=total;
         const rosterBadge=document.querySelector('[data-tab="tab-roster"] .bw-tab-badge');if(rosterBadge)rosterBadge.textContent=assigned.length;
-        const values=main.querySelectorAll('.bw-kpi-value'),reported=assigned.flatMap(s=>state.plans[s.id]||[]).filter(week=>week.status!=='draft');
-        if(values[0])values[0].textContent=assigned.length;if(values[1])values[1].textContent=reported.length;if(values[2])values[2].textContent=reported.reduce((sum,week)=>sum+Number(week.actualHours||0),0)+' h';if(values[3])values[3].textContent=total;
+        const reported = assigned.flatMap(student => state.plans[student.id] || []).filter(week => week.status !== 'draft');
+        const metrics = {
+          supervisedStudentsMetric: assigned.length,
+          submittedReportsMetric: reported.length,
+          reportedHoursMetric: reported.reduce((sum, week) => sum + Number(week.actualHours || 0), 0) + ' h',
+          kpiPendingReports: total
+        };
+        for (const [id, value] of Object.entries(metrics)) {
+          const metric = document.getElementById(id);
+          if (metric) metric.textContent = value;
+        }
       }
       const totals={platformStudentCount:model.students.length,platformPlacementCount:state.histories.filter(h=>h.status==='Active').length,platformListingCount:state.listings.filter(l=>l.status!=='Deleted').length,platformIssueCount:state.tickets.filter(t=>ticketVisible(t,'platform')&&t.status!=='Resolved').length};
       for(const [id,n]of Object.entries(totals)){const node=document.getElementById(id);if(node)node.textContent=n;}

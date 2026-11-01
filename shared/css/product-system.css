@@ -1,0 +1,777 @@
+/* Bridgeway product system
+   Final shared layer for every signed-in workspace. It intentionally loads last. */
+
+body.platform-rework {
+  --product-canvas: #f3f5f8;
+  --product-surface: #ffffff;
+  --product-surface-subtle: #f7f9fc;
+  --product-surface-selected: #edf4ff;
+  --product-text: #10233f;
+  --product-text-soft: #40536d;
+  --product-text-muted: #66778d;
+  --product-line: #dbe3ed;
+  --product-line-strong: #b9c6d6;
+  --product-action: #245bd7;
+  --product-action-hover: #1948b7;
+  --product-action-soft: #edf3ff;
+  --product-success: #08745a;
+  --product-success-soft: #eaf7f2;
+  --product-warning: #8a5a0a;
+  --product-warning-soft: #fff7e8;
+  --product-danger: #b42335;
+  --product-danger-soft: #fff0f2;
+  --product-info: #245bd7;
+  --product-info-soft: #edf3ff;
+  --product-radius-sm: 8px;
+  --product-radius: 12px;
+  --product-radius-lg: 16px;
+  --product-control: 42px;
+  --product-shadow-overlay: 0 18px 52px rgb(17 35 63 / 18%);
+  --product-ease: cubic-bezier(.2, .8, .2, 1);
+  --bw-bg: var(--product-canvas);
+  --bw-bg-alt: var(--product-surface-subtle);
+  --bw-surface: var(--product-surface);
+  --bw-surface-elevated: var(--product-surface);
+  --bw-border: var(--product-line);
+  --bw-text: var(--product-text);
+  --bw-text-secondary: var(--product-text-soft);
+  --bw-text-muted: var(--product-text-muted);
+  --bw-primary: var(--product-action);
+  --bw-primary-hover: var(--product-action-hover);
+  --bw-primary-light: var(--product-action-soft);
+  --bw-action: var(--product-action);
+  --bw-action-hover: var(--product-action-hover);
+  --platform-canvas: var(--product-canvas);
+  --platform-paper: var(--product-surface);
+  --platform-soft: var(--product-surface-subtle);
+  --platform-ink: var(--product-text);
+  --platform-sub: var(--product-text-soft);
+  --platform-line: var(--product-line);
+  --platform-input-line: var(--product-line-strong);
+  --platform-radius: var(--product-radius);
+  --platform-control-radius: var(--product-radius-sm);
+  --platform-control-size: var(--product-control);
+  --platform-panel-space: clamp(20px, 2vw, 28px);
+  --platform-section-space: clamp(24px, 3vw, 40px);
+  background: var(--product-canvas);
+  color: var(--product-text);
+}
+
+[data-theme="dark"] body.platform-rework {
+  --product-canvas: #0c1728;
+  --product-surface: #132239;
+  --product-surface-subtle: #192b44;
+  --product-surface-selected: #203b60;
+  --product-text: #eff5ff;
+  --product-text-soft: #c0ccdc;
+  --product-text-muted: #9babbe;
+  --product-line: #30455f;
+  --product-line-strong: #607590;
+  --product-action: #82adff;
+  --product-action-hover: #aac8ff;
+  --product-action-soft: #203b60;
+  --product-success: #75dbb8;
+  --product-success-soft: #173d34;
+  --product-warning: #f1cd87;
+  --product-warning-soft: #3e321d;
+  --product-danger: #f3a6af;
+  --product-danger-soft: #422630;
+  --product-info: #a8c6ff;
+  --product-info-soft: #203b60;
+  --product-shadow-overlay: 0 22px 60px rgb(0 0 0 / 42%);
+}
+
+body.platform-rework,
+body.platform-rework :where(button, input, select, textarea) {
+  font-variant-numeric: tabular-nums;
+}
+
+body.platform-rework :where(h1, h2, h3, h4, p, dl, dd) { margin-block-start: 0; }
+body.platform-rework :where(h1, h2, h3, h4) { color: var(--product-text); text-wrap: balance; }
+body.platform-rework :where(p, li, dd) { color: var(--product-text-soft); }
+body.platform-rework :where(h1, .bw-title, .ws-student-title) {
+  font-size: clamp(26px, 2.25vw, 34px) !important;
+  font-weight: 600 !important;
+  line-height: 1.18 !important;
+  letter-spacing: -.035em !important;
+}
+body.platform-rework :where(h2, .bw-card-panel-title) {
+  font-size: clamp(18px, 1.45vw, 22px) !important;
+  line-height: 1.3 !important;
+}
+body.platform-rework :where(h3) { font-size: 16px !important; line-height: 1.4 !important; }
+
+/* Product shell */
+body.platform-rework .bw-company-layout { min-height: 100dvh; }
+body.platform-rework .bw-main-content {
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  padding-inline: clamp(20px, 3vw, 48px);
+  padding-block-end: 56px;
+}
+body.platform-rework .bw-main-content > :not(.company-topbar) {
+  width: 100% !important;
+  max-width: 1600px !important;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+body.platform-rework .company-topbar {
+  min-height: 64px;
+  margin-inline: calc(-1 * clamp(20px, 3vw, 48px));
+  padding-inline: clamp(20px, 3vw, 48px);
+  background: color-mix(in srgb, var(--product-surface) 94%, transparent);
+  border-bottom: 1px solid var(--product-line);
+  box-shadow: none;
+}
+body.platform-rework .company-breadcrumb { color: var(--product-text-muted); font-size: 12px; }
+body.platform-rework .company-breadcrumb strong { color: var(--product-text-soft); font-weight: 500 !important; }
+body.platform-rework .company-account {
+  min-height: 42px;
+  padding: 4px 8px 4px 4px;
+  gap: 10px;
+  border: 0;
+  border-radius: var(--product-radius-sm);
+  background: transparent;
+  color: var(--product-text);
+}
+body.platform-rework .company-account:hover,
+body.platform-rework .company-account[aria-expanded="true"] { background: var(--product-surface-subtle); }
+body.platform-rework .company-monogram {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--product-action-soft);
+  color: var(--product-action);
+  box-shadow: none;
+}
+body.platform-rework .company-account-dropdown,
+body.platform-rework .notification-panel {
+  border: 1px solid var(--product-line);
+  border-radius: var(--product-radius);
+  background: var(--product-surface);
+  box-shadow: var(--product-shadow-overlay);
+}
+
+body.platform-rework .bw-sidebar-rail .bw-masar-sidebar,
+body.platform-rework > .bw-company-layout > .bw-masar-sidebar {
+  background: var(--product-surface);
+  border-color: var(--product-line);
+  box-shadow: none;
+}
+body.platform-rework .bw-masar-item,
+body.platform-rework .bw-masar-link {
+  min-height: 40px;
+  border-radius: var(--product-radius-sm);
+  color: var(--product-text-muted);
+  transition: color 140ms ease-out, background-color 140ms ease-out;
+}
+body.platform-rework .bw-masar-item:hover,
+body.platform-rework .bw-masar-link:hover { color: var(--product-text); background: var(--product-surface-subtle); transform: none; }
+body.platform-rework .bw-masar-item.is-active,
+body.platform-rework .bw-masar-item[aria-current="page"] {
+  color: var(--product-action);
+  background: var(--product-action-soft);
+  box-shadow: none;
+}
+body.platform-rework .bw-masar-divider { background: var(--product-line); }
+body.platform-rework .portal-role-label { color: var(--product-text-muted); letter-spacing: 0; text-transform: none; }
+
+/* Page openings */
+body.platform-rework :is(.bw-page-header, .company-page-heading, .supervisor-page-heading, .profile-page-heading, .ie-page-heading, .journal-header) {
+  margin-block: clamp(28px, 4vw, 48px) clamp(24px, 3vw, 36px);
+  gap: 20px;
+}
+body.platform-rework :is(.bw-page-header, .company-page-heading, .supervisor-page-heading, .profile-page-heading, .ie-page-heading) p {
+  max-width: 68ch;
+  margin: 8px 0 0;
+  color: var(--product-text-soft);
+  font-size: 15px;
+  line-height: 1.6;
+}
+body.platform-rework .ws-start,
+body.platform-rework .ws-student-start.studio-top {
+  min-height: 72px;
+  margin-bottom: 28px;
+  padding-block: 16px 20px;
+  border-bottom-color: var(--product-line);
+}
+body.platform-rework .ws-start h1,
+body.platform-rework .ws-student-title { font-size: clamp(26px, 2.25vw, 34px) !important; }
+
+/* Surfaces and groups */
+body.platform-rework :is(.bw-card-panel, .cycle-section, .platform-panel, .company-listings, .company-applications-panel, .bw-detail-surface, .evaluation-detail, .weekly-report-panel, .profile-panel, .ie-panel, .journal-week, .journal-review, .training-summary, .training-logbook, .placements-panel) {
+  border: 0;
+  border-radius: var(--product-radius);
+  background: var(--product-surface);
+  box-shadow: none;
+}
+body.platform-rework :is(.bw-card-panel, .cycle-section, .platform-panel, .company-listings, .company-applications-panel, .profile-panel, .ie-panel, .placements-panel) {
+  padding: var(--platform-panel-space);
+}
+body.platform-rework :is(.bw-card-panel-header, .company-section-heading, .cycle-heading, .profile-panel-heading, .ie-section-head) {
+  align-items: flex-start;
+  gap: 16px;
+  padding: 0 0 18px;
+  margin: 0 0 22px;
+  border-bottom: 1px solid var(--product-line);
+}
+body.platform-rework :is(.bw-card-panel-header, .company-section-heading, .cycle-heading, .profile-panel-heading, .ie-section-head) p { margin: 4px 0 0; }
+body.platform-rework :is(.portal-action-list, .platform-account-actions, .platform-totals) > * + * { border-color: var(--product-line); }
+
+/* Buttons: one clear hierarchy, semantic variants preserved by portal-ux. */
+body.platform-rework :is(.cycle-button, .company-primary, .company-secondary, .bw-btn-primary, .bw-btn-outline, .bw-tag-btn, .platform-table-action, .bw-action-pill-btn, .ie-btn, .btn, .ticket-btn) {
+  min-height: var(--product-control) !important;
+  height: auto;
+  padding: 0 16px !important;
+  gap: 8px;
+  border-radius: var(--product-radius-sm) !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  white-space: nowrap;
+  transform: none !important;
+  transition: background-color 140ms ease-out, border-color 140ms ease-out, color 140ms ease-out;
+}
+body.platform-rework :is(.company-primary, .bw-btn-primary, .cycle-button.is-primary, .ie-btn.is-primary) {
+  color: #fff;
+  background: var(--product-action);
+  border: 1px solid var(--product-action);
+}
+body.platform-rework :is(.company-primary, .bw-btn-primary, .cycle-button.is-primary, .ie-btn.is-primary):hover:not(:disabled) {
+  color: #fff;
+  background: var(--product-action-hover);
+  border-color: var(--product-action-hover);
+}
+body.platform-rework :is(.company-secondary, .bw-btn-outline, .cycle-button:not(.is-primary), .ie-btn:not(.is-primary)) {
+  color: var(--product-text);
+  background: var(--product-surface);
+  border: 1px solid var(--product-line-strong);
+}
+body.platform-rework :is(.company-secondary, .bw-btn-outline, .cycle-button:not(.is-primary), .ie-btn:not(.is-primary)):hover:not(:disabled) {
+  color: var(--product-text);
+  background: var(--product-surface-subtle);
+  border-color: var(--product-text-muted);
+}
+body.platform-rework :is(.company-text-button, .portal-text-button) {
+  min-height: 36px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--product-action);
+  box-shadow: none;
+  text-decoration: none;
+}
+body.platform-rework :is(.company-text-button, .portal-text-button):hover { color: var(--product-action-hover); text-decoration: underline; text-underline-offset: 3px; }
+
+/* Forms */
+body.platform-rework :is(.bw-input, .bw-textarea, .bw-select, .cycle-field > input, .cycle-field > select, .cycle-field > textarea, .ie-field > input, .ie-field > select, .ie-field > textarea, .company-search, .bw-table-search) {
+  min-height: var(--product-control);
+  padding: 9px 12px;
+  border: 1px solid var(--product-line-strong);
+  border-radius: var(--product-radius-sm);
+  background: var(--product-surface);
+  color: var(--product-text);
+  box-shadow: none;
+}
+body.platform-rework :is(.bw-input, .bw-textarea, .bw-select, .cycle-field > input, .cycle-field > select, .cycle-field > textarea, .ie-field > input, .ie-field > select, .ie-field > textarea, .company-search):hover { border-color: var(--product-text-muted); }
+body.platform-rework :is(.bw-input, .bw-textarea, .bw-select, .cycle-field > input, .cycle-field > select, .cycle-field > textarea, .ie-field > input, .ie-field > select, .ie-field > textarea, .company-search):focus-within,
+body.platform-rework :is(.bw-input, .bw-textarea, .bw-select, .cycle-field > input, .cycle-field > select, .cycle-field > textarea, .ie-field > input, .ie-field > select, .ie-field > textarea):focus {
+  border-color: var(--product-action);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--product-action) 16%, transparent);
+  outline: 0;
+}
+body.platform-rework :is(.bw-form-label, .cycle-field > span, .ie-field > label) { color: var(--product-text); font-weight: 500 !important; }
+body.platform-rework :is(input, textarea)::placeholder { color: var(--product-text-muted); }
+
+/* Tabs, filters and page controls */
+body.platform-rework :is(.bw-tabs-bar, .insight-switch, .cycle-segmented) {
+  padding: 4px;
+  gap: 4px;
+  border: 1px solid var(--product-line);
+  border-radius: 10px;
+  background: var(--product-surface-subtle);
+  box-shadow: none;
+}
+body.platform-rework .bw-tabs-bar { width: fit-content; max-width: 100%; border-bottom: 1px solid var(--product-line); }
+body.platform-rework :is(.bw-tab-btn, .insight-switch button, .cycle-segmented button) {
+  min-height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--product-text-soft);
+  box-shadow: none;
+}
+body.platform-rework :is(.bw-tab-btn, .insight-switch button, .cycle-segmented button):hover { color: var(--product-text); background: color-mix(in srgb, var(--product-surface) 60%, transparent); }
+body.platform-rework :is(.bw-tab-btn.is-active, .insight-switch button.is-active, .cycle-segmented button.is-active) {
+  color: var(--product-text);
+  background: var(--product-surface);
+  box-shadow: 0 1px 2px rgb(17 35 63 / 9%);
+}
+body.platform-rework :is(.pagination, .cycle-pagination, .directory-pagination) button { min-width: 40px; min-height: 40px; }
+
+/* Status language */
+body.platform-rework :is(.bw-badge, .cycle-status, .platform-status, .publication-status, .listing-status, .status-pill) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 3px 8px;
+  border: 0;
+  border-radius: 6px;
+  box-shadow: none;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: none;
+}
+body.platform-rework :is(.bw-badge-success, .cycle-status.is-good, .status-success, [data-semantic-tone="success"]) { color: var(--product-success); background: var(--product-success-soft); }
+body.platform-rework :is(.bw-badge-warning, .bw-badge-amber, .cycle-status.is-wait, .platform-status.is-pending, .status-warning, [data-semantic-tone="warning"]) { color: var(--product-warning); background: var(--product-warning-soft); }
+body.platform-rework :is(.bw-badge-danger, .status-danger, [data-semantic-tone="danger"]) { color: var(--product-danger); background: var(--product-danger-soft); }
+body.platform-rework :is(.bw-badge-blue, .status-info, [data-semantic-tone="info"]) { color: var(--product-info); background: var(--product-info-soft); }
+body.platform-rework :is(.bw-status-dot, .status-dot, .badge-dot, .pill-dot) { display: none !important; }
+
+/* Data tables and directory lists */
+body.platform-rework :is(.bw-table-container, .publication-table-wrap, .platform-table-wrap, .placements-table-wrap) {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow-x: auto;
+}
+body.platform-rework :is(.bw-table, .bw-data-table, .platform-table, .publication-table, .listing-table) { border-collapse: collapse; width: 100%; }
+body.platform-rework :is(.bw-table, .bw-data-table, .platform-table, .publication-table, .listing-table) th {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--product-line);
+  background: var(--product-surface-subtle);
+  color: var(--product-text-soft);
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-align: start;
+}
+body.platform-rework :is(.bw-table, .bw-data-table, .platform-table, .publication-table, .listing-table) td {
+  padding: 16px;
+  border-bottom: 1px solid var(--product-line);
+  background: transparent;
+  color: var(--product-text);
+  vertical-align: middle;
+}
+body.platform-rework :is(.bw-table, .bw-data-table, .platform-table, .publication-table, .listing-table) tbody tr:last-child td { border-bottom: 0; }
+body.platform-rework :is(.bw-table, .bw-data-table, .platform-table, .publication-table, .listing-table) tbody tr:hover { background: var(--product-surface-subtle); }
+body.platform-rework :is(.evaluation-student-button, .cycle-student-button, .directory-student-button) {
+  border: 0;
+  border-radius: var(--product-radius-sm);
+  background: transparent;
+  box-shadow: none;
+}
+body.platform-rework :is(.evaluation-student-button, .cycle-student-button, .directory-student-button):hover { background: var(--product-surface-subtle); }
+body.platform-rework :is(.evaluation-student-button, .cycle-student-button, .directory-student-button).is-active { background: var(--product-surface-selected); color: var(--product-action); }
+
+.product-page-hidden { display: none !important; }
+.product-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 56px;
+  padding: 12px 0 0;
+  color: var(--product-text-soft);
+}
+.product-pagination[hidden] { display: none !important; }
+.product-pagination__summary { font-size: 13px; }
+.product-pagination__actions { display: inline-flex; gap: 8px; }
+.product-pagination__button {
+  min-width: 84px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--product-line-strong);
+  border-radius: var(--product-radius-sm);
+  background: var(--product-surface);
+  color: var(--product-text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.product-pagination__button:hover:not(:disabled) { background: var(--product-surface-subtle); border-color: var(--product-text-muted); }
+.product-pagination__button:disabled { color: var(--product-text-muted); background: var(--product-surface-subtle); cursor: not-allowed; opacity: .7; }
+
+/* Dashboard overview boards */
+body.platform-rework :is(.ws-board, .ws-student-board) {
+  gap: clamp(18px, 2vw, 28px);
+  margin-bottom: clamp(28px, 4vw, 48px);
+  padding: 14px;
+  border: 0;
+  border-radius: var(--product-radius-lg);
+  background: var(--product-surface);
+  box-shadow: none;
+}
+body.platform-rework .ws-board .ws-primary {
+  min-height: 184px !important;
+  padding: 24px !important;
+  border-radius: var(--product-radius);
+  background: #173e70 !important;
+  box-shadow: none;
+}
+[data-theme="dark"] body.platform-rework .ws-board .ws-primary { background: #204d82 !important; }
+body.platform-rework .ws-board .ws-primary:hover { background: #143863 !important; transform: none; }
+body.platform-rework .ws-board .ws-row { min-height: 52px; padding: 10px 8px; }
+body.platform-rework .ws-board .ws-row:hover { background: var(--product-surface-subtle); }
+
+/* Company overview: compact operational summary, not a stack of legacy KPI cards. */
+body#page-company-dashboard.platform-rework .ws-board {
+  grid-template-columns: minmax(230px, .9fr) minmax(340px, 1.25fr) minmax(230px, .85fr) !important;
+  align-items: stretch;
+  gap: clamp(20px, 2.4vw, 36px);
+  padding: 14px;
+}
+body#page-company-dashboard.platform-rework .ws-board .ws-primary {
+  min-height: 224px !important;
+}
+body#page-company-dashboard.platform-rework .ws-board .ws-group {
+  align-self: stretch;
+  padding: 10px 0 6px;
+}
+body#page-company-dashboard.platform-rework .ws-board .ws-group h3 {
+  margin: 0 8px 10px;
+  font-size: 15px !important;
+  font-weight: 600;
+}
+body#page-company-dashboard.platform-rework .ws-board .ws-group .ws-row.bw-kpi-card {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto 18px !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100%;
+  min-height: 58px !important;
+  height: auto !important;
+  padding: 11px 8px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: start !important;
+}
+body#page-company-dashboard.platform-rework .ws-board .ws-group .ws-row.bw-kpi-card + .ws-row {
+  border-top: 1px solid var(--product-line) !important;
+}
+body#page-company-dashboard.platform-rework .ws-board .ws-group .ws-row.bw-kpi-card:hover {
+  background: var(--product-surface-subtle) !important;
+}
+body#page-company-dashboard.platform-rework .ws-board .ws-group .ws-row .ws-count {
+  min-width: 2ch;
+  text-align: end;
+}
+body#page-company-dashboard.platform-rework .ws-board .ws-group .ws-row.has-pending .ws-count {
+  color: var(--product-warning);
+}
+body#page-company-dashboard.platform-rework .ws-board .ws-group .ws-row > i {
+  justify-self: end;
+}
+@media (max-width: 1000px) {
+  body#page-company-dashboard.platform-rework .ws-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 14px 24px;
+  }
+  body#page-company-dashboard.platform-rework .ws-board .ws-primary {
+    grid-column: 1 / -1;
+    min-height: 164px !important;
+  }
+}
+@media (max-width: 660px) {
+  body#page-company-dashboard.platform-rework .ws-board {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 8px;
+    padding: 10px;
+  }
+  body#page-company-dashboard.platform-rework .ws-board .ws-primary {
+    min-height: 156px !important;
+  }
+  body#page-company-dashboard.platform-rework .ws-board .ws-group {
+    padding: 10px 2px 4px;
+  }
+}
+
+/* Company listings: creation stays on its dedicated page; this view is for scanning and management. */
+body.platform-rework .company-publications {
+  overflow: hidden;
+}
+body.platform-rework .company-publications .company-listing-heading {
+  align-items: center;
+  margin: 0;
+  padding: 22px 22px 18px;
+  border-bottom: 1px solid var(--product-line);
+}
+body.platform-rework .company-publications .company-listing-heading :is(h1, h2) {
+  font-size: 20px !important;
+}
+body.platform-rework .company-publications .company-listing-heading p {
+  max-width: 620px;
+  margin: 4px 0 0;
+}
+body.platform-rework .company-publications .company-listing-heading > a {
+  min-height: 44px;
+  padding: 10px 16px;
+  white-space: nowrap;
+}
+body.platform-rework .company-publications .company-publication-filter {
+  padding: 18px 22px 4px;
+}
+body.platform-rework .company-publications .company-publication-filter .cycle-field {
+  width: min(100%, 260px);
+}
+body.platform-rework .company-publications > .cycle-publications {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+  gap: 16px;
+  padding: 16px 22px 22px;
+}
+body.platform-rework .company-publications .company-post-card {
+  min-height: 100%;
+  padding: 20px;
+  border: 1px solid var(--product-line);
+  border-radius: var(--product-radius);
+  background: var(--product-surface);
+  box-shadow: 0 1px 2px rgba(24, 37, 59, .04);
+}
+body.platform-rework .company-publications .company-post-card:hover {
+  border-color: var(--product-line-strong);
+}
+body.platform-rework .company-publications .company-post-card-heading {
+  align-items: center;
+  margin-bottom: 12px;
+}
+body.platform-rework .company-publications .company-post-card-facts {
+  padding-top: 16px;
+  border-top: 1px solid var(--product-line);
+}
+body.platform-rework .company-publications .company-post-card-availability {
+  margin-top: 12px;
+}
+body.platform-rework .company-publications > .publication-table-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 22px 20px;
+  color: var(--product-text-soft);
+  font-size: 12px;
+}
+@media (max-width: 660px) {
+  body.platform-rework .company-publications .company-listing-heading {
+    align-items: flex-start;
+    padding: 18px 16px;
+  }
+  body.platform-rework .company-publications .company-listing-heading > a {
+    width: 100%;
+    justify-content: center;
+  }
+  body.platform-rework .company-publications .company-publication-filter {
+    padding: 16px 16px 2px;
+  }
+  body.platform-rework .company-publications > .cycle-publications {
+    padding: 14px 16px 18px;
+  }
+}
+body.platform-rework :is(.insight-widget, .dashboard-insight-card) {
+  border: 0;
+  border-radius: var(--product-radius);
+  background: var(--product-surface);
+  box-shadow: none;
+}
+body.platform-rework .insight-plot button { min-inline-size: 36px; }
+
+/* Visibility state: status is semantic; the whole page no longer becomes a warning block. */
+body.platform-rework .cycle-visibility {
+  --report-visibility-ink: var(--product-success);
+  --report-visibility-bg: var(--product-success-soft);
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 28px;
+  padding: 16px 18px;
+  border: 0;
+  border-radius: var(--product-radius);
+  background: var(--product-surface);
+  box-shadow: inset 0 0 0 1px var(--product-line);
+}
+body.platform-rework .cycle-visibility.is-locked {
+  --report-visibility-ink: var(--product-warning);
+  --report-visibility-bg: var(--product-warning-soft);
+}
+body.platform-rework .cycle-visibility > i {
+  align-self: start;
+  margin-top: 2px;
+  color: var(--report-visibility-ink);
+  font-size: 20px;
+}
+body.platform-rework .cycle-visibility small {
+  display: block;
+  margin: 0 0 2px;
+  color: var(--product-text-muted);
+  font-size: 12px;
+}
+body.platform-rework .cycle-visibility strong {
+  display: inline-flex;
+  width: fit-content;
+  margin: 0 0 2px;
+  padding: 2px 7px;
+  border-radius: 5px;
+  color: var(--report-visibility-ink);
+  background: var(--report-visibility-bg);
+  font-size: 13px;
+}
+body.platform-rework .cycle-visibility p {
+  max-width: 78ch;
+  margin: 2px 0 0;
+  color: var(--product-text-soft);
+  font-size: 13px;
+  line-height: 1.55;
+}
+body.platform-rework .cycle-visibility button {
+  min-height: 40px !important;
+  color: var(--report-visibility-ink) !important;
+  background: var(--product-surface) !important;
+  border: 1px solid color-mix(in srgb, var(--report-visibility-ink) 65%, var(--product-line)) !important;
+}
+body.platform-rework .cycle-visibility button:hover {
+  color: var(--report-visibility-ink) !important;
+  background: var(--report-visibility-bg) !important;
+}
+
+/* Training, tasks and weekly review */
+body.platform-rework :is(.cycle-weeks, .training-week-strip, .journal-stations) { gap: 8px; }
+body.platform-rework :is(.journal-station, .cycle-weeks .cycle-button, .training-week-button) {
+  border: 1px solid transparent;
+  border-radius: var(--product-radius-sm);
+  background: var(--product-surface-subtle);
+  box-shadow: none;
+}
+body.platform-rework :is(.journal-station, .cycle-weeks .cycle-button, .training-week-button):hover { border-color: var(--product-line-strong); background: var(--product-surface); }
+body.platform-rework :is(.journal-station, .cycle-weeks .cycle-button, .training-week-button).is-active {
+  border-color: var(--product-action);
+  background: var(--product-surface);
+  color: var(--product-action);
+}
+body.platform-rework .weekly-tasks { padding: clamp(18px, 2vw, 24px); background: var(--product-surface-subtle); }
+body.platform-rework .weekly-task-row { padding: 18px 0; border-radius: 0; background: transparent; }
+body.platform-rework .weekly-task-row + .weekly-task-row { border-top: 1px solid var(--product-line); }
+body.platform-rework :is(.task-latest-submission, .task-submission-version, .task-review-feedback, .company-report-task-gate) {
+  border: 0;
+  border-radius: var(--product-radius-sm);
+  background: var(--product-surface-subtle);
+  box-shadow: none;
+}
+body.platform-rework :is(.journal-objective, .cycle-objective) { border-color: var(--product-line); }
+
+/* Empty and prompt states */
+body.platform-rework :is(.bw-ux-empty, .publication-empty, .cycle-interview-empty, .weekly-tasks-empty, .studio-empty, .support-empty, .company-selection-prompt, .supervisor-selection-prompt, .assessment-empty) {
+  min-height: 220px;
+  padding: 36px 24px;
+  border: 0;
+  border-radius: var(--product-radius);
+  background: var(--product-surface-subtle);
+  box-shadow: none;
+  text-align: center;
+}
+body.platform-rework :is(.company-selection-prompt, .supervisor-selection-prompt, .assessment-empty) > i {
+  width: auto;
+  height: auto;
+  margin-bottom: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--product-text-muted);
+  font-size: 28px;
+  box-shadow: none;
+}
+
+/* Dialogs and confirmation states */
+body.platform-rework :is(.cycle-dialog, .bw-dialog-surface, .bw-modal-dialog, .platform-dialog, .managed-account-dialog) {
+  border: 0;
+  border-radius: var(--product-radius-lg);
+  background: var(--product-surface);
+  color: var(--product-text);
+  box-shadow: var(--product-shadow-overlay);
+}
+body.platform-rework dialog::backdrop { background: rgb(9 21 43 / 48%); backdrop-filter: none; }
+body.platform-rework .bw-dialog-heading-icon {
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  color: var(--product-text-soft);
+  box-shadow: none;
+}
+body.platform-rework :is(.cycle-dialog, .bw-dialog-surface, .bw-modal-dialog, .platform-dialog) footer,
+body.platform-rework :is(.cycle-dialog, .bw-dialog-surface, .bw-modal-dialog, .platform-dialog) .dialog-actions {
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--product-line);
+}
+
+/* Preserve the established ticket layout while aligning its visual finish. */
+body.platform-rework .support-overview { gap: 28px; }
+body.platform-rework .support-ticket,
+body.platform-rework :is(.support-thread-surface, .support-ticket-details) {
+  border: 0;
+  border-radius: var(--product-radius);
+  background: var(--product-surface);
+  box-shadow: none;
+}
+body.platform-rework .support-ticket:hover { background: var(--product-surface-subtle); }
+body.platform-rework .support-message + .support-message { border-top-color: var(--product-line); }
+body.platform-rework .support-reply-form { background: var(--product-surface-subtle); }
+
+/* Interaction quality */
+body.platform-rework :is(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--product-action);
+  outline-offset: 3px;
+}
+body.platform-rework :is(button, a, .bw-kpi-card, .bw-opp-card, .card):hover { transform: none; }
+body.platform-rework :is(.bw-kpi-card, .bw-opp-card, .card):hover { box-shadow: none; }
+body.platform-rework ::selection { color: var(--product-text); background: var(--product-action-soft); }
+
+@media (max-width: 1080px) {
+  body.platform-rework .bw-main-content { padding-inline: 20px; }
+  body.platform-rework .company-topbar { margin-inline: -20px; padding-inline: 20px; }
+}
+
+@media (max-width: 760px) {
+  body.platform-rework { --product-control: 44px; --platform-panel-space: 18px; }
+  body.platform-rework .bw-main-content { padding-inline: 16px; padding-block-end: 36px; }
+  body.platform-rework .company-topbar { margin-inline: -16px; padding-inline: 16px; }
+  body.platform-rework :is(.bw-page-header, .company-page-heading, .supervisor-page-heading, .profile-page-heading, .ie-page-heading, .journal-header) { margin-block: 24px; }
+  body.platform-rework :is(.bw-page-header, .company-page-heading, .supervisor-page-heading, .profile-page-heading, .ie-page-heading) { align-items: flex-start; flex-direction: column; }
+  body.platform-rework .cycle-visibility { grid-template-columns: 22px minmax(0, 1fr); padding: 16px; }
+  body.platform-rework .cycle-visibility button { grid-column: 2; justify-self: start; margin-top: 4px; }
+  body.platform-rework :is(.company-section-heading, .cycle-heading, .bw-card-panel-header, .profile-panel-heading, .ie-section-head) { flex-wrap: wrap; }
+  body.platform-rework :is(.company-section-heading, .cycle-heading, .bw-card-panel-header, .profile-panel-heading, .ie-section-head) > :last-child:not(:first-child) { width: auto; }
+  body.platform-rework :is(.ws-board, .ws-student-board) { padding: 10px; }
+  body.platform-rework .company-account > span:not(.company-monogram) { display: none; }
+  body.platform-rework :is(.company-text-button, .portal-text-button) { min-height: 44px; }
+}
+
+@media (max-width: 520px) {
+  body.platform-rework :where(h1, .bw-title, .ws-student-title) { font-size: 25px !important; }
+  body.platform-rework :is(.cycle-button, .company-primary, .company-secondary, .bw-btn-primary, .bw-btn-outline, .ie-btn) { white-space: normal; }
+  body.platform-rework :is(.bw-table, .bw-data-table, .platform-table, .publication-table, .listing-table) :is(th, td) { padding: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.platform-rework *,
+  body.platform-rework *::before,
+  body.platform-rework *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  body.platform-rework :is(button, input, select, textarea) { border: 1px solid ButtonText; }
+  body.platform-rework :is(a, button, input, select, textarea, summary, [tabindex]):focus-visible { outline-color: Highlight; }
+}

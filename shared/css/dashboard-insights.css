@@ -94,3 +94,10 @@
 .insight-completion-row.stage-completed .insight-horizontal-track > span { background:var(--portal-positive-ink,#087354); }
 .insight-completion-row.stage-ended .insight-horizontal-track > span { background:var(--bw-text-muted); }
 .insight-completion > .insight-detail { margin-top:14px; }
+/* Keep chart geometry ready until each widget reaches the viewport. */
+@media (prefers-reduced-motion:no-preference) {
+ .insight-widget[data-chart-motion="waiting"] .insight-horizontal-track > span { transform:scaleX(0);transform-origin:left center; }
+ .insight-widget[data-chart-motion="waiting"] .insight-bar { transform:scaleY(0);transform-origin:center bottom; }
+ .insight-widget[data-chart-motion="waiting"] .insight-ring-fill { stroke-dashoffset:314.16!important; }
+ .insight-widget[data-chart-motion="waiting"] .insight-ring-segment { stroke-dasharray:0 314.16!important; }
+}

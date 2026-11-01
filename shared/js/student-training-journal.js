@@ -24,13 +24,44 @@
     const shell=E('div',null,'learning-journal');root.replaceChildren(shell);
     function render(){
       weeks=C.state.plans[student.id];shell.replaceChildren();
-      if(!weeks?.length){shell.append(A(E('section',null,'journal-empty'),icon('journal-bookmark'),E('h1','Your next chapter starts here.'),muted('Your company’s eight-week plan appears after acceptance and college supervisor assignment. Interview requests stay in Applications.'),B('View applications',()=>window.switchTab('tab-applications'),true),B('Explore roles',()=>window.switchTab('tab-opportunities'))));return;}
+      if(!weeks?.length){shell.append(A(E('section',null,'journal-empty'),icon('journal-bookmark'),E('h2','Your training starts here'),muted('Your eight-week plan will appear here once your internship placement is set up. You can track applications or explore available roles in the meantime.'),B('View applications',()=>window.switchTab('tab-applications'),true),B('Explore roles',()=>window.switchTab('tab-opportunities'))));return;}
       selected=Math.min(selected,weeks.length-1);
-      const header=A(E('header',null,'journal-header'),A(E('div'),E('h1','My training'),muted('Your plan, your work, and the feedback that moves you forward.')),B('Training record',record));shell.append(header);
-      const placement=E('section',null,'journal-placement');placement.setAttribute('aria-label','Placement and verified progress');
-      const company=A(E('div',null,'journal-employer'),A(E('span',null,'journal-company-mark'),icon('building')),A(E('div'),E('h2',student.role||'Internship placement'),muted(C.org(student.company)),E('small',student.supervisor?'Academic supervisor · '+student.supervisor:'College supervisor assignment pending')));
-      const hours=C.hours(student.id),verified=weeks.filter(w=>w.status==='verified').length,progress=E('progress');progress.max=120;progress.value=hours;progress.setAttribute('aria-label',hours+' of 120 hours verified');
-      const completion=A(E('div',null,'journal-progress'),A(E('div'),E('strong',String(hours)),E('span',' / 120 h'),E('small','Supervisor-verified')),progress,E('p',`${verified} of ${weeks.length} weeks verified`));placement.append(company,completion);shell.append(placement);if(window.BridgewayJourney.certificate(student.id))shell.append(window.BridgewayJourney.certificateCard(student.id));
+
+      const company=E('section',null,'journal-employer');
+      company.append(E('p','Your placement','training-placement-label'),E('h2',student.role||'Internship placement'));
+      const details=E('dl',null,'training-placement-details');
+      for(const [label,text] of [['Company',C.org(student.company)],['Academic supervisor',student.supervisor||'Assignment pending']]){
+        details.append(A(E('div'),E('dt',label),E('dd',text)));
+      }
+      company.append(details);
+      const hours=C.hours(student.id),verified=weeks.filter(w=>w.status==='verified').length;
+      const completion=E('section',null,'journal-progress training-hours-card');
+      completion.setAttribute('aria-label',hours+' of 120 training hours verified. '+verified+' of '+weeks.length+' weeks verified.');
+      const cardTitle=A(E('div',null,'training-hours-heading'),E('span','Verified training hours'),icon('patch-check'));
+      const total=A(E('div',null,'training-hours-total'),A(E('div',null,'training-hours-number'),E('strong',String(hours)),E('span','hours')),E('p','of 120 required hours'));
+      const ring=E('div',null,'training-hours-ring');
+      ring.setAttribute('aria-hidden','true');
+      const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      svg.setAttribute('viewBox','0 0 100 100');
+      const circumference=2*Math.PI*40,segment=circumference/8-3;
+      for(let index=0;index<8;index++){
+        const fill=Math.min(1,Math.max(0,(hours-index*15)/15));
+        for(const [kind,length] of [['track',segment],['fill',segment*fill]]){
+          const arc=document.createElementNS(svg.namespaceURI,'circle');
+          arc.setAttribute('cx','50');arc.setAttribute('cy','50');arc.setAttribute('r','40');
+          arc.setAttribute('class','training-ring-'+kind);
+          arc.setAttribute('stroke-dasharray',length+' '+(circumference-length));
+          arc.setAttribute('transform','rotate('+(-90+index*45)+' 50 50)');
+          svg.append(arc);
+        }
+      }
+      ring.append(svg,E('span',Math.round(Math.min(1,hours/120)*100)+'%'));
+      const content=A(E('div',null,'training-hours-content'),total,ring);
+      const footer=A(E('div',null,'training-hours-footer'),E('span',hours>=120?'Hours target reached':'120-hour target','training-hours-target'));
+      completion.append(cardTitle,content,footer);
+      company.append(B('View training record', record));
+
+      const summary=E('section',null,'journal-summary');summary.setAttribute('aria-label','Training overview');summary.append(completion,company);if(window.BridgewayJourney.certificate(student.id))summary.append(window.BridgewayJourney.certificateCard(student.id,{compact:true}));shell.append(summary);
       const journey=A(E('section',null,'journal-journey'),A(E('header'),E('h2','Your eight-week journey'),E('span','Choose a week to explore'))),nav=E('nav',null,'journal-stations');nav.setAttribute('aria-label','Training weeks');journey.append(nav);shell.append(journey);
       const body=E('div',null,'journal-workspace');shell.append(body);
       const announcement=E('span',null,'journal-announcement');announcement.setAttribute('role','status');announcement.setAttribute('aria-atomic','true');shell.append(announcement);
@@ -57,15 +88,16 @@
         const assignedTasks=window.BridgewayWeeklyTasks?.render(student.id,index,'student');
         if(assignedTasks)article.append(assignedTasks);
         const count=w.objectives.filter(o=>o.done).length;
-        const taskHeader=A(E('div',null,'journal-task-heading'),E('h3','Training objectives'),E('span',w.locked?'Plan visible':w.planned?'Company-set plan':`${count} of ${w.objectives.length} complete`));article.append(taskHeader);
-        if(w.locked)article.append(A(E('div',null,'journal-lock'),icon('lock'),muted('Your supervisor has hidden this report. The plan stays visible; results and review notes are private.')));
+        const objectives=E('details',null,'journal-objective-panel');
+        const taskHeader=A(E('summary',null,'journal-task-heading'),E('h3','Week objectives'),E('span',w.locked?'Plan visible':w.planned?'Company-set plan':`${count} of ${w.objectives.length} complete`),icon('chevron-down'));objectives.append(taskHeader);
+        if(w.locked)objectives.append(A(E('div',null,'journal-lock'),icon('lock'),muted('Your supervisor has hidden this report. The plan stays visible; results and review notes are private.')));
         const tasks=E('ol',null,'journal-objectives');
         w.objectives.forEach(o=>{
           const item=E('li',null,'journal-objective'),mark=A(E('span',null,'journal-objective-mark'+(o.done?' is-done':'')),icon(w.locked?'lock':o.done?'check2':'circle'));
           const text=A(E('div',null,'journal-objective-text'),E('h4',o.text));
           const result=E('span',w.locked?'Result hidden':w.planned?'Planned':o.done?'Completed':'Not yet completed','journal-objective-status'+(o.done?' is-complete':''));
           item.append(mark,text,result);tasks.append(item);
-        });article.append(tasks);
+        });objectives.append(tasks);article.append(objectives);
         const footer=A(E('footer',null,'journal-week-footer'),icon('info-circle'),muted('Your company updates the objectives. Your supervisor reviews the report and verifies hours.'));article.append(footer);
         const aside=E('aside',null,'journal-review');aside.dataset.state=w.state;aside.setAttribute('aria-label','Company weekly feedback');aside.append(A(E('header',null,'journal-review-header'),icon('chat-left-text'),E('h2','Company feedback')));
         if(w.locked)aside.append(A(E('div',null,'journal-review-empty'),icon('shield-lock'),E('h3','Report hidden by your supervisor'),muted('The company’s written feedback and review details are hidden. Your weekly plan and verified training totals remain available.')));

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bridgeway — Platform Admin</title>
+  <title>Platform Admin | Bridgeway</title>
   <meta name="description" content="Bridgeway Platform Admin: manage company and college accounts, partnerships, and escalated issues.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,11 +22,12 @@
   <link rel="stylesheet" href="../../shared/css/interactions.css?v=portal-clean-2">
   <link rel="stylesheet" href="platform-admin.css?v=account-actions-aligned-6">
   <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-16">
-<link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
+<link rel="stylesheet" href="../../shared/css/portal-ux.css?v=semantic-intent-63">
 <link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=post-cards-85"><link rel="stylesheet" href="../../shared/css/evaluation-radar.css?v=portal-clean-2">  <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
 <link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
   <link rel="stylesheet" href="../../shared/css/dashboard-overview.css?v=10">
-</head><body class="portal-layout dashboard-reference company-workspace portal-unified platform-admin" data-portal-role="platform_admin" id="page-platform-admin"><div class="bw-company-layout"><aside class="bw-masar-sidebar" aria-label="Platform Admin navigation"><div class="bw-masar-top"><div class="bw-masar-header">
+  <link rel="stylesheet" href="../../shared/css/interface-craft.css?v=metric-alignment-2">
+</head><body class="portal-layout dashboard-reference company-workspace portal-unified platform-admin platform-rework" data-portal-role="platform_admin" id="page-platform-admin"><div class="bw-company-layout"><aside class="bw-masar-sidebar" aria-label="Platform Admin navigation"><div class="bw-masar-top"><div class="bw-masar-header">
           <a href="../home/index.html" class="bw-masar-brand" title="Bridgeway Home">
             <svg class="logo logo--nav" viewBox="0 0 400 232" role="img" aria-label="Bridgeway">
               <defs>
@@ -108,18 +109,24 @@
 <!-- Company and college accounts use the shared administrator account editor. -->
 <dialog class="platform-dialog" id="partnershipDialog" aria-labelledby="partnershipDialogTitle"><form id="partnershipForm"><div class="platform-dialog-heading"><div><h2 id="partnershipDialogTitle">Add partnership</h2><p>Connect a college with a company offering internships.</p></div><button type="button" class="platform-close" data-close-dialog aria-label="Close partnership form">×</button></div><div class="platform-form-body"><div class="bw-form-group"><label class="bw-form-label" for="partnershipCollege">College *</label><select class="bw-select" id="partnershipCollege" name="college" required></select></div><div class="bw-form-group"><label class="bw-form-label" for="partnershipCompany">Company *</label><select class="bw-select" id="partnershipCompany" name="company" required></select></div><p class="platform-form-error" id="partnershipError" role="alert" hidden></p></div><div class="platform-dialog-footer"><button type="button" class="bw-tag-btn" data-close-dialog>Cancel</button><button type="submit" class="company-primary">Add partnership</button></div></form></dialog>
 <dialog class="platform-dialog" id="issueDialog" aria-labelledby="issueDialogTitle"><form id="issueForm"><div class="platform-dialog-heading"><div><h2 id="issueDialogTitle">Issue details</h2><p id="issueOrganization"></p></div><button type="button" class="platform-close" data-close-dialog aria-label="Close issue">×</button></div><div class="platform-form-body"><p class="platform-issue-description" id="issueDescription"></p><div class="bw-form-group"><label class="bw-form-label" for="issueStatus">Status</label><select class="bw-select" id="issueStatus" name="status"><option>Open</option><option>In progress</option><option>Resolved</option></select></div><div class="bw-form-group"><label class="bw-form-label" for="issueResolution">Resolution notes</label><textarea class="bw-textarea" id="issueResolution" name="resolution" rows="4" maxlength="1500"></textarea></div></div><div class="platform-dialog-footer"><button type="button" class="bw-tag-btn" data-close-dialog>Cancel</button><button type="submit" class="company-primary">Save changes</button></div></form></dialog>
-<script src="../../shared/js/portal.js?v=reference-motion-16"></script>
+<script src="../../shared/js/portal.js?v=qa-directories-17"></script>
 
-  <script src="../../shared/js/navigation.js"></script><script src="platform-admin.js?v=local-1"></script>  <script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
+  <script src="../../shared/js/navigation.js"></script><script src="platform-admin.js?v=local-1"></script>  <script src="../../shared/js/portal-navigation.js?v=compact-tools-2"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
   <script src="../../shared/js/interactions.js?v=local-1"></script>
   <script src="../../shared/js/portal-motion.js?v=reference-motion-16"></script>
-  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
+  <script src="../../shared/js/portal-ux.js?v=semantic-intent-3"></script>
 <script src="../../shared/js/evaluation-radar.js?v=local-1"></script><script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=evaluation-gate-15"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/partnership-review.js?v=local-1"></script><link rel="stylesheet" href="../../shared/css/managed-account-editor.css?v=4"><script src="../../shared/js/managed-account-editor.js?v=local-1"></script><script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
-<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
+<script src="../../shared/js/portal-usability.js?v=internal-2"></script>
 <script src="../../shared/js/dashboard-overview.js?v=3"></script>
 <link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
-<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
-<link rel="stylesheet" href="../../shared/css/dashboard-insights.css?v=5">
-<script src="../../shared/js/dashboard-insights.js?v=6"></script>
+<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=semantic-intent-4">
+<link rel="stylesheet" href="../../shared/css/dashboard-insights.css?v=scroll-charts-1">
+<script src="../../shared/js/dashboard-insights.js?v=scroll-charts-2"></script>
+  <link rel="stylesheet" href="../../shared/css/internal-platform.css?v=internal-2">
+  <script src="../../shared/js/internal-platform.js?v=tickets-all-5"></script>
+  <link rel="stylesheet" href="../../shared/css/workspace-tools.css?v=ticket-restore-5">
+  <link rel="stylesheet" href="../../shared/css/product-system.css?v=1">
+  <script src="../../shared/js/workspace-tools.js?v=ticket-restore-5"></script>
+  <script src="../../shared/js/product-system.js?v=1"></script>
 </body></html>

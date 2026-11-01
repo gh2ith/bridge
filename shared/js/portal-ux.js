@@ -9,15 +9,43 @@
   window.addEventListener('load',()=>requestAnimationFrame(resetTabEntry),{once:true});
   const states = new Map();
   let confirmation = null;
+  // Semantic intent is shared by the initiating control and its confirmation.
+  // Routine save, submit, navigation and selection actions retain the brand color.
+  function actionTone(label='') {
+    const text=label.replace(/[?!.]+$/, '').trim();
+    if (/^(?:delete|remove|reject|withdraw|terminate|unassign|deactivate|discard)\b/i.test(text)) return 'danger';
+    if (/^(?:pause|restrict|request (?:a |another )?(?:revision|changes)|cancel (?:this |the )?interview)\b/i.test(text)) return 'warning';
+    if (/^(?:approve|verify|accept|resume|activate|resolve|restore|complete|issue certificate|confirm completion|confirm resolution|mark (?:as )?completed|mark .+ completed|make (?:all )?reports visible|show (?:all )?student reports)\b/i.test(text)) return 'success';
+    return 'info';
+  }
+  function statusTone(label='') {
+    const text=label.trim();
+    if (/^(?:rejected|company rejected|declined|failed|error|overdue|blocked)(?:\b|$)/i.test(text)) return 'danger';
+    if (/^(?:pending|application pending|awaiting|in review|submitted|resubmitted|revision|paused|restricted|report hidden|result hidden|\d+ to review)/i.test(text)) return 'warning';
+    if (/^(?:verified|all weeks verified|completed|resolved|accepted|company accepted|placed|active|published|approved|visible to students)/i.test(text)) return 'success';
+    if (/^(?:in progress|training in progress|in training)\b/i.test(text)) return 'info';
+    return 'neutral';
+  }
+  function syncSemanticColors() {
+    if (/\/pages\/(home|login)\//.test(location.pathname)) return;
+    document.querySelectorAll('button:not(.bw-masar-item):not([role="tab"]):not([data-tab])').forEach(button=>{
+      // Cancel/close, navigation, filters and selection never inherit a result color.
+      const tone=actionTone(button.textContent.replace(/[\uE000-\uF8FF\u2713\u2714\u26a1]/g,'').trim()||button.getAttribute('aria-label')||button.title);
+      if(tone==='info') { if(button.hasAttribute('data-action-tone'))button.removeAttribute('data-action-tone'); }
+      else if(button.dataset.actionTone!==tone)button.dataset.actionTone=tone;
+    });
+    document.querySelectorAll('.bw-badge,.cycle-status,.platform-status').forEach(badge=>{
+      const tone=statusTone(badge.textContent);
+      if(badge.dataset.statusTone!==tone)badge.dataset.statusTone=tone;
+    });
+  }
   // Shared presentation only: keep each confirmation's original controls and handlers.
   function decorateConfirmation(dialog,title='') {
     if(dialog.classList.contains('bw-decision-dialog'))return;
     const text=title||dialog.querySelector('h2,.bw-modal-title')?.textContent||'';
-    const warning=/pause|restrict|cancel.*interview/i.test(text);
-    const danger=/discard|unfinished|delete|reject|withdraw|remove|terminate|unassign|deactivate/i.test(text);
-    const success=/resolve|approve|verify|accept|resume|activate|publish|show.*report|make.*visible/i.test(text);
+    const tone=actionTone(text),danger=tone==='danger',warning=tone==='warning',success=tone==='success';
     dialog.classList.add('bw-decision-dialog');
-    dialog.dataset.decisionTone=danger?'danger':warning?'warning':success?'success':'info';
+    dialog.dataset.decisionTone=tone;
     const mark=document.createElement('div');mark.className='bw-decision-mark';mark.setAttribute('aria-hidden','true');
     const icon=document.createElement('i');icon.className='bi bi-'+(danger?(/discard|unfinished/i.test(text)?'exclamation-triangle':'trash3'):warning?'exclamation-triangle':success?'check2-circle':'arrow-up-right-circle');mark.append(icon);dialog.prepend(mark);
     const heading=dialog.querySelector('h2,.bw-modal-title');
@@ -95,7 +123,7 @@
     });
     return confirmation;
   }
-  window.BridgewayUX={dirty,remember,capture,confirmDiscard,decorateConfirmation,decorateDialog};
+  window.BridgewayUX={dirty,remember,capture,confirmDiscard,decorateConfirmation,decorateDialog,actionTone,statusTone};
 
   // Consequential actions share one accessible confirmation. Existing review,
   // delete/undo and partnership-pause dialogs remain their own confirmation.
@@ -132,7 +160,7 @@
       cancel.type=proceed.type='button';cancel.className='bw-tag-btn';cancel.textContent='Cancel';cancel.autofocus=true;proceed.className='bw-tag-btn';proceed.textContent=spec.action;actions.className='bw-ux-confirm-actions';actions.append(cancel,proceed);d.append(title,copy,actions);
       const opener=document.activeElement;cancel.addEventListener('click',()=>d.close('cancel'));proceed.addEventListener('click',()=>d.close('confirmed'));
       d.addEventListener('close',()=>{actionConfirmation=null;const approved=d.returnValue==='confirmed';d.remove();if(opener?.isConnected)opener.focus({preventScroll:true});resolve(approved);},{once:true});
-      decorateConfirmation(d,spec.title);actionConfirmation=d;document.body.append(d);d.showModal();
+      decorateConfirmation(d,spec.action);actionConfirmation=d;document.body.append(d);d.showModal();
     });
   }
   window.BridgewayUX.confirmAction=confirmAction;window.BridgewayUX.actionPolicy=actionPolicy;
@@ -264,6 +292,11 @@
       if(resetTargets[control.id])roots=[document.querySelector(resetTargets[control.id])];
       const modal=control.closest('.bw-modal-backdrop,dialog');
       if(control.matches('[data-close-modal],[data-close-dialog],.bw-modal-close,.platform-close'))roots=modalRoots(modal);
+      const destination=control.dataset.studioTab||control.dataset.tab||control.dataset.platformTab;
+      const active=document.querySelector('.bw-tab-panel.is-active');
+      if(document.body.classList.contains('platform-rework')&&destination&&active&&active.id!==destination){
+        roots=[...states.keys()].filter(root=>root.isConnected&&active.contains(root));
+      }
       if(control.matches('a[href]')&&!control.target&&!control.hasAttribute('download')){
         const target=new URL(control.href,location.href);
         if(target.pathname!==location.pathname||target.search!==location.search||target.origin!==location.origin)roots=[...states.keys()].filter(root=>root.isConnected);
@@ -345,7 +378,7 @@
     function improveForm(form){
       form.querySelectorAll('[required]').forEach(field=>{
         const label=field.labels?.[0];if(!label||label.querySelector('.bw-ux-required')||label.textContent.includes('*'))return;
-        const mark=document.createElement('span');mark.className='bw-ux-required';mark.textContent=' *';mark.setAttribute('aria-hidden','true');label.append(mark);
+        const mark=document.createElement('span');mark.className='bw-ux-required';mark.textContent=' *';mark.setAttribute('aria-hidden','true');const copy=label.contains(field)&&label.querySelector(':scope > span');(copy||label).append(mark);
       });
       if(form.querySelector('[required]')&&!form.querySelector('.bw-ux-required-note')){
         const note=document.createElement('p');note.className='bw-ux-required-note';note.textContent='Fields marked * are required.';
@@ -398,7 +431,7 @@
       badge.classList.add(status==='Application pending'?'bw-badge-amber':status==='Company accepted'?'bw-badge-success':'bw-badge-danger');
       badge.title=status==='Application pending'?'The host company has not made a hiring decision.':status==='Company accepted'?'Accepted by the host company. The college handles placement setup and supervisor assignment.':'The host company declined this application.';
     });
-    normalizeStatuses();
+    normalizeStatuses();syncSemanticColors();
     new MutationObserver(records=>{
       records.forEach(record=>record.addedNodes.forEach(node=>{
         if(node.nodeType!==1)return;
@@ -406,7 +439,7 @@
         if(node.matches('form')){track(node);improveForm(node);}
         node.querySelectorAll('form').forEach(form=>{track(form);improveForm(form);});
       }));
-      normalizeStatuses();
+      normalizeStatuses();syncSemanticColors();
     }).observe(document.body,{childList:true,subtree:true});
   });
 })();

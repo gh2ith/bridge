@@ -164,8 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
   updateHeading();
   const search = document.getElementById('companyListingSearch');
   const grid = document.querySelector('#tab-posts .bw-opportunities-grid');
-  let listingStatus = 'all';
-  function filterListings() {
+  if (search && grid) {
+    let listingStatus = 'all';
+    function filterListings() {
     let visible = 0;
     grid.querySelectorAll('.bw-opp-card').forEach(card => {
       const matchesSearch = card.textContent.toLowerCase().includes(search.value.trim().toLowerCase());
@@ -177,23 +178,23 @@ document.addEventListener('DOMContentLoaded', () => {
     empty.textContent = grid.querySelector('.bw-opp-card') ? 'No matching internships. Try a different search or status.' : 'No internships yet. Post an internship to get started.';
     document.getElementById('companyListingCount').textContent = `Showing ${visible} of ${grid.querySelectorAll('.bw-opp-card').length} listings`;
     document.getElementById('kpiActivePosts').textContent = grid.querySelectorAll('[data-listing-status="active"]').length;
-  }
-  document.querySelectorAll('[data-listing-filter]').forEach(button => {
+    }
+    document.querySelectorAll('[data-listing-filter]').forEach(button => {
     button.addEventListener('click', () => {
       listingStatus = button.dataset.listingFilter;
       document.querySelectorAll('[data-listing-filter]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
       filterListings();
     });
-  });
-  grid.querySelectorAll('[data-listing-details]').forEach(button => {
+    });
+    grid.querySelectorAll('[data-listing-details]').forEach(button => {
     button.addEventListener('click', () => {
       const detail = document.getElementById(button.getAttribute('aria-controls'));
       const open = detail.hidden;
       detail.hidden = !open;
       button.closest('.bw-opp-card').querySelectorAll('[data-listing-details]').forEach(item => item.setAttribute('aria-expanded', String(open)));
     });
-  });
-  grid.querySelectorAll('[data-listing-pause]').forEach(button => {
+    });
+    grid.querySelectorAll('[data-listing-pause]').forEach(button => {
     button.onclick = null;
     button.addEventListener('click', () => {
       const row = button.closest('.bw-opp-card');
@@ -204,10 +205,11 @@ document.addEventListener('DOMContentLoaded', () => {
       filterListings();
       if (row.hidden) document.querySelector(`[data-listing-filter="${listingStatus}"]`).focus();
     });
-  });
-  search.addEventListener('input', filterListings);
-  new MutationObserver(filterListings).observe(grid, { childList: true });
-  filterListings();
+    });
+    search.addEventListener('input', filterListings);
+    new MutationObserver(filterListings).observe(grid, { childList: true });
+    filterListings();
+  }
   document.querySelectorAll('.bw-intern-status-card, .bw-intern-chip').forEach(card => {
     card.setAttribute('role', 'button');
     card.tabIndex = 0;
@@ -218,7 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  const applications = document.getElementById('companyCandidatesTableBody');
   const accepted = document.getElementById('companyAcceptedTableBody');
   const search = document.getElementById('acceptedStudentSearch');
   let status = 'all';
@@ -232,20 +233,44 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('acceptedStudentsEmpty').hidden = visible > 0;
   }
   window.syncCompanyStudents = () => {
-    [...applications.rows, ...accepted.rows].forEach(row => {
-      const target = ['accepted', 'awaiting'].includes(row.dataset.status) ? accepted : applications;
-      if (row.parentElement !== target) { row.hidden = false; target.append(row); }
+    const C=window.BridgewayCycle,model=window.BridgewayPartners;
+    if(!C)return;
+    const latest=new Map();
+    C.state.histories.forEach(record=>{if(!latest.has(record.student))latest.set(record.student,record);});
+    const company=C.identity().slice('company:'.length);
+    const interns=model.students.filter(student=>{
+      const placement=latest.get(student.id);
+      return placement?.company===company&&placement.status==='Active' ||
+        C.state.applications.some(application=>application.student===student.id&&application.company===company&&application.status==='Accepted')&&placement?.status!=='Active';
     });
-    document.getElementById('companyApplicationCount').textContent = applications.rows.length;
-    if(!window.BridgewayCycle)document.getElementById('companyApplicationsMetric').textContent = applications.rows.length;
-    document.getElementById('companyAcceptedCount').textContent = accepted.rows.length;
-    document.querySelectorAll('.listing-applicants').forEach(button => {
-      const role = button.getAttribute('aria-label').replace('Review applicants for ', '');
-      button.firstChild.textContent = Array.from(applications.rows).filter(row => row.cells[2].textContent.trim() === role).length;
-    });
+    const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;if(cls)n.className=cls;return n;};
+    accepted.replaceChildren();
+    for(const student of interns){
+      const placement=latest.get(student.id),active=placement?.company===company&&placement.status==='Active';
+      const row=node('tr');row.dataset.status=active?'accepted':'awaiting';row.dataset.studentId=student.id;
+      const identity=node('td'),name=node('strong',student.name),id=node('small','ID #'+student.studentId);
+      identity.append(name,id,node('small',C.org(student.college)));
+      const action=node('td');
+      if(active){
+        const report=node('button','Log report','bw-btn-mini');report.type='button';
+        report.setAttribute('aria-label','Log report for '+student.name);
+        report.addEventListener('click',()=>{
+          window.switchTab('tab-weekly-reports');
+          document.getElementById('companyWeeklyPrompt').hidden=true;
+          document.getElementById('companyWeeklyDetail').hidden=false;
+          const mount=document.querySelector('#companyWeeklyDetail .cycle-training');
+          C.training(mount,student.id,'company');
+        });
+        action.append(report);
+      }else action.append(node('span','College placement setup pending','portal-muted'));
+      const standing=node('td');standing.append(node('span',active?'Active intern':'Awaiting placement','bw-badge '+(active?'bw-badge-success':'bw-badge-warning')));
+      row.append(identity,node('td',student.department||'Not recorded'),node('td',placement?.role||student.role||'Internship'),node('td',student.gpa||'Not recorded'),standing,action);
+      accepted.append(row);
+    }
+    document.getElementById('companyAcceptedCount').textContent=interns.length;
     filterAccepted();
-    window.searchCandidates?.(document.getElementById('candidateSearchInput').value);
   };
+  document.addEventListener('bridgeway:cycle-change',()=>window.syncCompanyStudents());
   document.querySelectorAll('[data-accepted-filter]').forEach(button => button.addEventListener('click', () => {
     status = button.dataset.acceptedFilter;
     document.querySelectorAll('[data-accepted-filter]').forEach(item => {

@@ -1,0 +1,112 @@
+/* Shared opening for signed-in pages. */
+body .ws-start[hidden] { display:none!important; }
+body .ws-start, body .ws-student-start.studio-top {
+  display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;
+  min-height:64px;padding:4px 0 16px;margin:0 0 18px;
+  border:0;border-bottom:1px solid var(--bw-border);background:transparent;
+}
+.ws-identity { display:flex;align-items:center;gap:12px;min-width:0;flex:1; }
+body .ws-start h1,body .ws-student-title {
+  font-size:clamp(22px,2.1vw,30px)!important;font-weight:600!important;
+  line-height:1.2!important;letter-spacing:-.035em;margin:0!important;color:var(--bw-text);
+}
+body .ws-student-title { flex:1; }
+body .ws-start .ws-account { margin:0;display:flex;align-items:center;flex:none;gap:10px; }
+.ws-start .ws-actions { min-width:0; }
+.ws-start .ws-actions:not([hidden]) { display:flex;flex-wrap:wrap;align-items:center;gap:8px; }
+.ws-start .ws-actions > [data-style="s2"] { display:flex;align-items:center;flex-wrap:wrap;gap:8px; }
+.ws-start .ws-actions[hidden], .ws-start .ws-actions:empty,
+body .company-topbar[hidden],body .ws-remainder:not(.ie-page-heading):not(:has(a,button,input,select,textarea)) { display:none!important; }
+body .ws-remainder { margin:0 0 12px!important;padding:0!important;min-height:0!important; }
+body .ws-remainder :is(.bw-eyebrow,.company-eyebrow) { display:none; }
+body:has(#tab-overview.is-active) .ws-start .ws-identity { padding-block-start:8px; }
+body .ws-start .ws-account { align-self:flex-start; }
+body .ws-start .notification-panel, body .ws-start .company-account-dropdown { z-index:80; }
+body.dashboard-reference[data-portal-role]:is(#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin) .ws-board,
+body .ws-student-board {
+  --ws-navy:#163b69;
+  display:grid;align-items:stretch;gap:clamp(16px,2vw,28px);
+  background:var(--bw-surface);color:var(--bw-text);border:0;border-radius:12px;
+  padding:12px 20px 12px 12px;margin:0 0 24px;min-width:0;
+}
+body.dashboard-reference[data-portal-role]:is(#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin) .ws-board,
+body .ws-student-board { grid-template-columns:minmax(200px,.94fr) minmax(0,1.15fr) minmax(0,.9fr)!important; }
+body .ws-board[hidden] { display:none!important; }
+.ws-sr { position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap; }
+body .ws-group { width:auto;min-width:0;padding:8px 0; }
+body .ws-group h3 { font-size:16px!important;line-height:1.35;margin:0 8px 8px;color:var(--bw-text); }
+body .ws-board .ws-group .ws-row {
+  display:grid;grid-template-columns:minmax(0,1fr) auto 14px;align-items:center;gap:10px;
+  width:100%;min-width:0;min-height:46px;height:auto;box-sizing:border-box;
+  padding:9px 8px;border:0;border-radius:0;box-shadow:none;background:transparent;
+  text-align:start;color:var(--bw-text);font:inherit;font-size:14px;line-height:1.35;transform:none;
+}
+.ws-group .ws-row + .ws-row { border-block-start:1px solid var(--bw-border)!important; }
+body .ws-board .ws-row .ws-count { color:inherit;font-size:20px!important;font-weight:600;line-height:1.2;letter-spacing:-.025em;font-variant-numeric:tabular-nums; }
+body .ws-board .ws-row > i { grid-column:3;position:static;font-size:12px;color:var(--bw-text-secondary); }
+body .ws-board .ws-group :is(button,[role="button"]):hover { background:var(--bw-bg-alt);cursor:pointer; }
+body#page-company-dashboard .ws-primary-context { position:relative;min-width:0; }
+body#page-company-dashboard .ws-primary-context .ws-primary { width:100%;height:100%; }
+body#page-company-dashboard .ws-primary-context .ws-caption { justify-content:flex-end;padding-inline-start:132px; }
+body#page-company-dashboard .ws-primary-create {
+  position:absolute;z-index:2;inset-block-end:18px;inset-inline-start:20px;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:40px;padding:8px 14px;border:0;border-radius:8px;
+  background:#fff;color:var(--ws-navy);font:600 13px/1.35 var(--bw-font-body);text-decoration:none;
+}
+body#page-company-dashboard .ws-primary-create:hover { background:var(--bw-primary-light,#eaf2ff); }
+body#page-company-dashboard .ws-primary-create:focus-visible { outline:2px solid #fff;outline-offset:3px; }
+body .ws-board .ws-primary {
+  position:relative;isolation:isolate;overflow:hidden;min-width:0;min-height:178px!important;
+  display:flex!important;flex-direction:column;align-items:stretch;text-align:start;gap:12px;
+  padding:22px!important;border:0;border-radius:12px;background:var(--ws-navy)!important;color:white!important;
+  box-shadow:none;cursor:pointer;
+}
+body .ws-board .ws-primary::after { content:'';position:absolute;inset:auto -10px 12px auto;width:145px;max-width:45%;height:76px;mask:url('../assets/dashboard-bridge.svg') center/contain no-repeat;background:white;opacity:.17;pointer-events:none;z-index:-1; }
+body .ws-board .ws-primary > .ws-label { color:white!important;font-size:15px!important;font-weight:600;line-height:1.35;padding-inline-end:30px; }
+body .ws-board .ws-primary > i { position:absolute;inset:20px 20px auto auto;font-size:19px; }
+body .ws-board .ws-primary > .ws-number { color:white!important;font-size:42px!important;line-height:1.1;letter-spacing:-.04em;font-weight:500; }
+body .ws-board .ws-primary > .ws-caption { display:flex;align-items:center;justify-content:space-between;color:white!important;margin-top:auto;width:100%;gap:12px;font-size:14px!important; }
+.ws-board :is(button,[role="button"]):focus-visible { outline:2px solid var(--bw-primary);outline-offset:3px; }
+.ws-weekly-header { display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 12px; }
+.ws-weekly-header p { grid-column:1; }
+.ws-weekly-header .insight-switch { grid-area:1/2/3/3; }
+body:has(.ws-board) .insight-widget { border:0;border-radius:12px;background:var(--bw-surface);box-shadow:none; }
+@media(max-width:1100px) {
+  .ws-start .ws-actions { order:3;width:100%; }
+  body .ws-start .ws-account { margin-inline-start:auto; }
+}
+@media(max-width:850px) {
+  body.dashboard-reference[data-portal-role]:is(#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin) .ws-board,
+  body .ws-student-board { grid-template-columns:repeat(2,minmax(0,1fr))!important;padding:12px; }
+  body .ws-board .ws-primary { grid-column:1/-1;min-height:150px!important; }
+  body#page-company-dashboard .ws-primary-context { grid-column:1/-1; }
+}
+@media(max-width:600px) {
+  body .ws-start,body .ws-student-start.studio-top { gap:10px;padding-block:8px 12px;margin-bottom:16px; }
+  body .ws-start h1,body .ws-student-title { font-size:21px!important; }
+  .ws-identity { flex-wrap:wrap; }
+  body.dashboard-reference[data-portal-role]:is(#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin) .ws-board,
+  body .ws-student-board { grid-template-columns:minmax(0,1fr)!important;gap:8px; }
+  .ws-weekly-header { grid-template-columns:minmax(0,1fr); }
+  .ws-weekly-header .insight-switch { grid-area:auto;justify-self:start; }
+  body#page-company-dashboard .ws-primary-create { min-height:44px; }
+}
+/* The student's default training view uses personal verified totals and its record action. */
+body#page-student-dashboard.platform-rework .journal-summary .journal-placement {
+  display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:stretch;
+  gap:20px;padding:12px;border:0;border-radius:12px;
+}
+body#page-student-dashboard .journal-placement .journal-progress {
+  display:flex;flex-direction:column;justify-content:center;gap:8px;
+  min-width:0;padding:20px;border:0;border-radius:10px;background:#163b69;color:white;
+}
+body#page-student-dashboard .journal-progress :is(strong,span,small,p) { color:inherit; }
+body#page-student-dashboard .journal-progress small { width:100%;order:-1;margin:0 0 4px; }
+body#page-student-dashboard .journal-progress progress { width:100%;margin:0;accent-color:#83bdff; }
+body#page-student-dashboard .journal-progress progress::-webkit-progress-value { background:#83bdff; }
+body#page-student-dashboard .journal-placement .journal-employer { padding:12px 8px; }
+.journal-employer button { display:inline-flex;align-items:center;min-height:44px;margin-top:8px;padding:4px 0;background:none;border:0;color:var(--bw-primary);font:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer; }
+@media(max-width:900px) {
+  body#page-student-dashboard.platform-rework .journal-summary .journal-placement { grid-template-columns:minmax(0,1fr);gap:8px; }
+}

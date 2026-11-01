@@ -354,12 +354,31 @@
 .company-interview-schedule .application-interview .interview-date { font-size:13px;font-weight:400; }
 .company-interview-schedule .application-interview .cycle-actions { margin-top:20px;gap:10px; }
 .company-interview-schedule .cycle-actions .cycle-button,.company-interview-schedule .cycle-interview-empty .cycle-button { min-height:44px;padding:10px 15px;font-size:13px;font-weight:500;border-radius:9px; }
-.company-interview-schedule .cycle-interview-empty { padding:24px 0 0; }
-.company-interview-schedule .cycle-interview-empty h3 { font-size:18px;font-weight:600;line-height:1.5; }
-.company-interview-schedule .cycle-interview-empty p { font-size:13px;line-height:1.7; }
+.company-interview-schedule .cycle-interview-empty {
+ width:100%;
+ max-width:none;
+ min-height:260px;
+ margin:0;
+ padding:48px 24px;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ background:transparent;
+ text-align:center;
+}
+.company-interview-schedule .cycle-interview-empty h3 { margin:0 0 8px;font-size:18px;font-weight:600;line-height:1.5; }
+.company-interview-schedule .cycle-interview-empty p { max-width:440px;margin:0 0 24px;font-size:14px;line-height:1.7; }
+body#page-company-dashboard.platform-rework .company-interview-schedule .cycle-interview-empty .cycle-button {
+ height:48px!important;
+ min-height:48px!important;
+ padding:0 20px!important;
+}
 @media(max-width:600px) {
  .company-interview-schedule .application-interview > header { flex-wrap:wrap;gap:12px; }
  .company-interview-schedule .application-interview .cycle-actions .cycle-button { flex:1 1 130px; }
+ .company-interview-schedule .cycle-interview-empty { min-height:220px;padding:40px 16px; }
+ .company-interview-schedule .cycle-interview-empty .cycle-button { width:100%;max-width:280px; }
 }
 @media(max-width:1300px) { .spotlight-footer { align-items:flex-start;flex-direction:column; } }
 @media(max-width:700px) {
@@ -474,3 +493,5 @@
  .company-listing-identity { gap:10px; }
 }
 
+#companyAcceptedTableBody > tr > td:first-child :is(strong,small) { display:block; }
+#companyAcceptedTableBody > tr > td:first-child small { margin-top:4px;font-size:12px;color:var(--bw-text-secondary); }

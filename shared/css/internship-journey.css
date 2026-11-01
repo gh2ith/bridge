@@ -55,3 +55,12 @@ body .completion-orbit .portal-evaluation-progress>li{display:flex;align-items:c
 .supervisor-assessment-detail .review-change-student{flex-shrink:0;margin:0 0 0 auto;min-height:40px;padding:8px 14px;font-size:13px;font-weight:500;white-space:nowrap;background:var(--bw-surface);border:1px solid var(--bw-border);color:var(--bw-text-secondary);border-radius:8px;box-shadow:none}
 .supervisor-assessment-detail .review-change-student:hover{color:var(--bw-primary);border-color:var(--bw-primary);background:var(--bw-primary-light)}
 .supervisor-assessment-detail .review-change-student:focus-visible{outline:2px solid var(--bw-primary);outline-offset:3px}
+.portal-usability .portal-completion-summary.completion-readiness{display:flex;align-items:center;gap:12px;padding:16px 18px;margin:16px 0;background:var(--bw-bg-alt);border-radius:9px}
+.completion-readiness>i{font-size:22px;color:var(--bw-primary);flex-shrink:0}.completion-readiness strong{font-size:14px;font-weight:500}.completion-readiness p{margin:4px 0 0!important;font-size:13px}
+
+.assessment-directory-pagination { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:20px;align-items:center; }
+.assessment-directory-pagination > span { grid-row:1;grid-column:1/-1;text-align:center;font-size:13px;color:var(--bw-text-secondary); }
+.assessment-directory-pagination button { min-width:0;padding-inline:12px; }
+.assessment-directory-pagination[hidden] { display:none!important; }
+
+body:has(#tab-completion.is-active, #tab-endorsement.is-active) .bw-main-content > [data-dashboard-overview] { display:none!important; }

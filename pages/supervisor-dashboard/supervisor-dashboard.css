@@ -161,11 +161,7 @@
 #page-supervisor-dashboard [data-style="s14"] { font-weight: 700; color: var(--bw-primary); }
 #page-supervisor-dashboard [data-style="s15"] { font-weight: 600; color: var(--bw-text); }
 #page-supervisor-dashboard [data-style="s16"] { min-width: 140px; }
-#page-supervisor-dashboard [data-style="s17"] { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--bw-text); }
-#page-supervisor-dashboard [data-style="s18"] { width: 75%; }
 #page-supervisor-dashboard [data-style="s19"] { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
-#page-supervisor-dashboard [data-style="s20"] { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--bw-success); }
-#page-supervisor-dashboard [data-style="s21"] { width: 100%; background: var(--bw-success); }
 #page-supervisor-dashboard [data-style="s22"] { font-weight: 700; color: var(--bw-success); }
 #page-supervisor-dashboard [data-style="s23"] { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
 #page-supervisor-dashboard [data-style="s24"] { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -241,7 +237,6 @@
 #supervisedStudentsTable th:nth-child(6) { width:160px; }
 #supervisedStudentsTable :is(th,td) { white-space:normal;overflow-wrap:normal;padding:20px 14px;vertical-align:middle; }
 #page-supervisor-dashboard #supervisedStudentsTable [data-style="s16"] { min-width:0; }
-#supervisedStudentsTable th:nth-child(4),#supervisedStudentsTable :is([data-style="s17"],[data-style="s20"],.roster-hours) { white-space:nowrap; }
 #supervisedStudentsTable td:nth-child(3) > div { white-space:normal;overflow-wrap:anywhere; }
 #supervisedStudentsTable [data-style="s8"] { gap:12px;align-items:center; }
 #supervisedStudentsTable [data-style="s8"] > div:last-child { min-width:0; }
@@ -267,3 +262,25 @@
   #supervisedStudentsTable.bw-reading-record .bw-record-expanded { grid-template-columns:minmax(0,1fr); }
   #page-supervisor-dashboard #tab-roster [data-style="s7"] { width:100%; }
 }
+
+/* Every roster row derives its progress styling from the same verified state. */
+#page-supervisor-dashboard .roster-training-progress {
+  --roster-progress-color:var(--bw-primary);
+}
+#page-supervisor-dashboard .roster-training-progress[data-progress-state='verified'] {
+  --roster-progress-color:var(--portal-positive-ink,#087354);
+}
+#page-supervisor-dashboard .roster-training-progress .roster-progress-label {
+  font-size:13px;font-weight:600;margin-bottom:6px;color:var(--roster-progress-color);
+}
+#page-supervisor-dashboard .roster-training-progress .bw-progress-fill {
+  background:var(--roster-progress-color);
+}
+
+.roster-pagination { display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px;font-size:13px;color:var(--bw-text-secondary); }
+.roster-pagination > span:first-child { margin-inline-end:auto; }
+.roster-pagination button { min-height:40px; }
+.roster-pagination button:disabled { opacity:.45;cursor:default; }
+#page-supervisor-dashboard #supervisedStudentsTable .roster-training-progress { min-width:180px; }
+#page-supervisor-dashboard #supervisedStudentsTable .roster-progress-label,
+#page-supervisor-dashboard #supervisedStudentsTable .roster-hours { white-space:nowrap; }

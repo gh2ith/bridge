@@ -97,7 +97,9 @@
   function completionPanel(id){
     const panel=section('Completion review','Verify the training record and both evaluations before issuing the Bridgeway certificate.'),h=placement(id),s=C.student(id),record=certificate(id);
     panel.append(studentContext(id),evaluationProgress(id));
-    const checks=checklist(id),ready=checks.filter(([,ok])=>ok).length,summary=E('div',null,'portal-completion-summary'),progress=E('progress');progress.max=checks.length;progress.value=ready;progress.setAttribute('aria-label',`${ready} of ${checks.length} completion requirements ready`);summary.append(E('strong',`${ready} of ${checks.length} requirements ready`),progress,E('p',ready===checks.length?'The record is ready for your final confirmation.':`Waiting for: ${checks.find(([,ok])=>!ok)[0].toLowerCase()}.`));panel.append(summary);
+    const checks=checklist(id),ready=checks.filter(([,ok])=>ok).length,summary=E('div',null,'portal-completion-summary completion-readiness');
+    const mark=E('i',null,record||ready===checks.length?'bi bi-check2-circle':'bi bi-clipboard-check');mark.setAttribute('aria-hidden','true');
+    summary.append(mark,A(E('div'),E('strong',record?'Completion approved':ready===checks.length?'Ready for final confirmation':`${ready} of ${checks.length} requirements ready`),E('p',record?'The certificate has been issued.':ready===checks.length?'All training and evaluation requirements are complete.':`Waiting for: ${checks.find(([,ok])=>!ok)[0].toLowerCase()}.`)));panel.append(summary);
     const list=E('ul',null,'journey-checklist');checklist(id).forEach(([label,ok])=>list.append(A(E('li'),E('i',null,`bi bi-${ok?'check-circle-fill':'circle'}`),E('span',label),E('strong',ok?'Ready':'Waiting'))));panel.append(list);
     if(currentCompanyEvaluation(id))panel.append(B('Read company evaluation',()=>C.dialog('Company evaluation',C.evaluation(id))));
     const a=academic(id);if(a){const details=E('details');details.append(E('summary','Academic assessment'),E('p',a.notes));a.criteria.forEach(c=>details.append(E('p',`${c.name}: ${c.result}`)));panel.append(details);}
@@ -126,23 +128,26 @@
     offsets[4]=length;push(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width 1600 /Height 1000 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpeg.length} >>\nstream\n`);push(jpeg);push('\nendstream\nendobj\n');const stream='q 800 0 0 500 0 0 cm /Im0 Do Q';obj(5,`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
     const start=length;push('xref\n0 6\n0000000000 65535 f \n');for(let i=1;i<6;i++)push(`${String(offsets[i]).padStart(10,'0')} 00000 n \n`);push(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${start}\n%%EOF`);return new Blob(parts,{type:'application/pdf'});
   }
-  function certificateCard(id){
-    const record=certificate(id),panel=section('Your completion certificate',record?'Approved by your college. Available to download and print.':'Available after company evaluation, academic assessment, and college completion approval.');
+  function certificateCard(id,{compact=false}={}){
+    const record=certificate(id),panel=section(compact?'Completion certificate':'Your completion certificate',record?(compact?'Approved by your college.':'Approved by your college. Available to download and print.'):'Available after company evaluation, academic assessment, and college completion approval.');
     if(!record)panel.append(evaluationProgress(id));
     if(!record)return panel;
-    panel.classList.add('journey-certificate');const canvas=certificateCanvas(record),preview=A(E('div',null,'certificate-preview'),canvas);panel.append(preview);
-    const actions=E('div',null,'certificate-actions'),enlarge=B('View larger',()=>{const content=A(E('div',null,'certificate-large-preview'),certificateCanvas(record)),d=C.dialog('Completion certificate',content);d.classList.add('certificate-preview-dialog');});
-    actions.append(enlarge,B('Download certificate PDF',()=>{const url=URL.createObjectURL(pdfBytes(canvas)),a=E('a');a.href=url;a.download=`Bridgeway-${record.id}.pdf`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);},true));panel.append(actions);return panel;
+    panel.classList.add('journey-certificate');if(compact)panel.classList.add('certificate-compact');const canvas=certificateCanvas(record),preview=A(E('div',null,'certificate-preview'),canvas);panel.append(preview);
+    const actions=E('div',null,'certificate-actions'),enlarge=B(compact?'View certificate':'View larger',()=>{const content=A(E('div',null,'certificate-large-preview'),certificateCanvas(record)),d=C.dialog('Completion certificate',content);d.classList.add('certificate-preview-dialog');});
+    actions.append(enlarge,B(compact?'Download PDF':'Download certificate PDF',()=>{const url=URL.createObjectURL(pdfBytes(canvas)),a=E('a');a.href=url;a.download=`Bridgeway-${record.id}.pdf`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);},true));panel.append(actions);return panel;
   }
 
   function supervisorAssessments(root,completion=false){
     root.replaceChildren();
     const directory=section(completion?'Students':'Assigned students',completion?'Training completion and certificates':'Company evaluations and academic assessments'),search=field('Find a student','','search'),count=E('p','','portal-muted'),list=E('div',null,'evaluation-student-list'),detail=E('div',null,'supervisor-assessment-detail');
     directory.classList.add('supervisor-assessment-picker','evaluation-directory','bw-student-picker');search.input.placeholder='Name, student ID, or company';count.setAttribute('role','status');directory.append(search.wrap,count,list);
-    root.append(A(E('div',null,'supervisor-assessment-workspace'),directory,detail));let selected='';
+    root.append(A(E('div',null,'supervisor-assessment-workspace'),directory,detail));let selected='',directoryPage=1;
+    const pager=E('nav',null,'assessment-directory-pagination');pager.setAttribute('aria-label',completion?'Completion review student pages':'Academic assessment student pages');count.tabIndex=-1;
+    const turn=step=>{directoryPage+=step;renderList();count.focus();},previous=B('Previous',()=>turn(-1)),next=B('Next',()=>turn(1)),pageLabel=E('span');pager.append(previous,pageLabel,next);directory.insertBefore(pager,list);
     const statusFor=id=>certificate(id)?'Certificate issued':completion?checklist(id).every(([,ok])=>ok)?'Ready for completion review':`${checklist(id).filter(([,ok])=>ok).length} of ${checklist(id).length} requirements ready`:academic(id)?'Academic assessment forwarded':currentCompanyEvaluation(id)?'Ready for academic assessment':'Awaiting company evaluation';
     function renderList(){
-      const students=visibleStudents(),query=search.input.value.trim().toLowerCase(),matches=students.filter(s=>`${s.name} ${s.studentId} ${C.org(s.company)}`.toLowerCase().includes(query));list.replaceChildren();count.textContent=`${matches.length} of ${students.length} assigned students`;
+      const students=visibleStudents(),records=students.map(student=>({student,search:(student.name+' '+student.studentId+' '+C.org(student.company)).toLowerCase(),filters:{}})),data=monitorPage(records,{query:search.input.value,page:directoryPage});directoryPage=data.page;const matches=data.rows.map(record=>record.student);
+      list.replaceChildren();count.textContent=data.total?data.start+' to '+data.end+' of '+data.total+' '+(data.total===1?'student':'students'):'No matching students';previous.disabled=data.page===1;next.disabled=data.page===data.pages;pageLabel.textContent='Page '+data.page+'/'+data.pages;pager.hidden=data.pages<=1;
       for(const s of matches){const button=B('',()=>choose(s.id));button.className='evaluation-student-button';button.setAttribute('aria-pressed',String(selected===s.id));button.setAttribute('aria-controls','supervisorAssessmentDetail');button.append(E('strong',s.name),E('span',`${s.studentId} / ${C.org(s.company)}`),E('small',statusFor(s.id)));list.append(button);}
       if(!matches.length)list.append(E('p','No matching students. Try another name, ID, or company.','portal-muted'));
     }
@@ -157,7 +162,7 @@
       if(form&&window.BridgewayUX?.dirty(form)){if(!await window.BridgewayUX.confirmDiscard('Changing students will discard your unfinished academic assessment. The company evaluation stays unchanged.'))return;window.BridgewayUX.remember(form);}
       selected=id;renderList();renderDetail();if(!id)search.input.focus();
     }
-    search.input.addEventListener('input',renderList);document.addEventListener('bridgeway:cycle-change',renderList);renderList();renderDetail();
+    search.input.addEventListener('input',()=>{directoryPage=1;renderList();});document.addEventListener('bridgeway:cycle-change',renderList);renderList();renderDetail();
   }
   function visibleStudents(){const viewer=C.identity();return window.BridgewayPartners.students.filter(s=>viewer===`company:${s.company}`||viewer===`admin:${s.college}`||viewer==='supervisor:ahmad'&&s.supervisor==='Dr. Ahmad S.');}
   function collegeListings(){
@@ -176,20 +181,87 @@
       });if(!listings.length)tbody.append(A(E('tr'),A(E('td'),E('p','No approved listings available.'))));
     }render();
   }
+  function monitorMatches(records,{query='',filter='All students',sort='Name A to Z'}={}){
+    const words=query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    const matches=records.filter(r=>words.every(word=>r.search.includes(word))&&(filter==='All students'||r.filters[filter]));
+    const byName=(a,b)=>a.student.name.localeCompare(b.student.name)||String(a.student.studentId).localeCompare(String(b.student.studentId));
+    return matches.sort((a,b)=>sort==='Fewest verified hours'?a.hours-b.hours||byName(a,b):byName(a,b));
+  }
+  function monitorPage(records,options={}){
+    const matches=monitorMatches(records,options),pages=Math.max(1,Math.ceil(matches.length/10)),page=Math.max(1,Math.min(pages,Math.floor(Number(options.page)||1)));
+    return {rows:matches.slice((page-1)*10,page*10),total:matches.length,pages,page,start:matches.length?(page-1)*10+1:0,end:Math.min(page*10,matches.length)};
+  }
+  function monitorCompanyPage(records,options={}){
+    const groups=new Map(),matches=monitorMatches(records,options);
+    matches.forEach(r=>{const key=r.companyKey||r.company;let group=groups.get(key);if(!group){group={key,name:r.company,records:[],priority:0,minHours:Infinity};groups.set(key,group);}group.records.push(r);group.priority=Math.max(group.priority,r.priority);group.minHours=Math.min(group.minHours,r.hours);});
+    const list=[...groups.values()];
+    list.sort((a,b)=>options.sort==='Fewest verified hours'?a.minHours-b.minHours||a.name.localeCompare(b.name):a.name.localeCompare(b.name));
+    const pages=Math.max(1,Math.ceil(list.length/10)),page=Math.max(1,Math.min(pages,Math.floor(Number(options.page)||1)));
+    return {groups:list.slice((page-1)*10,page*10),total:list.length,students:matches.length,pages,page};
+  }
   function monitor(root){
-    const panel=section('Progress monitor','Focus on overdue work, missing submissions, report reviews, and completion readiness.'),query=field('Find a student','','search'),filter=select('Show',['All students','Overdue tasks','Missing submissions','Awaiting company review','Reports awaiting verification','Behind planned hours'],'All students'),rows=E('div',null,'journey-monitor-list');panel.append(A(E('div',null,'cycle-toolbar'),query.wrap,filter.wrap),rows);root.append(panel);
-    function render(){rows.replaceChildren();visibleStudents().filter(s=>`${s.name} ${s.studentId}`.toLowerCase().includes(query.input.value.trim().toLowerCase())).forEach(s=>{
-      const tasks=taskEntries(s.id),weeks=C.state.plans[s.id]||[],T=window.BridgewayWeeklyTasks,late=tasks.filter(({task})=>T?.overdue(task)).length,missing=tasks.filter(({task})=>T?.taskStatus(task)==='Assigned').length,review=tasks.filter(({task})=>['Submitted','Resubmitted'].includes(T?.taskStatus(task))).length,reports=weeks.filter(w=>w.status==='submitted').length,hours=C.hours(s.id),h=placement(s.id),elapsed=h?.status==='Active'?Math.max(0,Math.floor((Date.parse(localDate())-Date.parse(h.start))/604800000)):0,expected=weeks.slice(0,elapsed).reduce((n,w)=>n+Number(w.hours||0),0);
-      const filterFlags={'Overdue tasks':late>0,'Missing submissions':missing>0,'Awaiting company review':review>0,'Reports awaiting verification':reports>0,'Behind planned hours':hours<expected};if(filter.input.value!=='All students'&&!filterFlags[filter.input.value])return;
-      const row=section(s.name,`${s.studentId} · ${C.org(s.company)}`);row.classList.add('journey-monitor-row');
-      const metrics=E('div',null,'journey-monitor-metrics');metrics.append(A(E('div'),E('strong',`${hours} / 120 h`),E('small',expected?`${expected} planned hours by now · Verified hours shown`:'Supervisor-verified hours')),A(E('div'),E('strong',tasks.length?`${tasks.filter(({task})=>T?.taskStatus(task)==='Completed').length} / ${tasks.length}`:'No tasks'),E('small',tasks.length?'Assigned tasks completed':'No company tasks assigned')));row.append(metrics);
-      const flags=E('div',null,'journey-monitor-flags');[[late,'overdue'],[missing,'not yet submitted'],[review,'awaiting company review'],[reports,reports===1?'report awaiting verification':'reports awaiting verification']].filter(([count])=>count).forEach(([count,label])=>flags.append(E('span',`${count} ${label}`)));if(!flags.children.length)flags.append(E('span','No task submissions or reports awaiting review'));row.append(flags);
-      row.append(B('View training and tasks',()=>{const content=E('div');C.training(content,s.id,document.body.dataset.portalRole);C.dialog(`${s.name} · Training`,content);}));rows.append(row);
-    });if(!rows.children.length)rows.append(E('p','No students match these filters.','cycle-muted'));}
-    query.input.addEventListener('input',render);filter.input.addEventListener('change',render);document.addEventListener('bridgeway:cycle-change',render);render();
+    const panel=section('Student progress','Browse by company, compare students, or follow their academic assignments.');panel.classList.add('progress-monitor');
+    let page=1,view=document.body.dataset.portalRole==='company'?'students':'companies',openCompany='',relationsCleanup=null;
+    const companyPages=new Map(),views=E('div',null,'monitor-views');views.setAttribute('role','group');views.setAttribute('aria-label','Progress monitor view');
+    const viewButtons=[['companies','By company'],['students','All students'],['relations','Relations']].map(([value,label])=>{const button=B(label,()=>{view=value;page=1;render();});button.dataset.monitorView=value;views.append(button);return button;});
+    const query=field('Find a student, company, or supervisor','','search'),filter=select('Show',['All students','Overdue tasks','Missing submissions','Awaiting company review','Reports awaiting verification','Behind planned hours'],'All students'),sort=select('Sort by',['Name A to Z','Fewest verified hours'],'Name A to Z');query.input.placeholder='Name, student ID, company, or supervisor';
+    const toolbar=A(E('div',null,'monitor-toolbar'),query.wrap,filter.wrap,sort.wrap),result=E('p',null,'monitor-result');result.setAttribute('role','status');result.setAttribute('aria-live','polite');result.tabIndex=-1;
+    const labels=['Student','Host company','Verified hours','Tasks completed','Needs attention','Training record'];
+    function makeTable(){const table=E('table',null,'monitor-table'),head=E('thead'),tr=E('tr'),body=E('tbody');labels.forEach(label=>{const th=E('th',label);th.scope='col';tr.append(th);});head.append(tr);table.append(E('caption','Student training progress','monitor-caption'),head,body);return {wrap:A(E('div',null,'monitor-table-wrap'),table),body};}
+    function renderRows(body,records){body.replaceChildren();
+      records.forEach(r=>{
+        const tr=E('tr'),cells=labels.map(label=>{const cell=E('td');cell.dataset.label=label;return cell;});
+        cells[0].append(E('strong',r.student.name),E('small','ID '+r.student.studentId));cells[1].textContent=r.company;
+        const progress=E('progress');progress.max=120;progress.value=Math.min(120,Math.max(0,r.hours));progress.setAttribute('aria-label',r.student.name+': verified hours');
+        cells[2].append(E('strong',r.hours+' / 120 h'),progress);cells[3].textContent=r.tasks?r.done+' / '+r.tasks:'No tasks';
+        const flags=[[r.late,'overdue'],[r.missing,'not submitted'],[r.review,'for company review'],[r.reports,'reports to verify']].filter(([count])=>count).map(([count,label])=>count+' '+label);
+        if(r.hours<r.expected)flags.push('Behind planned hours');
+        if(flags.length){const list=E('ul',null,'monitor-attention');flags.forEach(flag=>list.append(E('li',flag)));cells[4].append(list);}
+        else cells[4].append(E('span',r.hasPlan?'No pending reviews':'No training plan','monitor-muted'));
+        const open=B('View training',()=>{const content=E('div');C.training(content,r.student.id,document.body.dataset.portalRole);C.dialog(r.student.name+' · Training',content);});open.setAttribute('aria-label','View training for '+r.student.name+', student ID '+r.student.studentId);cells[5].append(open);
+        tr.append(...cells);body.append(tr);
+      });
+
+    }
+    const relationState={companyKey:'',supervisorKey:'',supervisorPage:1,studentPage:1},relations=E('div',null,'monitor-relations');
+    const table=makeTable(),groups=E('div',null,'monitor-companies'),empty=E('div',null,'monitor-empty'),clear=B('Clear search and filters',()=>{query.input.value='';filter.input.value='All students';reset();query.input.focus();});empty.append(E('h3','No students found'),E('p','Try another name, student ID, company, or filter.'),clear);
+    const pagination=E('nav',null,'monitor-pagination');pagination.setAttribute('aria-label','Student progress pages');
+    const changePage=step=>{page+=step;render();result.focus();result.scrollIntoView({block:'start',behavior:'instant'});},previous=B('Previous',()=>changePage(-1)),next=B('Next',()=>changePage(1)),pageLabel=E('span');pagination.append(previous,pageLabel,next);
+    const footer=A(E('footer',null,'monitor-footer'),pagination);panel.append(views,toolbar,result,table.wrap,groups,relations,empty,footer);root.append(panel);
+    function render(){
+      const records=visibleStudents().map(student=>{
+        const tasks=taskEntries(student.id),weeks=C.state.plans[student.id]||[],T=window.BridgewayWeeklyTasks;
+        const late=tasks.filter(({task})=>T?.overdue(task)).length,missing=tasks.filter(({task})=>T?.taskStatus(task)==='Assigned').length,review=tasks.filter(({task})=>['Submitted','Resubmitted'].includes(T?.taskStatus(task))).length,reports=weeks.filter(w=>w.status==='submitted').length,done=tasks.filter(({task})=>T?.taskStatus(task)==='Completed').length,hours=C.hours(student.id),h=placement(student.id),elapsed=h?.status==='Active'?Math.max(0,Math.floor((Date.parse(localDate())-Date.parse(h.start))/604800000)):0,expected=weeks.slice(0,elapsed).reduce((n,w)=>n+Number(w.hours||0),0),company=h?.company?C.org(h.company):'No host company';
+        return {student,company,companyKey:h?.company||'unassigned',tasks:tasks.length,done,late,missing,review,reports,hours,expected,hasPlan:weeks.length>0,priority:(late?100:0)+(reports?40:0)+(review?20:0)+(missing?10:0)+(hours<expected?5:0),search:(student.name+' '+student.studentId+' '+company+' '+(student.supervisor||'Unassigned')).toLowerCase(),filters:{'Overdue tasks':late>0,'Missing submissions':missing>0,'Awaiting company review':review>0,'Reports awaiting verification':reports>0,'Behind planned hours':hours<expected}};
+      });
+
+      const options={query:query.input.value,filter:filter.input.value,sort:sort.input.value,page},companyView=view==='companies',relationView=view==='relations',groupedView=companyView||relationView,data=groupedView?monitorCompanyPage(records,options):monitorPage(records,options);page=data.page;
+      viewButtons.forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.monitorView===view)));
+      relationsCleanup?.();relationsCleanup=null;footer.append(pagination);relations.replaceChildren();
+      table.wrap.hidden=groupedView||!data.total;groups.hidden=!companyView||!data.total;relations.hidden=!relationView||!data.total;empty.hidden=!!data.total;groups.replaceChildren();
+      if(relationView){
+        result.textContent=data.students+' '+(data.students===1?'student':'students')+' across host companies and academic assignments';
+        relationsCleanup=window.BridgewayProgressRelations.render(relations,data,options,relationState,changes=>{Object.assign(relationState,changes);render();},pagination);
+      }else if(companyView){
+        result.textContent=data.students+' '+(data.students===1?'student':'students')+' grouped by host company'+(query.input.value.trim()||filter.input.value!=='All students'?' matching your filters':'');
+        data.groups.forEach(group=>{
+          const details=E('details',null,'monitor-company'),summary=E('summary'),identity=A(E('span',null,'monitor-company-identity'),E('strong',group.name),E('span',group.records.length+' '+(group.records.length===1?'student':'students'))),attention=group.records.filter(r=>r.priority>0).length;
+          summary.append(identity);if(attention)summary.append(E('span',attention+' needing attention','monitor-company-attention'));const chevron=E('i',null,'bi bi-chevron-right monitor-company-chevron');chevron.setAttribute('aria-hidden','true');summary.append(chevron);details.append(summary);
+          const content=E('div',null,'monitor-company-content');details.append(content);
+          function showStudents(){
+            const subset=monitorPage(group.records,{sort:sort.input.value,page:companyPages.get(group.key)||1});companyPages.set(group.key,subset.page);content.replaceChildren();const count=E('p',subset.start+' to '+subset.end+' of '+subset.total+' students','monitor-result');count.setAttribute('role','status');count.tabIndex=-1;const nested=makeTable();renderRows(nested.body,subset.rows);content.append(count,nested.wrap);
+            if(subset.pages>1){const nav=E('nav',null,'monitor-pagination');nav.setAttribute('aria-label',group.name+' student pages');const turn=step=>{companyPages.set(group.key,subset.page+step);showStudents();content.querySelector('.monitor-result').focus();},prev=B('Previous',()=>turn(-1)),next=B('Next',()=>turn(1));prev.disabled=subset.page===1;next.disabled=subset.page===subset.pages;nav.append(prev,E('span','Page '+subset.page+'/'+subset.pages),next);content.append(nav);}
+          }
+          details.addEventListener('toggle',()=>{if(!details.isConnected)return;if(details.open){openCompany=group.key;groups.querySelectorAll('details').forEach(other=>{if(other!==details)other.open=false;});if(!content.children.length)showStudents();}else if(openCompany===group.key)openCompany='';});
+          if(openCompany===group.key||(query.input.value.trim()&&data.groups.length===1)){details.open=true;showStudents();}groups.append(details);
+        });
+      }else{result.textContent=data.total?data.start+' to '+data.end+' of '+data.total+' '+(data.total===1?'student':'students')+(data.total!==records.length?' ('+records.length+' total)':''):'No matching students';renderRows(table.body,data.rows);}
+      previous.disabled=page===1;next.disabled=page===data.pages;pageLabel.textContent='Page '+page+'/'+data.pages;pagination.hidden=data.pages<=1;pagination.setAttribute('aria-label',groupedView?'Company pages':'Student progress pages');
+    }
+    function reset(){page=1;companyPages.clear();relationState.supervisorPage=1;relationState.studentPage=1;render();}query.input.addEventListener('input',reset);filter.input.addEventListener('change',reset);sort.input.addEventListener('change',reset);document.addEventListener('bridgeway:cycle-change',render);render();
   }
   function tab(id,label){const nav=document.querySelector('.bw-masar-nav'),main=document.querySelector('.bw-main-content'),panel=E('section',null,'bw-tab-panel');panel.id=id;const button=B('',()=>{document.querySelectorAll('.bw-tab-panel').forEach(p=>p.classList.toggle('is-active',p.id===id));document.querySelectorAll('.bw-masar-nav [data-tab]').forEach(b=>{b.classList.toggle('is-active',b.dataset.tab===id);if(b.dataset.tab===id)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});history.replaceState(null,'','#'+id);});button.className='bw-masar-item bw-tab-btn';button.dataset.tab=id;button.append(E('i',null,'bi bi-clipboard-check'),E('span',label));button.setAttribute('aria-label',label);button.querySelector('i').setAttribute('aria-hidden','true');nav?.append(button);main.append(panel);new MutationObserver(()=>{if(panel.classList.contains('is-active')){document.body.classList.add('portal-task-view');const heading=main.querySelector('h1');if(heading)heading.textContent=label;}}).observe(panel,{attributes:true,attributeFilter:['class']});return panel;}
-  window.BridgewayJourney={placement,academic,certificate,checklist,sendAcademic,approve,skills,setSkills,skillsPanel,mountSkills,academicPanel,completionPanel,certificateCard,certificateCanvas,pdfBytes,taskEntries,evaluationSteps,evaluationProgress};
+  window.BridgewayJourney={monitorPage,monitorCompanyPage,placement,academic,certificate,checklist,sendAcademic,approve,skills,setSkills,skillsPanel,mountSkills,academicPanel,completionPanel,certificateCard,certificateCanvas,pdfBytes,taskEntries,evaluationSteps,evaluationProgress};
   document.addEventListener('DOMContentLoaded',()=>{
     const role=document.body.dataset.portalRole;
     if(role==='company'){

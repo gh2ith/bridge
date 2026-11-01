@@ -1,0 +1,117 @@
+/* Bounded, comparable progress rows for large student cohorts. */
+.progress-monitor .monitor-toolbar { display:grid;grid-template-columns:minmax(240px,2fr) minmax(190px,1fr) minmax(190px,1fr);gap:16px;align-items:end;margin:24px 0 16px; }
+.progress-monitor .monitor-toolbar .cycle-field { min-width:0;margin:0; }
+.progress-monitor .monitor-result { margin:16px 0;color:var(--bw-text-secondary);font-size:13px;scroll-margin-top:24px; }
+.progress-monitor .monitor-table-wrap { overflow-x:auto;border-radius:8px; }
+.progress-monitor .monitor-table { width:100%;border-collapse:collapse;font-size:13px;line-height:1.5; }
+.progress-monitor .monitor-table th { padding:12px 14px;text-align:left;background:var(--bw-bg-alt);color:var(--bw-text-secondary);font-size:12px;font-weight:500;white-space:nowrap; }
+.progress-monitor .monitor-table td { padding:16px 14px;text-align:left;border-bottom:1px solid var(--bw-border);vertical-align:middle; }
+.progress-monitor .monitor-table td:first-child { min-width:160px; }
+.progress-monitor .monitor-table td:nth-child(3) { min-width:140px; }
+.progress-monitor .monitor-table td:last-child { white-space:nowrap; }
+.progress-monitor .monitor-table :is(strong,small) { display:block; }
+.progress-monitor .monitor-table strong { font-size:13px;font-weight:500; }
+.progress-monitor .monitor-table small { font-size:12px;color:var(--bw-text-secondary);margin-top:4px; }
+.progress-monitor .monitor-table progress { display:block;width:120px;height:6px;margin-top:8px;accent-color:var(--bw-primary);border:0;border-radius:4px;overflow:hidden;background:var(--bw-bg-alt); }
+.progress-monitor progress::-webkit-progress-bar { background:var(--bw-bg-alt); }
+.progress-monitor progress::-webkit-progress-value { background:var(--bw-primary);border-radius:4px; }
+.progress-monitor progress::-moz-progress-bar { background:var(--bw-primary); }
+.progress-monitor .monitor-attention { list-style:none;padding:0;margin:0;display:grid;gap:4px;font-size:12px; }
+.progress-monitor .monitor-muted { color:var(--bw-text-secondary);font-size:12px; }
+.progress-monitor .monitor-footer { display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:20px; }
+.progress-monitor .monitor-pagination { display:flex;align-items:center;gap:12px;font-size:13px; }
+.progress-monitor .monitor-empty { padding:40px 20px;text-align:center;background:var(--bw-bg-alt);border-radius:8px; }
+.progress-monitor .monitor-empty h3 { margin:0 0 8px;font-size:18px; }
+.progress-monitor .monitor-empty p { font-size:14px;color:var(--bw-text-secondary); }
+.progress-monitor [hidden] { display:none!important; }
+.progress-monitor .monitor-caption { position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap; }
+@media (max-width:1100px) {
+ .progress-monitor .monitor-toolbar { grid-template-columns:repeat(2,minmax(0,1fr)); }
+ .progress-monitor .monitor-toolbar > :first-child { grid-column:1/-1; }
+}
+@media (max-width:760px) {
+ .progress-monitor .monitor-toolbar { grid-template-columns:minmax(0,1fr);gap:12px; }
+ .progress-monitor .monitor-table-wrap { overflow:visible; }
+ .progress-monitor .monitor-table,.progress-monitor .monitor-table tbody { display:block; }
+ .progress-monitor .monitor-table thead { position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%); }
+ .progress-monitor .monitor-table tr { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;padding:20px 0;border-bottom:1px solid var(--bw-border); }
+ .progress-monitor .monitor-table td { display:block;min-width:0!important;padding:0;border:0;overflow-wrap:anywhere; }
+ .progress-monitor .monitor-table td::before { content:attr(data-label);display:block;font-size:12px;font-weight:400;color:var(--bw-text-secondary);margin-bottom:6px; }
+ .progress-monitor .monitor-table td:first-child { grid-column:1/-1; }
+ .progress-monitor .monitor-table td:first-child::before,.progress-monitor .monitor-table td:last-child::before { display:none; }
+ .progress-monitor .monitor-table td:first-child strong { font-size:16px; }
+ .progress-monitor .monitor-table td:last-child { align-self:end;justify-self:end; }
+ .progress-monitor .monitor-table progress { max-width:100%; }
+ .progress-monitor .monitor-pagination { gap:8px;justify-content:space-between;width:100%; }
+ .progress-monitor .monitor-footer { align-items:stretch; }
+}
+/* Overview totals do not belong above the student monitoring workspace. */
+body:has(#tab-progress-monitor.is-active) .bw-main-content > [data-dashboard-overview] { display:none!important; }
+.progress-monitor .monitor-views { display:inline-flex;gap:4px;padding:4px;background:var(--bw-bg-alt);border-radius:10px;margin-top:16px; }
+.progress-monitor .monitor-views button { min-height:44px;padding:8px 20px;background:transparent;border:1px solid transparent;color:var(--bw-text-secondary);border-radius:7px;font:500 13px var(--bw-font-body);cursor:pointer; }
+.progress-monitor .monitor-views button[aria-pressed=true] { background:var(--bw-surface);border-color:var(--bw-border);color:var(--bw-text); }
+.progress-monitor .monitor-companies { display:grid;gap:12px; }
+.progress-monitor .monitor-company { border:1px solid var(--bw-border);border-radius:10px;overflow:clip; }
+.progress-monitor .monitor-company > summary { display:flex;align-items:center;gap:16px;min-height:76px;padding:16px 20px;cursor:pointer;list-style:none;background:var(--bw-surface); }
+.progress-monitor .monitor-company > summary::-webkit-details-marker { display:none; }
+.progress-monitor .monitor-company-chevron { font-size:16px;margin-left:auto;color:var(--bw-text-secondary); }
+.progress-monitor .monitor-company[open] > summary .monitor-company-chevron { transform:rotate(90deg); }
+.progress-monitor .monitor-company > summary:hover { background:var(--bw-bg-alt); }
+.progress-monitor .monitor-company-identity { display:grid;gap:5px;min-width:0; }
+.progress-monitor .monitor-company-identity strong { font-size:15px;font-weight:500;overflow-wrap:anywhere; }
+.progress-monitor .monitor-company-identity > span,.progress-monitor .monitor-company-attention { font-size:12px;color:var(--bw-text-secondary); }
+.progress-monitor .monitor-company-attention { margin-left:auto; }
+.progress-monitor .monitor-company-attention + * { margin-left:0; }
+.progress-monitor .monitor-company-content { padding:0 20px 20px; }
+.progress-monitor .monitor-company .monitor-table :is(th,td):nth-child(2) { display:none; }
+.progress-monitor .monitor-company-content > .monitor-pagination { margin-top:20px;justify-content:flex-end; }
+.progress-monitor .monitor-footer { justify-content:flex-end; }
+.progress-monitor .monitor-company > summary:focus-visible { outline:2px solid var(--bw-primary);outline-offset:-3px; }
+@media (max-width:760px) {
+ .progress-monitor .monitor-company > summary { padding:16px;gap:12px;flex-wrap:wrap; }
+ .progress-monitor .monitor-company-identity { flex:1; }
+ .progress-monitor .monitor-company-attention { margin-left:0; }
+ .progress-monitor .monitor-company-content { padding:0 16px 16px; }
+ .progress-monitor .monitor-company .monitor-table td:nth-child(3) { grid-column:1; }
+ .progress-monitor .monitor-company-chevron { margin-left:0; }
+ .progress-monitor .monitor-company-content > .monitor-pagination { justify-content:space-between; }
+}
+/* Relations: follow one company and academic assignment at a time. */
+.progress-monitor .relation-context { margin:0 0 20px;font-size:13px;color:var(--bw-text-secondary);overflow-wrap:anywhere; }
+.progress-monitor .relation-map { position:relative;isolation:isolate;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr);gap:40px;align-items:start; }
+.progress-monitor .relation-links { position:absolute;inset:0;width:100%;height:100%;max-width:none;pointer-events:none;z-index:0;overflow:visible; }
+.progress-monitor .relation-links path { fill:none;stroke:var(--bw-text-muted);stroke-width:1.5;vector-effect:non-scaling-stroke; }
+.progress-monitor .relation-lane { position:relative;z-index:1;min-width:0; }
+.progress-monitor .relation-lane > header { min-height:64px;margin-bottom:16px; }
+.progress-monitor .relation-lane h3 { font-size:15px;font-weight:600;margin:0 0 6px; }
+.progress-monitor .relation-lane header p { font-size:12px;color:var(--bw-text-secondary);line-height:1.5;margin:0;overflow-wrap:anywhere; }
+.progress-monitor .relation-choices { display:grid;gap:10px; }
+.progress-monitor .relation-choice,.progress-monitor .relation-student { display:grid;gap:6px;width:100%;min-height:80px;padding:16px;border:1px solid var(--bw-border);border-radius:8px;background:var(--bw-surface);color:var(--bw-text);font:inherit;text-align:left;cursor:pointer;overflow-wrap:anywhere; }
+.progress-monitor .relation-choice strong,.progress-monitor .relation-student strong { font-size:14px;font-weight:500; }
+.progress-monitor .relation-choice :is(span,small),.progress-monitor .relation-student :is(span,small) { font-size:12px;color:var(--bw-text-secondary);line-height:1.5; }
+.progress-monitor .relation-choice[aria-pressed=true] { background:var(--bw-primary-light);border-color:var(--bw-primary); }
+.progress-monitor .relation-student:hover,.progress-monitor .relation-choice:hover { border-color:var(--bw-primary); }
+.progress-monitor .relation-student-count { margin:0 0 12px;font-size:12px;color:var(--bw-text-secondary);scroll-margin-top:24px; }
+.progress-monitor .relation-students { list-style:none;padding:0;margin:0;display:grid;gap:10px; }
+.progress-monitor .relation-mobile-select { display:none; }
+.progress-monitor .relation-lane > .monitor-pagination { margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+.progress-monitor .relation-lane > .monitor-pagination > span { grid-row:1;grid-column:1/-1;text-align:center; }
+.progress-monitor .relation-lane > .monitor-pagination > button { padding-inline:10px;min-width:0; }
+.progress-monitor .monitor-footer:empty { display:none; }
+.progress-monitor :is(.relation-choice,.relation-student,.relation-mobile-select):focus-visible { outline:2px solid var(--bw-primary);outline-offset:3px; }
+@media (max-width:1000px) and (min-width:761px) {
+ .progress-monitor .relation-map { gap:24px; }
+ .progress-monitor .relation-choice,.progress-monitor .relation-student { padding:12px; }
+}
+@media (max-width:760px) {
+ .progress-monitor .relation-map { grid-template-columns:minmax(0,1fr);gap:24px; }
+ .progress-monitor .relation-links,.progress-monitor .relation-choices { display:none; }
+ .progress-monitor .relation-lane > header { min-height:0;margin-bottom:12px; }
+ .progress-monitor .relation-mobile-select { display:block;width:100%;min-height:44px;border:1px solid var(--bw-text-muted);border-radius:8px;background:var(--bw-surface);color:var(--bw-text);padding:10px;font:inherit; }
+ .progress-monitor .relation-lane > .monitor-pagination { grid-template-columns:auto auto auto;align-items:center; }
+ .progress-monitor .relation-lane > .monitor-pagination > span { grid-column:2;grid-row:1; }
+ .progress-monitor .relation-lane > .monitor-pagination > button:first-child { grid-column:1;grid-row:1; }
+ .progress-monitor .relation-lane > .monitor-pagination > button:last-child { grid-column:3;grid-row:1; }
+ .progress-monitor .monitor-views { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;box-sizing:border-box; }
+ .progress-monitor .monitor-views button { padding:8px 4px;font-size:12px;min-width:0; }
+}

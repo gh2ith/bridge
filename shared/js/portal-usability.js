@@ -59,7 +59,7 @@
         const content=E('div',null,'portal-more-content');content.append(...secondary);menu.append(summary,content);actions.append(menu);
       });
       find('textarea[maxlength]').forEach(input=>{
-        if(input.dataset.portalCount||input.id==='postingQuestions')return;input.dataset.portalCount='true';
+        if(input.dataset.portalCount||input.id==='postingQuestions'||input.closest('.support-reply-form')?.querySelector('.support-reply-count'))return;input.dataset.portalCount='true';
         const count=E('small',null,'portal-character-count');count.id='field-count-'+crypto.randomUUID();
         const label=input.labels?.[0],labelText=label?.querySelector(':scope > span');
         if(label?.contains(input)&&labelText&&!input.hasAttribute('aria-labelledby')){labelText.id||='field-label-'+crypto.randomUUID();input.setAttribute('aria-labelledby',labelText.id);}

@@ -1,0 +1,92 @@
+/* Interface craft: preserve Bridgeway's blue identity and existing workflow DOM. */
+body {
+  --craft-space: 8px;
+  --craft-section-gap: 32px;
+  --craft-radius: 16px;
+  --craft-control-radius: 8px;
+  --craft-focus: #1d4ed8;
+  --craft-ease: cubic-bezier(.22,1,.36,1);
+  --craft-speed: 160ms;
+  --craft-shadow: 0 2px 8px rgb(22 59 105 / 4%);
+}
+[data-theme="dark"] body { --craft-focus: #a8caff; --craft-shadow: 0 2px 8px rgb(0 0 0 / 12%); }
+body :is(button,a,input,select,textarea,summary,[tabindex]):focus-visible { outline: 3px solid var(--craft-focus); outline-offset: 3px; }
+body :is(input,select,textarea) { scroll-margin-block: 100px; }
+body :is(button,a,summary) { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+body :is(h1,h2,h3) { text-wrap: balance; }
+body :is(p,dd) { overflow-wrap: break-word; }
+body :is(.bw-kpi-value,.insight-summary-copy > strong,.journey-monitor-metrics,td,dd) { font-variant-numeric: tabular-nums; }
+
+/* A distinct page title, a clear section title, then quieter supporting copy. */
+body.portal-layout { --bw-text-muted: #5e6d83; --bw-type-page: 30px; --bw-type-section: 21px; --bw-type-body: 14px; }
+[data-theme="dark"] body.portal-layout { --bw-text-muted: #abbcd2; }
+body.portal-layout:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin,#page-student-dashboard) :is(.company-page-heading,.supervisor-page-heading,.bw-page-header,.studio-welcome) { margin-block: 24px var(--craft-section-gap); }
+body.portal-layout:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin,#page-student-dashboard) :is(.company-page-heading,.supervisor-page-heading,.bw-page-header,.studio-welcome) h1 { font-size: clamp(25px,2.4vw,32px) !important; font-weight: 600 !important; line-height: 1.2 !important; letter-spacing: -.035em !important; }
+body.portal-layout :is(.bw-subtitle,.company-section-heading p,.cycle-heading p,.journal-header p) { max-width: 65ch; color: var(--bw-text-secondary); font-size: 14px; line-height: 1.6; }
+body.portal-layout :is(.bw-card-panel-title,.company-section-heading h2,.cycle-heading h2,.dashboard-insights h2) { font-weight: 600 !important; }
+body.portal-layout :is(.bw-card-panel,.cycle-section,.platform-panel,.gallery-dossier) { border-radius: var(--craft-radius); box-shadow: var(--craft-shadow); }
+body.portal-layout :is(.bw-form-group,.cycle-field,.ie-field) { min-width: 0; }
+body.portal-layout :is(input:not([type=checkbox]):not([type=radio]):not([type=hidden]),select,textarea) { border-color: var(--bw-text-muted); border-radius: var(--craft-control-radius); }
+body.portal-layout :is(.company-primary,.bw-btn-primary,.cycle-button--primary,.btn--primary) { box-shadow: none; font-weight: 600 !important; }
+body.portal-layout :is(.company-topbar,.studio-top) { border-bottom: 1px solid var(--bw-border); }
+body.portal-layout .portal-next-action { padding: 24px; margin-bottom: var(--craft-section-gap); border-radius: var(--craft-radius); background: var(--bw-primary-light); }
+
+/* Keep live metrics in reading order, with one row when space permits. */
+body.dashboard-reference { --craft-metric-columns: 4; }
+body.dashboard-reference[data-portal-role="admin"] { --craft-metric-columns: 3; }
+body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] { grid-template-columns: repeat(var(--craft-metric-columns),minmax(0,1fr)) !important; gap: 12px; margin-bottom: var(--craft-section-gap); }
+body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] > .dashboard-overview-title { grid-column: 1 / -1; margin-bottom: 4px; font-size: 14px !important; color: var(--bw-text-secondary); }
+body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] > :is(.bw-kpi-card,button) { min-height: 156px; padding: 20px; border-radius: 12px; box-shadow: none; }
+body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] :is(.bw-kpi-label,.company-metric-label,button > span:first-child) { font-size: 13px; line-height: 1.5; }
+body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] :is(.bw-kpi-value,button > strong) { font-size: 36px; letter-spacing: -.045em; line-height: 1.1; }
+body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] :is(.bw-kpi-desc,.company-metric-caption,button > small) { font-size: 12px; line-height: 1.5; }
+body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] :is(.bw-kpi-icon,.company-metric-label > i,button > span:first-child > i) { top: 18px; right: 16px; }
+body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] > :is(.bw-kpi-card,button):hover { transform: none !important; }
+body.portal-layout .dashboard-insights { margin-bottom: var(--craft-section-gap); }
+body.portal-layout .dashboard-insights > header { margin-bottom: 24px; }
+body.portal-layout .dashboard-insights h2 { font-size: 20px !important; line-height: 1.3 !important; }
+body.portal-layout .dashboard-insights header p { margin-top: 6px; font-size: 13px; }
+body.portal-layout .insight-widget { padding: 24px; border-radius: var(--craft-radius); box-shadow: none; }
+body.portal-layout .insight-widget h3 { font-weight: 600 !important; font-size: 16px !important; }
+body.portal-layout .insight-switch button { min-height: 40px !important; padding-inline: 16px; }
+body.portal-layout :is(.insight-bar,.insight-bar > span,.insight-horizontal-track > span,.insight-ring-fill) { transition: none; }
+
+/* Small, interruptible feedback; data and frequently used navigation stay still. */
+@media (prefers-reduced-motion: no-preference) {
+  body.portal-layout :is(.company-primary,.bw-btn-primary,.cycle-button,.bw-btn-outline) { transition: background-color var(--craft-speed) var(--craft-ease),border-color var(--craft-speed) var(--craft-ease),scale var(--craft-speed) var(--craft-ease); }
+  body.portal-layout :is(.company-primary,.bw-btn-primary,.cycle-button,.bw-btn-outline):not(:disabled):active { scale: .96; }
+}
+@media (max-width: 1100px) {
+  body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] { grid-template-columns: repeat(3,minmax(0,1fr)) !important; }
+}
+@media (max-width: 900px) {
+  body.portal-layout .insight-analytics-top { grid-template-columns: minmax(0,1fr); }
+  body.portal-layout .insight-analytics-bottom { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 600px) {
+  body.portal-layout { --craft-section-gap: 24px; }
+  body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] { grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 10px; }
+  body.dashboard-reference:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin)[data-portal-role] [data-dashboard-overview] > :is(.bw-kpi-card,button) { min-height: 152px; padding: 16px; }
+  body.portal-layout:is(#page-admin-dashboard,#page-supervisor-dashboard,#page-company-dashboard,#page-platform-admin,#page-student-dashboard) :is(.company-page-heading,.supervisor-page-heading,.bw-page-header,.studio-welcome) { margin-block: 20px 24px; }
+  body.portal-layout :is(input,select,textarea) { font-size: 16px !important; }
+  body.portal-layout :is(.insight-widget,.portal-next-action) { padding: 20px; }
+  body.portal-layout .insight-switch button { min-height: 44px !important; }
+  body.portal-layout .dashboard-insights > header { align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+  body.portal-layout .insight-analytics-bottom { grid-template-columns: minmax(0,1fr); }
+  body.portal-layout .insight-plot { position: relative; }
+  body.portal-layout .insight-plot button { position: static; }
+  body.portal-layout .insight-plot button .insight-tooltip { inset-inline: 0 auto; bottom: 100%; max-width: 100%; white-space: normal; transform: none; box-sizing: border-box; }
+  body.portal-layout :is(.company-page-heading,.bw-page-header,.supervisor-page-heading) { gap: 16px; flex-wrap: wrap; }
+}
+@media (forced-colors: active) {
+  body :is(button,a,input,select,textarea,summary,[tabindex]):focus-visible { outline-color: Highlight; }
+  body [aria-pressed="true"] { outline: 2px solid Highlight; outline-offset: -2px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body *,body *::before,body *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* Keep count baselines aligned when a metric label wraps. */
+body.dashboard-reference [data-dashboard-overview] .bw-kpi-info { display: grid; grid-template-rows: minmax(40px,auto) auto minmax(36px,auto); gap: 12px; }
+body.dashboard-reference [data-dashboard-overview] .bw-kpi-label { align-self: start; }
+body.dashboard-reference [data-dashboard-overview] .bw-kpi-desc { align-self: end; }

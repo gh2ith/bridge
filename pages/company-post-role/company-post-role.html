@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bridgeway — Post a New Role (Company Portal)</title>
+  <title>Create an internship | Bridgeway</title>
   <meta name="description" content="Create an internship listing for Platform Admin review and publication across active colleges.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,13 +20,19 @@
   <link rel="stylesheet" href="../../shared/css/portal-enhancements.css?v=layout-2">
 
   <link rel="stylesheet" href="../../shared/css/interactions.css?v=portal-clean-2">
-  <link rel="stylesheet" href="company-post-role.css?v=review-ux-2">
-<link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
+<link rel="stylesheet" href="../../shared/css/portal-ux.css?v=semantic-intent-63">
 <link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=internship-editor-71">  <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
 <link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
 <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-9">
+  <link rel="stylesheet" href="../../shared/css/interface-craft.css?v=metric-alignment-2">
+  <link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
+  <link rel="stylesheet" href="../../shared/css/portal-polish.css?v=semantic-intent-4">
+  <link rel="stylesheet" href="../../shared/css/internal-platform.css?v=internal-2">
+  <link rel="stylesheet" href="../../shared/css/workspace-tools.css?v=ticket-restore-5">
+  <link rel="stylesheet" href="../../shared/css/product-system.css?v=company-pages-4">
+  <link rel="stylesheet" href="company-post-role.css?v=polished-form-3">
 </head>
-<body class="portal-layout company-workspace portal-unified" data-portal-role="company" id="page-company-post-role">
+<body class="portal-layout company-workspace portal-unified platform-rework" data-portal-role="company" id="page-company-post-role">
 
   <div class="bw-company-layout"><aside class="bw-masar-sidebar" aria-label="Company navigation"><div class="bw-masar-top"><div class="bw-masar-header">
           <a href="../home/index.html" class="bw-masar-brand" title="Bridgeway Home">
@@ -71,19 +77,19 @@
           <button type="button" class="bw-masar-toggle" id="bwSidebarToggle" aria-label="Toggle Sidebar Menu">
             <i class="bi bi-list"></i>
           </button>
-        </div><div class="portal-role-label">Company</div><nav class="bw-masar-nav"><a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-posts" title="Dashboard"><i class="bi bi-grid" aria-hidden="true"></i><span>Dashboard</span></a><a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-candidates" title="Applications"><i class="bi bi-people" aria-hidden="true"></i><span>Applications</span></a><a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-accepted-students"><i class="bi bi-person-check" aria-hidden="true"></i><span>Interns</span></a><a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-weekly-reports" title="Weekly reports"><i class="bi bi-calendar3" aria-hidden="true"></i><span>Weekly reports</span></a><a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-final-evaluation" title="Evaluations"><i class="bi bi-check2-square" aria-hidden="true"></i><span>Evaluations</span></a></nav></div><div class="bw-masar-bottom-group"><div class="bw-masar-divider"></div><div class="bw-masar-bottom"><a class="bw-masar-link" href="../company-profile/company-profile.html"><i class="bi bi-person-circle" aria-hidden="true"></i><span>Profile</span></a><button type="button" class="bw-masar-link bw-masar-btn-link" id="bwThemeToggle"><i class="bi bi-moon-stars" id="bwThemeIcon" aria-hidden="true"></i><span id="bwThemeText">Dark Mode</span></button><a class="bw-masar-link" href="../login/login.html"><i class="bi bi-box-arrow-right" aria-hidden="true"></i><span>Logout</span></a></div></div></aside><main class="bw-company-content bw-main-content"><header class="company-topbar"><div class="company-breadcrumb">Workspace <span>/</span> <strong id="portalRoleLabel">Company</strong></div><div class="company-account-wrap"><button type="button" class="company-account" id="portalAccountToggle" aria-expanded="false" aria-controls="portalAccountDropdown" aria-label="Account options"><span class="company-monogram" id="portalInitials">TC</span><span id="portalAccountName">Tech Corp Inc.</span><i class="bi bi-chevron-down" aria-hidden="true"></i></button><nav class="company-account-dropdown" id="portalAccountDropdown" aria-label="Account options" hidden><a href="../company-profile/company-profile.html" data-portal-profile>Account profile</a><a href="../login/login.html" class="company-account-logout">Logout</a></nav></div></header>
+        </div><div class="portal-role-label">Company</div><nav class="bw-masar-nav"><a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-posts" title="Dashboard"><i class="bi bi-grid" aria-hidden="true"></i><span>Dashboard</span></a><a class="bw-masar-item is-active" href="../company-listings/company-listings.html" title="Internship listings"><i class="bi bi-briefcase" aria-hidden="true"></i><span>Listings</span></a><a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-candidates" title="Applications"><i class="bi bi-people" aria-hidden="true"></i><span>Applications</span></a><a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-accepted-students"><i class="bi bi-person-check" aria-hidden="true"></i><span>Interns</span></a><a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-weekly-reports" title="Weekly reports"><i class="bi bi-calendar3" aria-hidden="true"></i><span>Weekly reports</span></a><a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-final-evaluation" title="Evaluations"><i class="bi bi-check2-square" aria-hidden="true"></i><span>Evaluations</span></a></nav></div><div class="bw-masar-bottom-group"><div class="bw-masar-divider"></div><div class="bw-masar-bottom"><a class="bw-masar-link" href="../company-profile/company-profile.html"><i class="bi bi-person-circle" aria-hidden="true"></i><span>Profile</span></a><button type="button" class="bw-masar-link bw-masar-btn-link" id="bwThemeToggle"><i class="bi bi-moon-stars" id="bwThemeIcon" aria-hidden="true"></i><span id="bwThemeText">Dark Mode</span></button><a class="bw-masar-link" href="../login/login.html"><i class="bi bi-box-arrow-right" aria-hidden="true"></i><span>Logout</span></a></div></div></aside><main class="bw-company-content bw-main-content"><header class="company-topbar"><div class="company-breadcrumb">Workspace <span>/</span> <strong id="portalRoleLabel">Company</strong></div><div class="company-account-wrap"><button type="button" class="company-account" id="portalAccountToggle" aria-expanded="false" aria-controls="portalAccountDropdown" aria-label="Account options"><span class="company-monogram" id="portalInitials">TC</span><span id="portalAccountName">Tech Corp Inc.</span><i class="bi bi-chevron-down" aria-hidden="true"></i></button><nav class="company-account-dropdown" id="portalAccountDropdown" aria-label="Account options" hidden><a href="../company-profile/company-profile.html" data-portal-profile>Account profile</a><a href="../login/login.html" class="company-account-logout">Logout</a></nav></div></header>
 
     <div id="internshipEditor">
-      <a class="ie-back-link" href="../company-dashboard/company-dashboard.html#tab-posts"><i class="bi bi-arrow-left" aria-hidden="true"></i> Company dashboard</a>
-      <header class="ie-page-heading"><h1>Create an internship</h1><p>Define the role, set your requirements, and review before submitting.</p></header>
+      <a class="ie-back-link" href="../company-listings/company-listings.html"><i class="bi bi-arrow-left" aria-hidden="true"></i> Internship listings</a>
+      <header class="ie-page-heading"><h1>Create an internship</h1><p>Add the role details and requirements, then review the listing before sending it for approval.</p></header>
       <nav class="ie-steps" aria-label="Internship creation steps">
-        <button type="button" data-step="0" aria-current="step" aria-controls="postingRole"><span class="ie-step-number">1</span>Role details</button>
-        <button type="button" data-step="1" aria-controls="postingRequirements"><span class="ie-step-number">2</span>Skills & availability</button>
-        <button type="button" data-step="2" aria-controls="postingReview"><span class="ie-step-number">3</span>Review</button>
+        <button type="button" data-step="0" aria-current="step" aria-controls="postingRole"><span class="ie-step-number">1</span><span>Role details<small>Title, location and work</small></span></button>
+        <button type="button" data-step="1" aria-controls="postingRequirements"><span class="ie-step-number">2</span><span>Requirements<small>Skills, places and deadline</small></span></button>
+        <button type="button" data-step="2" aria-controls="postingReview"><span class="ie-step-number">3</span><span>Review and submit<small>Check before approval</small></span></button>
       </nav>
       <form id="standalonePostForm" class="ie-surface" novalidate>
         <section id="postingRole" class="ie-panel" aria-labelledby="postingRoleHeading">
-          <header class="ie-section-head"><div><h2 id="postingRoleHeading" tabindex="-1">Tell us about the role</h2><p>Start with what students will do and where they will work.</p></div><small>* Required fields</small></header>
+          <header class="ie-section-head"><div><h2 id="postingRoleHeading" tabindex="-1">Role details</h2><p>Describe the work and where the student will be based.</p></div><small>Fields marked * are required.</small></header>
           <div class="ie-fields">
             <label class="ie-field" for="formRoleTitle">Internship title *<input id="formRoleTitle" name="title" placeholder="e.g. Software Engineering Intern" maxlength="160" required></label>
             <div class="ie-columns ie-category-row">
@@ -91,12 +97,12 @@
               <label class="ie-field" id="customCategoryField" for="formCustomCategory" hidden>Custom category *<input id="formCustomCategory" name="customCategory" placeholder="e.g. Digital Marketing" maxlength="100" disabled></label>
             </div>
             <fieldset class="ie-workplace"><legend>Workplace mode *</legend><div class="ie-modes"><label><input type="radio" name="workplaceMode" value="On-site" checked>On-site</label><label><input type="radio" name="workplaceMode" value="Hybrid">Hybrid</label><label><input type="radio" name="workplaceMode" value="Remote">Remote</label></div></fieldset>
-            <label class="ie-field" for="formRoleCity">Location · City in Jordan *<select id="formRoleCity" name="city" required><option value="">Select a city</option><option>Amman</option><option>Irbid</option><option>Zarqa</option><option>Aqaba</option><option>Salt</option><option>Madaba</option><option>Jerash</option><option>Ajloun</option><option>Karak</option><option>Mafraq</option><option>Tafilah</option><option>Ma'an</option><option>Ramtha</option><option>Russeifa</option><option>Sahab</option></select><span id="postingCityHint" class="ie-hint">Select the city where the internship is based.</span></label>
+            <label class="ie-field" for="formRoleCity">City in Jordan *<select id="formRoleCity" name="city" required><option value="">Select a city</option><option>Amman</option><option>Irbid</option><option>Zarqa</option><option>Aqaba</option><option>Salt</option><option>Madaba</option><option>Jerash</option><option>Ajloun</option><option>Karak</option><option>Mafraq</option><option>Tafilah</option><option>Ma'an</option><option>Ramtha</option><option>Russeifa</option><option>Sahab</option></select><span id="postingCityHint" class="ie-hint">Select the city where the internship is based.</span></label>
             <label class="ie-field" for="formRoleDesc">Work and responsibilities *<textarea id="formRoleDesc" name="description" placeholder="Describe the work, learning opportunities, and responsibilities." maxlength="6000" required></textarea></label>
           </div>
         </section>
         <section id="postingRequirements" class="ie-panel" aria-labelledby="postingRequirementsHeading" hidden>
-          <header class="ie-section-head"><div><h2 id="postingRequirementsHeading" tabindex="-1">Skills and availability</h2><p>List technologies and prerequisites separately, one item at a time.</p></div><small>* Required fields</small></header>
+          <header class="ie-section-head"><div><h2 id="postingRequirementsHeading" tabindex="-1">Requirements and availability</h2><p>Add the skills applicants need, then set the number of places and deadline.</p></div><small>Fields marked * are required.</small></header>
           <div class="ie-fields">
             <div class="ie-field"><label for="postingSkillInput">Technologies & skills *</label><div class="ie-skillbox"><div id="postingSkillTags" class="ie-tags" aria-label="Selected technologies"></div><div class="ie-add"><input id="postingSkillInput" placeholder="Add a technology or skill" maxlength="80" aria-describedby="postingSkillHint"><button type="button" class="ie-btn" id="postingAddSkill"><i class="bi bi-plus-lg" aria-hidden="true"></i>Add</button></div></div><span id="postingSkillHint" class="ie-hint">Press Enter to add. Remove any item with ×.</span><div id="postingSkillSuggestions" class="ie-suggestions"></div></div>
             <div class="ie-field"><span>Prerequisites <span class="ie-hint">(optional)</span></span><p class="ie-hint">Use a separate item for each qualification, course, or GPA requirement.</p><div id="postingPrerequisites" class="ie-req-list"></div><div><button type="button" class="ie-btn quiet" id="postingAddPrerequisite"><i class="bi bi-plus-lg" aria-hidden="true"></i>Add a prerequisite</button></div></div>
@@ -105,28 +111,29 @@
           </div>
         </section>
         <section id="postingReview" class="ie-panel" aria-labelledby="postingReviewHeading" hidden>
-          <header class="ie-section-head"><div><h2 id="postingReviewHeading" tabindex="-1">Review your internship</h2><p>Confirm the listing and application questions before submitting.</p></div></header>
+          <header class="ie-section-head"><div><h2 id="postingReviewHeading" tabindex="-1">Review and submit</h2><p>Check the listing and application questions before sending it for approval.</p></div></header>
           <div id="postingReviewContent" class="ie-review"></div>
         </section>
         <p id="postingError" class="ie-error" role="alert"></p><p id="postingAnnouncement" class="ie-sr-only" role="status"></p>
         <footer class="ie-footer"><span id="postingStepLabel">Step 1 of 3</span><div class="ie-footer-actions"><button type="button" class="ie-btn" id="postingBack" hidden>Back</button><button type="button" class="ie-btn primary" id="postingNext">Continue <i class="bi bi-arrow-right" aria-hidden="true"></i></button><button type="submit" class="ie-btn primary" id="postingSubmit" hidden>Submit for platform review</button></div></footer>
       </form>
-      <p class="ie-under"><i class="bi bi-shield-check" aria-hidden="true"></i>Platform Admin approval is required before publication.</p>
+      <p class="ie-under"><i class="bi bi-shield-check" aria-hidden="true"></i>Platform Admin reviews the listing before it is published.</p>
     </div>
   </main></div>
 
   <script src="../../shared/js/portal.js?v=reference-motion-9"></script>
 
   <script src="../../shared/js/navigation.js"></script>
-  <script src="company-post-role.js?v=review-ux-2"></script>
-  <script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
+  <script src="company-post-role.js?v=company-pages-3"></script>
+  <script src="../../shared/js/portal-navigation.js?v=compact-tools-2"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
   <script src="../../shared/js/interactions.js?v=local-1"></script>
-  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
-<script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=evaluation-gate-15"></script><script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
-<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
-<link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
-<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
+  <script src="../../shared/js/portal-ux.js?v=semantic-intent-3"></script>
+<script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=company-pages-19"></script><script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
+<script src="../../shared/js/portal-usability.js?v=internal-2"></script>
 <script src="../../shared/js/portal-motion.js?v=reference-motion-9"></script>
+  <script src="../../shared/js/internal-platform.js?v=tickets-all-5"></script>
+  <script src="../../shared/js/workspace-tools.js?v=post-form-1"></script>
+  <script src="../../shared/js/product-system.js?v=1"></script>
 </body>
 </html>

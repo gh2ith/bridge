@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   const $=id=>document.getElementById(id),panels=[...root.querySelectorAll('.ie-panel')],steps=[...root.querySelectorAll('[data-step]')];
   const title=$('formRoleTitle'),category=$('formRoleCategory'),custom=$('formCustomCategory'),city=$('formRoleCity'),description=$('formRoleDesc'),capacity=$('formCapacity'),deadline=$('formDeadline'),skillInput=$('postingSkillInput'),error=$('postingError');
   const make=(tag,text,cls)=>{const node=document.createElement(tag);if(text!=null)node.textContent=text;if(cls)node.className=cls;return node;};
-  const questions=C.field('Application questions · one per line (optional)', '', 'textarea');
+  const questions=C.field('Application questions (optional)', '', 'textarea');
   questions.input.id='postingQuestions';questions.input.maxLength=3009;questions.input.rows=5;
   questions.wrap.className='ie-field ie-question-field';
-  const questionHint=make('small','Applicants must answer every question. Add up to 10 questions, with 300 characters each.','ie-hint');questionHint.id='postingQuestionHint';
+  const questionHint=make('small','Add one question per line. Applicants must answer every question. You can add up to 10 questions, with 300 characters each.','ie-hint');questionHint.id='postingQuestionHint';
   questions.input.setAttribute('aria-describedby',questionHint.id);questions.wrap.append(questionHint);
   panels[1].querySelector('.ie-fields').append(make('hr',null,'ie-rule'),questions.wrap);
   const questionList=()=>questions.input.value.split('\n').map(q=>q.trim()).filter(Boolean);
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     step=next;panels.forEach((panel,index)=>{panel.hidden=index!==step;});
     steps.forEach((button,index)=>{if(index===step)button.setAttribute('aria-current','step');else button.removeAttribute('aria-current');button.querySelector('.ie-step-number').textContent=index<step?'✓':String(index+1);});
     $('postingBack').hidden=step===0;$('postingNext').hidden=step===2;$('postingSubmit').hidden=step!==2;
-    $('postingNext').replaceChildren(make('span',reviewEditing?'Return to review':step===0?'Continue':'Review internship'),icon('bi-arrow-right'));$('postingStepLabel').textContent=`Step ${step+1} of 3`;error.textContent='';
+    $('postingNext').replaceChildren(make('span',reviewEditing?'Return to review':step===0?'Continue to requirements':'Review internship'),icon('bi-arrow-right'));$('postingStepLabel').textContent=`Step ${step+1} of 3`;error.textContent='';
     if(step===2)renderReview();
     if(focus){panels[step].querySelector('h2').focus({preventScroll:true});root.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth'});}
   }
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const deadlineText=new Intl.DateTimeFormat('en-GB',{day:'numeric',month:'short',year:'numeric',timeZone:'Asia/Amman'}).format(new Date(deadline.value+'T00:00:00Z'));
     [['Category',categoryLabel()],['Open places',capacity.value],['Application deadline',deadlineText]].forEach(([label,text])=>{const item=make('div');item.append(make('dt',label),make('dd',text));facts.append(item);});overview.append(facts);
     const work=make('section',null,'ie-review-section');work.append(make('h3','Work and responsibilities'),make('p',description.value.trim()));area.append(work);
-    const requirements=make('section',null,'ie-review-section'),requirementsHeading=make('div',null,'ie-review-heading');requirementsHeading.append(make('h3','Skills & availability'),reviewEdit('Edit requirements',1,'postingSkillInput'));requirements.append(requirementsHeading);
+    const requirements=make('section',null,'ie-review-section'),requirementsHeading=make('div',null,'ie-review-heading');requirementsHeading.append(make('h3','Skills and availability'),reviewEdit('Edit requirements',1,'postingSkillInput'));requirements.append(requirementsHeading);
     const tags=make('div',null,'ie-tags');technologies.forEach(text=>tags.append(make('span',text,'ie-tag')));requirements.append(tags);
     const reqs=prerequisites.map(text=>text.trim()).filter(Boolean);if(reqs.length){const list=make('ul');reqs.forEach(text=>list.append(make('li',text)));requirements.append(make('h4','Prerequisites'),list);}area.append(requirements);
     const application=make('section',null,'ie-review-section ie-review-questions'),applicationHeading=make('div',null,'ie-review-heading'),questionTitle=make('div',null,'ie-question-heading'),items=questionList();questionTitle.append(make('h3','Application questions'));
@@ -90,10 +90,10 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(items.length){application.append(make('p','Students will answer these questions when applying.','ie-review-helper'));const list=make('ol',null,'ie-question-review-list');items.forEach(q=>list.append(make('li',q)));application.append(list);}else application.append(make('p','No questions added. Students can apply with their profile and CV.','ie-review-helper'));area.append(application);
     const note=make('div',null,'ie-notice'),copy=make('div');copy.append(make('strong','Platform review comes next'),make('p',editing?.status==='Published'?'Submitting these changes returns the listing to Platform Admin for approval. Existing applications and training are retained.':'Platform Admin reviews your listing before students can apply. Your company then reviews applications and makes hiring decisions.'));note.append(icon('bi-shield-check'),copy);area.append(note);
   }
-  if(requested&&!editing){error.textContent='This listing is unavailable for editing. Return to the publication desk to choose a listing.';form.querySelectorAll('input,select,textarea,button').forEach(n=>{n.disabled=true;});steps.forEach(n=>{n.disabled=true;});return;}
+  if(requested&&!editing){error.textContent='This listing is unavailable for editing. Return to internship listings to choose another role.';form.querySelectorAll('input,select,textarea,button').forEach(n=>{n.disabled=true;});steps.forEach(n=>{n.disabled=true;});return;}
   if(editing){
     questions.input.value=(editing.questions||[]).join('\n');
-    root.querySelector('h1').textContent='Edit internship';document.title='Bridgeway — Edit internship';
+    root.querySelector('h1').textContent='Edit internship';document.title='Edit internship | Bridgeway';
     title.value=editing.title;description.value=editing.description;capacity.value=editing.capacity;deadline.value=editing.deadline;
     const known=[...category.options].some(o=>o.value===editing.category&&o.value!=='other');category.value=known?editing.category:'other';custom.value=known?'':editing.categoryLabel||editing.category||'';
     const oldLocation=editing.location||'',cityName=editing.city||[...city.options].find(o=>o.value&&oldLocation.toLowerCase().includes(o.value.toLowerCase()))?.value;
@@ -124,6 +124,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     submitted=true;form.dataset.committed='true';C.commit(editing?'Internship changes submitted for platform review':'Internship submitted for platform review');window.BridgewayUX?.remember(form);
     form.querySelectorAll('input,select,textarea,button').forEach(n=>{n.disabled=true;});steps.forEach(n=>{n.disabled=true;});$('postingSubmit').textContent='Submitted for review';
     const content=C.section('Pending Platform Admin review','The pending listing is retained in this browser. It becomes discoverable across active colleges only after Platform Admin approves it.');
-    const link=make('a','Open publication desk','cycle-button is-primary');link.href='../company-dashboard/company-dashboard.html#tab-posts';content.append(link);C.dialog('Listing submitted',content);
+    const link=make('a','Open internship listings','cycle-button is-primary');link.href='../company-listings/company-listings.html';content.append(link);C.dialog('Listing submitted',content);
   });
 });

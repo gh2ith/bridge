@@ -79,13 +79,13 @@
 .cycle-objective:has(.cycle-objective-number) { grid-template-columns:28px minmax(0,1fr); }
 .cycle-evidence { grid-column:2;font-size:13px;line-height:1.7;color:var(--bw-text-secondary);margin:0; }
 .cycle-visibility,.cycle-lock { display:flex;align-items:center;gap:16px;padding:18px;background:var(--bw-bg-alt);border-radius:10px;margin:18px 0; }
-.cycle-visibility { display:grid;grid-template-columns:42px minmax(0,1fr) auto;border:1px solid var(--bw-primary);border-left:4px solid var(--bw-primary);background:var(--bw-primary-light);padding:20px;margin:0 0 24px; }
-.cycle-visibility > i { font-size:26px;color:var(--bw-primary); }
+.cycle-visibility { --report-visibility-ink:var(--portal-positive-ink,#087354);--report-visibility-bg:var(--portal-positive-bg,#eaf7f1);display:grid;grid-template-columns:42px minmax(0,1fr) auto;border:0;background:var(--report-visibility-bg);padding:20px;margin:0 0 24px; }
+.cycle-visibility > i { font-size:26px;color:var(--report-visibility-ink); }
 .cycle-visibility small { display:block;font-size:12px;color:var(--bw-text-secondary);margin-bottom:5px; }
-.cycle-visibility strong { display:block;font-size:16px; }
+.cycle-visibility strong { display:block;font-size:16px;color:var(--report-visibility-ink); }
 .cycle-visibility p { font-size:13px;line-height:1.6;color:var(--bw-text-secondary);max-width:65ch; }
-.cycle-visibility.is-locked { border-color:var(--bw-warning,#a0640c);background:color-mix(in srgb,var(--bw-warning,#a0640c) 10%,var(--bw-surface)); }
-.cycle-visibility.is-locked > i { color:var(--bw-warning,#a0640c); }
+.cycle-visibility.is-locked { --report-visibility-ink:var(--portal-pending-ink,#865512);--report-visibility-bg:var(--portal-pending-bg,#fff5e4); }
+
 @container(max-width:650px) { .cycle-visibility { grid-template-columns:30px minmax(0,1fr);gap:12px; }.cycle-visibility button { grid-column:2;justify-self:start; } }
 @media(max-width:700px) { .cycle-visibility { grid-template-columns:28px minmax(0,1fr);padding:16px;gap:12px; }.cycle-visibility button { grid-column:2;justify-self:start; } }
 .cycle-visibility p { margin:4px 0 0; }

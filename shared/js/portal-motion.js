@@ -3,7 +3,6 @@
   if(/\/pages\/(home|login)\//.test(location.pathname))return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const running = new Map();
-  const counters = new Map();
   let themeTransition=null;
   let themeOrigin=null;
   document.addEventListener('click',event=>{
@@ -20,37 +19,8 @@
     running.set(node,effect);
     effect.finished.catch(()=>{}).finally(()=>{if(running.get(node)===effect)running.delete(node);});
   }
-  function count(value,from=0,delay=0){
-    if(!value||reduced.matches||!value.getClientRects().length)return;
-    const match=value.textContent.trim().match(/^([\d,]+(?:\.\d+)?)(\s*(?:h|%|\/\s*[\d,]+(?:\s*h)?)?)$/);
-    if(!match)return;
-    const target=Number(match[1].replaceAll(',','')),decimals=match[1].split('.')[1]?.length||0;
-    if(!Number.isFinite(target))return;
-    const prior=counters.get(value);if(prior)cancelAnimationFrame(prior.frame);
-    const state={frame:0,current:prior?.current??from,start:performance.now()+delay},initial=state.current;
-    if(!value.classList.contains('bw-counting'))value.style.setProperty('--bw-count-ink',getComputedStyle(value).color);
-    value.classList.add('bw-counting');
-    counters.set(value,state);
-    const draw=now=>{
-      const t=Math.max(0,Math.min(1,(now-state.start)/1650)),eased=1-Math.pow(1-t,3);
-      state.current=initial+(target-initial)*eased;
-      value.dataset.motionValue=state.current.toLocaleString('en-US',{minimumFractionDigits:decimals,maximumFractionDigits:decimals})+match[2];
-      if(t<1)state.frame=requestAnimationFrame(draw);
-      else{value.classList.remove('bw-counting');delete value.dataset.motionValue;counters.delete(value);}
-    };draw(state.start);
-  }
-  function insightsEntrance(insights){
-    if(!insights||insights.hidden||reduced.matches)return;
-    reveal(insights,180);
-    const ring=insights.querySelector('.insight-ring-fill');
-    if(ring)animate(ring,[{strokeDashoffset:'314.16'},{strokeDashoffset:ring.style.strokeDashoffset}],1650,350);
-    insights.querySelectorAll('.insight-ring-segment').forEach((segment,index)=>animate(segment,[{strokeDasharray:'0 314.16',opacity:0},{strokeDasharray:segment.getAttribute('stroke-dasharray'),opacity:1}],1150,550+index*100));
-    insights.querySelectorAll('.insight-bar').forEach((bar,index)=>animate(bar,[{transform:'scaleY(0)',transformOrigin:'bottom',opacity:.2},{transform:'none',transformOrigin:'bottom',opacity:1}],1250,300+index*85));
-    insights.querySelectorAll('.insight-horizontal-track > span').forEach((bar,index)=>animate(bar,[{transform:'scaleX(0)',transformOrigin:'left'},{transform:'none',transformOrigin:'left'}],1400,400+index*95));
-    insights.querySelectorAll('.insight-ring > strong,.insight-summary-copy > strong,.insight-status-legend strong,.insight-student-row strong,.insight-pipeline-row > strong,.insight-completion-row strong').forEach((value,index)=>count(value,0,300+Math.min(index,6)*65));
-  }
   function reveal(node,offset=0) {
-    if(!node||reduced.matches||!node.getClientRects().length)return;
+    if(!node||reduced.matches||!node.getClientRects().length||node.matches('[data-dashboard-overview],.dashboard-insights'))return;
     const blocks='.bw-card-panel,.cycle-section,.platform-panel,.company-listings,.supervisor-selection-prompt,.supervisor-assessment-workspace,.journey-monitor-row,.student-profile-layout,.studio-application,.support-masthead,.support-intro,.support-history,.insight-widget';
     const candidates=[...node.querySelectorAll(blocks)].filter(n=>n.getClientRects().length);
     const outer=candidates.filter(n=>!candidates.some(parent=>parent!==n&&parent.contains(n)));
@@ -58,19 +28,15 @@
     const items=node.matches('[data-dashboard-overview]')?children:outer.length?outer:children.length?children:[node];
     // CSS puts the highlighted metric first; entrance order follows its visible position.
     items.sort((a,b)=>{const one=a.getBoundingClientRect(),two=b.getBoundingClientRect();return Math.abs(one.top-two.top)>8?one.top-two.top:one.left-two.left;});
-    items.slice(0,10).forEach((item,index)=>animate(item,[{opacity:0,transform:'translateY(20px)'},{opacity:1,transform:'none'}],780,offset+index*105));
-    node.querySelectorAll('.bw-kpi-value,.platform-metrics strong,.platform-totals dd').forEach(value=>count(value));
+    items.slice(0,10).forEach(item=>animate(item,[{opacity:.7},{opacity:1}],160));
   }
   function sectionEntrance(panel){
     if(!panel?.getClientRects().length)return;
     const heading=document.querySelector('main > .company-page-heading,main > .bw-page-header,main > .supervisor-page-heading');
-    if(heading)animate(heading,[{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'none'}],600);
+    if(heading)animate(heading,[{opacity:.7},{opacity:1}],160);
     reveal(panel,100);
     const grid=document.querySelector('[data-dashboard-overview]');
     if(grid?.getClientRects().length)reveal(grid,60);
-    const insights=document.querySelector('.dashboard-insights');
-    requestAnimationFrame(()=>insightsEntrance(insights));
-    panel.querySelectorAll('.bw-progress-fill,.training-completion progress,.bw-circular-progress').forEach(meter=>animate(meter,[{transformOrigin:'left',transform:'scaleX(0)'},{transformOrigin:'left',transform:'none'}],1100,100));
   }
   function expand(node,from) {
     if(!node || !from)return;
@@ -80,8 +46,6 @@
     animate(node,[{transformOrigin:'top left',transform:`translate(${x}px,${y}px) scale(${Math.max(.35,from.width/to.width)},${Math.max(.35,from.height/to.height)})`,opacity:.65},{transformOrigin:'top left',transform:'none',opacity:1}],430);
   }
   function theme(change){
-    counters.forEach((state,value)=>{cancelAnimationFrame(state.frame);value.classList.remove('bw-counting');delete value.dataset.motionValue;});
-    counters.clear();
     themeTransition?.skipTransition();
     if(reduced.matches||!document.startViewTransition){change();return;}
     themeTransition=document.startViewTransition(change);
@@ -111,7 +75,7 @@
     current.finished.catch(()=>{}).finally(()=>{themeEffect?.cancel();if(themeTransition===current)themeTransition=null;});
   }
   window.BridgewayMotion={reveal,expand,theme};
-  reduced.addEventListener('change',()=>{if(reduced.matches){running.forEach(effect=>effect.cancel());running.clear();themeTransition?.skipTransition();counters.forEach((state,value)=>{cancelAnimationFrame(state.frame);value.classList.remove('bw-counting');delete value.dataset.motionValue;});counters.clear();}});
+  reduced.addEventListener('change',()=>{if(reduced.matches){running.forEach(effect=>effect.cancel());running.clear();themeTransition?.skipTransition();}});
   document.addEventListener('DOMContentLoaded',()=>{
     document.body.classList.add('bw-motion-ready');
     const make=(tag,text,cls)=>{const node=document.createElement(tag);if(text)node.textContent=text;if(cls)node.className=cls;return node;};
@@ -239,19 +203,7 @@
       });
     }
     document.addEventListener('click',filterMotion,true);document.addEventListener('input',filterMotion,true);document.addEventListener('change',filterMotion,true);
-    // Counter overlays leave the real values intact for assistive technology and exports.
-    document.querySelectorAll('.bw-kpi-value,.platform-metrics strong,.platform-totals dd').forEach(value=>{
-      let previous=value.textContent;
-      new MutationObserver(()=>{
-        if(value.textContent===previous)return;
-        const before=Number(previous.replace(/[^\d.]/g,''))||0;
-        previous=value.textContent;
-        count(value,before);
-      }).observe(value,{childList:true,characterData:true,subtree:true});
-    });
-    document.querySelectorAll('.bw-progress-fill').forEach(meter=>{
-      new MutationObserver(()=>animate(meter,[{opacity:.5,transform:'scaleX(.8)'},{opacity:1,transform:'none'}],380)).observe(meter,{attributes:true,attributeFilter:['style','data-style']});
-    });
+    // Functional totals and progress update immediately without decorative counting.
     document.querySelectorAll('.bw-tab-panel').forEach(panel=>{
       let active=panel.classList.contains('is-active');
       new MutationObserver(()=>{

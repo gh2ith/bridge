@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bridgeway — Academic Supervisor Portal</title>
+  <title>Academic Supervisor Portal | Bridgeway</title>
   <meta name="description" content="Bridgeway Academic Supervisor Portal — Review weekly student logbooks, verify training hours, and view company evaluations.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,18 +19,19 @@
   <link rel="stylesheet" href="../../shared/css/navigation.css">
   <link rel="stylesheet" href="../../shared/css/portal-enhancements.css?v=layout-2">
 
-<link rel="stylesheet" href="supervisor-dashboard.css?v=report-review-88">
+<link rel="stylesheet" href="supervisor-dashboard.css?v=live-roster-91">
   <link rel="stylesheet" href="../../shared/css/evaluation-radar.css?v=portal-clean-2">
   <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-16">
   <link rel="stylesheet" href="../../shared/css/interactions.css?v=portal-clean-2">
-<link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
-<link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=report-review-88">
+<link rel="stylesheet" href="../../shared/css/portal-ux.css?v=semantic-intent-63">
+<link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=visibility-state-89">
   <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
-<link rel="stylesheet" href="../../shared/css/internship-journey.css?v=review-header-21">
+<link rel="stylesheet" href="../../shared/css/internship-journey.css?v=directory-pages-2">
 <link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
   <link rel="stylesheet" href="../../shared/css/dashboard-overview.css?v=10">
+  <link rel="stylesheet" href="../../shared/css/interface-craft.css?v=metric-alignment-2">
 </head>
-<body class="portal-layout dashboard-reference company-workspace portal-unified" data-portal-role="supervisor" id="page-supervisor-dashboard">
+<body class="portal-layout dashboard-reference company-workspace portal-unified platform-rework" data-portal-role="supervisor" id="page-supervisor-dashboard">
   <svg class="sprite" aria-hidden="true" focusable="false">
     <defs>
       <g id="mascot-art" stroke-linejoin="round" stroke-linecap="round">
@@ -120,7 +121,7 @@
           <i class="bi bi-people-fill"></i>
         </div>
         <div class="bw-kpi-info">
-          <div class="bw-kpi-value">2</div>
+          <div class="bw-kpi-value" id="supervisedStudentsMetric">2</div>
           <div class="bw-kpi-label">Assigned Students</div>
           <div class="bw-kpi-desc">Under Active Supervision</div>
         </div>
@@ -131,7 +132,7 @@
           <i class="bi bi-check2-circle"></i>
         </div>
         <div class="bw-kpi-info">
-          <div class="bw-kpi-value">14</div>
+          <div class="bw-kpi-value" id="submittedReportsMetric">14</div>
           <div class="bw-kpi-label">Reports Submitted</div>
           <div class="bw-kpi-desc">8-Week Curriculum Submissions</div>
         </div>
@@ -142,7 +143,7 @@
           <i class="bi bi-clock-history"></i>
         </div>
         <div class="bw-kpi-info">
-          <div class="bw-kpi-value">560 h</div>
+          <div class="bw-kpi-value" id="reportedHoursMetric">560 h</div>
           <div class="bw-kpi-label">Total Hours Logged</div>
           <div class="bw-kpi-desc">Cumulative Training Logged</div>
         </div>
@@ -217,9 +218,9 @@
                     <div data-style="s13">Mentor: Eng. Khalid T. • Amman</div>
                   </td>
                   <td data-style="s16">
-                    <div data-style="s17" data-presentation="font-weight font-weight-700">6 of 8 Weeks (75%)</div>
+                    <div class="roster-progress-label">6 of 8 Weeks (75%)</div>
                     <div class="bw-progress-track">
-                      <div class="bw-progress-fill" data-style="s18"></div>
+                      <div class="bw-progress-fill"></div>
                     </div>
                     <div class="roster-hours">90 / 120 hours</div>
                   </td>
@@ -252,9 +253,9 @@
                     <div data-style="s13">Mentor: Eng. Omar F. • Amman</div>
                   </td>
                   <td data-style="s16">
-                    <div data-style="s20" data-presentation="font-weight font-weight-700">8 of 8 Weeks (100%)</div>
+                    <div class="roster-progress-label">8 of 8 Weeks (100%)</div>
                     <div class="bw-progress-track">
-                      <div class="bw-progress-fill" data-style="s21"></div>
+                      <div class="bw-progress-fill"></div>
                     </div>
                     <div class="roster-hours">120 / 120 hours</div>
                   </td>
@@ -511,28 +512,36 @@
     </div>
   </div>
 
-  <script src="../../shared/js/portal.js?v=reference-motion-16"></script>
+  <script src="../../shared/js/portal.js?v=qa-directories-17"></script>
 
   <script src="../../shared/js/navigation.js"></script>
   <script src="../../shared/js/evaluation-radar.js?v=local-1"></script>
-  <script src="supervisor-dashboard.js?v=supervisor-polish-3"></script>
-<script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
+  <script src="supervisor-dashboard.js?v=live-roster-5"></script>
+<script src="../../shared/js/portal-navigation.js?v=compact-tools-2"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
   <script src="../../shared/js/interactions.js?v=local-1"></script>
   <script src="../../shared/js/portal-motion.js?v=reference-motion-16"></script>
-  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
-  <script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=supervisor-polish-3"></script>
+  <script src="../../shared/js/portal-ux.js?v=semantic-intent-3"></script>
+  <script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=role-metrics-4"></script>
   <script src="../../shared/js/partnership-review.js?v=local-1"></script>
 
 <script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
-<link rel="stylesheet" href="../../shared/css/weekly-tasks.css?v=task-chevron-12"><script src="../../shared/js/weekly-tasks.js?v=week-locked-14"></script><script src="../../shared/js/internship-journey.js?v=review-header-21"></script>
-<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
+<link rel="stylesheet" href="../../shared/css/weekly-tasks.css?v=task-chevron-12"><script src="../../shared/js/weekly-tasks.js?v=week-locked-14"></script><script src="../../shared/js/progress-relations.js?v=2"></script>
+<script src="../../shared/js/internship-journey.js?v=qa-host-43"></script>
+<script src="../../shared/js/portal-usability.js?v=internal-2"></script>
 <script src="../../shared/js/dashboard-overview.js?v=3"></script>
 <link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
-<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
+<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=semantic-intent-4">
 <link rel="stylesheet" href="supervisor-polish.css?v=assessment-picker-3">
-<link rel="stylesheet" href="../../shared/css/dashboard-insights.css?v=5">
-<script src="../../shared/js/dashboard-insights.js?v=6"></script>
+<link rel="stylesheet" href="../../shared/css/dashboard-insights.css?v=scroll-charts-1">
+<script src="../../shared/js/dashboard-insights.js?v=scroll-charts-2"></script>
+  <link rel="stylesheet" href="../../shared/css/internal-platform.css?v=visibility-state-3">
+  <script src="../../shared/js/internal-platform.js?v=tickets-all-5"></script>
+  <link rel="stylesheet" href="../../shared/css/workspace-tools.css?v=ticket-restore-5">
+  <link rel="stylesheet" href="../../shared/css/product-system.css?v=1">
+  <script src="../../shared/js/workspace-tools.js?v=ticket-restore-5"></script>
+  <script src="../../shared/js/product-system.js?v=1"></script>
+  <link rel="stylesheet" href="../../shared/css/progress-monitor.css?v=relations-2">
 </body>
 </html>
 

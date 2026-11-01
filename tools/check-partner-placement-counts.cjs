@@ -1,0 +1,8 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs');
+const context=vm.createContext({window:{}});vm.runInContext(fs.readFileSync('shared/js/partner-placement-counts.js','utf8'),context);const {summarize,label}=context.window.BridgewayPartnerCounts;
+const link={college:'college-1',company:'company-1'},students=[{id:'one',college:'college-1',stage:'Completed'},{id:'two',college:'college-1',stage:'Applied'},{id:'foreign',college:'college-2',stage:'Placed'}];
+test('completed students remain counted separately from active placements',()=>{const result=summarize(link,[{student:'one',company:'company-1',status:'Completed'}],students);assert.equal(result.active,0);assert.equal(result.completed,1);assert.equal(label(result),'0 active placements · 1 completed');});
+test('pending applicants and another college never inflate placement totals',()=>{const result=summarize(link,[{student:'foreign',company:'company-1',status:'Active'},{student:'one',company:'company-2',status:'Active'}],students);assert.equal(result.active,0);assert.equal(result.completed,0);});
+test('an ended or changed placement cannot leave an older active placement counted',()=>{const histories=[{student:'one',company:'company-2',status:'Active'},{student:'one',company:'company-1',status:'Active'},{student:'two',company:'company-1',status:'Left'}];const result=summarize(link,histories,students);assert.equal(result.active,0);assert.equal(result.ended,1);});
+test('active placement totals follow history even when a profile stage is stale',()=>{assert.equal(summarize(link,[{student:'one',company:'company-1',status:'Active'}],students).active,1);});

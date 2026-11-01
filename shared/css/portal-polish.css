@@ -12,17 +12,17 @@ body.company-workspace {
   --portal-focus: var(--bw-primary);
   --portal-transition: 160ms ease-out;
   --bw-text-muted: #5e7087;
-  --portal-positive-ink: #087354;
-  --portal-positive-bg: #eaf7f1;
-  --portal-pending-ink: #865512;
-  --portal-pending-bg: #fff5e4;
+  --portal-positive-ink: var(--ui-success-ink,#087354);
+  --portal-positive-bg: var(--ui-success-bg,#eaf7f1);
+  --portal-pending-ink: var(--ui-warning-ink,#865512);
+  --portal-pending-bg: var(--ui-warning-bg,#fff5e4);
 }
 [data-theme="dark"] body.company-workspace {
   --bw-text-muted: var(--bw-night-muted);
-  --portal-positive-ink: #86e1b8;
-  --portal-positive-bg: #173d34;
-  --portal-pending-ink: #f5d290;
-  --portal-pending-bg: #3b311e;
+  --portal-positive-ink: var(--ui-success-ink,#86e1b8);
+  --portal-positive-bg: var(--ui-success-bg,#173d34);
+  --portal-pending-ink: var(--ui-warning-ink,#f5d290);
+  --portal-pending-bg: var(--ui-warning-bg,#3b311e);
 }
 body.company-workspace :is(.bw-page-header,.company-page-heading,.supervisor-page-heading) h1 {
   font-size: var(--bw-type-page) !important;

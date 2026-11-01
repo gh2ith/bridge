@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" data-page="company-listings">
+<head>
+  <meta charset="UTF-8">
+  <script src="../../shared/js/local-workspace.js?v=local-1"></script>
+  <script src="../../shared/js/portal-theme-init.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internship Listings | Bridgeway</title>
+  <meta name="description" content="Manage company internship listings and open the focused internship creation flow.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="../../shared/css/base.css?v=night-2">
+  <link rel="stylesheet" href="../../shared/css/portal.css?v=night-2">
+  <link rel="stylesheet" href="../../shared/css/navigation.css">
+  <link rel="stylesheet" href="../../shared/css/portal-enhancements.css?v=layout-2">
+  <link rel="stylesheet" href="../../shared/css/interactions.css?v=portal-clean-2">
+  <link rel="stylesheet" href="../../shared/css/portal-ux.css?v=semantic-intent-63">
+  <link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27">
+  <link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=company-pages-17">
+  <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
+  <link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
+  <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-9">
+  <link rel="stylesheet" href="../../shared/css/interface-craft.css?v=metric-alignment-2">
+  <link rel="stylesheet" href="company-listings.css?v=3">
+</head>
+<body class="portal-layout company-workspace portal-unified platform-rework" data-portal-role="company" id="page-company-listings">
+  <div class="bw-company-layout">
+    <aside class="bw-masar-sidebar" aria-label="Company navigation">
+      <div class="bw-masar-top">
+        <div class="bw-masar-header">
+          <a href="../home/index.html" class="bw-masar-brand company-listings-brand" title="Bridgeway home">Bridgeway</a>
+          <button type="button" class="bw-masar-toggle" id="bwSidebarToggle" aria-label="Toggle sidebar menu"><i class="bi bi-list" aria-hidden="true"></i></button>
+        </div>
+        <div class="portal-role-label">Company</div>
+        <nav class="bw-masar-nav" aria-label="Company views">
+          <a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-posts" title="Dashboard"><i class="bi bi-grid" aria-hidden="true"></i><span>Dashboard</span></a>
+          <a class="bw-masar-item is-active" href="company-listings.html" aria-current="page" title="Internship listings"><i class="bi bi-briefcase" aria-hidden="true"></i><span>Listings</span></a>
+          <a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-candidates" title="Applications"><i class="bi bi-people" aria-hidden="true"></i><span>Applications</span></a>
+          <a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-meetings" title="Meetings"><i class="bi bi-camera-video" aria-hidden="true"></i><span>Meetings</span></a>
+          <a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-accepted-students" title="Interns"><i class="bi bi-person-check" aria-hidden="true"></i><span>Interns</span></a>
+          <a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-weekly-reports" title="Weekly training"><i class="bi bi-calendar3" aria-hidden="true"></i><span>Weekly training</span></a>
+          <a class="bw-masar-item" href="../company-dashboard/company-dashboard.html#tab-final-evaluation" title="Evaluations"><i class="bi bi-check2-square" aria-hidden="true"></i><span>Evaluations</span></a>
+        </nav>
+      </div>
+      <div class="bw-masar-bottom-group">
+        <div class="bw-masar-divider"></div>
+        <div class="bw-masar-bottom">
+          <a class="bw-masar-link" href="../company-profile/company-profile.html"><i class="bi bi-person-circle" aria-hidden="true"></i><span>Profile</span></a>
+          <button type="button" class="bw-masar-link bw-masar-btn-link" id="bwThemeToggle"><i class="bi bi-moon-stars" id="bwThemeIcon" aria-hidden="true"></i><span id="bwThemeText">Dark mode</span></button>
+          <a class="bw-masar-link" href="../login/login.html"><i class="bi bi-box-arrow-right" aria-hidden="true"></i><span>Logout</span></a>
+        </div>
+      </div>
+    </aside>
+
+    <main class="bw-company-content bw-main-content">
+      <header class="company-topbar">
+        <div class="company-breadcrumb">Company workspace <span>/</span> <strong>Listings</strong></div>
+        <div class="company-account-wrap">
+          <button type="button" class="company-account" id="portalAccountToggle" aria-expanded="false" aria-controls="portalAccountDropdown" aria-label="Account options"><span class="company-monogram" id="portalInitials">TC</span><span id="portalAccountName">Tech Corp Inc.</span><i class="bi bi-chevron-down" aria-hidden="true"></i></button>
+          <nav class="company-account-dropdown" id="portalAccountDropdown" aria-label="Account options" hidden><a href="../company-profile/company-profile.html" data-portal-profile>Account profile</a><a href="../login/login.html" class="company-account-logout">Logout</a></nav>
+        </div>
+      </header>
+      <div id="companyListingsPage" aria-live="polite"></div>
+    </main>
+  </div>
+
+  <script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script>
+  <script src="../../shared/js/portal.js?v=qa-directories-17"></script>
+  <script src="../../shared/js/navigation.js"></script>
+  <script src="../../shared/js/portal-navigation.js?v=compact-tools-2"></script>
+  <script src="../../shared/js/account-security.js?v=1"></script>
+  <script src="../../shared/js/enhancements.js?v=unified-3"></script>
+  <script src="../../shared/js/interactions.js?v=local-1"></script>
+  <script src="../../shared/js/portal-ux.js?v=semantic-intent-3"></script>
+  <script src="../../shared/js/report-visibility.js?v=local-1"></script>
+  <script src="../../shared/js/workbook-download.js?v=local-1"></script>
+  <script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script>
+  <script src="../../shared/js/workspace-cycle.js?v=company-pages-19"></script>
+  <script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
+  <script src="../../shared/js/portal-usability.js?v=internal-2"></script>
+  <link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
+  <link rel="stylesheet" href="../../shared/css/portal-polish.css?v=semantic-intent-4">
+  <script src="../../shared/js/portal-motion.js?v=reference-motion-9"></script>
+  <link rel="stylesheet" href="../../shared/css/internal-platform.css?v=internal-2">
+  <script src="../../shared/js/internal-platform.js?v=tickets-all-5"></script>
+  <link rel="stylesheet" href="../../shared/css/workspace-tools.css?v=ticket-restore-5">
+  <link rel="stylesheet" href="../../shared/css/product-system.css?v=company-pages-4">
+  <script src="../../shared/js/workspace-tools.js?v=ticket-restore-5"></script>
+  <script src="../../shared/js/product-system.js?v=1"></script>
+</body>
+</html>

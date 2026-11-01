@@ -145,3 +145,43 @@
 .profile-academic-disclosure .profile-academic { padding-bottom:28px; }
 .profile-security-section.account-security { padding-block:28px; }
 @media(max-width:480px) { .profile-edit-main .profile-form-footer > div { width:100%; }.profile-edit-main .profile-form-footer { padding-inline:0; } }
+/* Profile workbench: identity and CV beside the editable professional record. */
+.platform-rework .student-profile-studio { max-width: 1240px; }
+.platform-rework .student-profile-layout[data-internal-layout] { display: grid; grid-template-columns: 280px minmax(0,1fr); gap: 28px; background: transparent; border: 0; border-radius: 0; box-shadow: none; overflow: visible; }
+.platform-rework .internal-profile-aside { grid-column: 1; grid-row: 1 / span 3; display: grid; gap: 24px; align-content: start; min-width: 0; }
+.platform-rework .internal-profile-aside .profile-identity { display: flex; flex-direction: column; align-items: flex-start; padding: 28px 24px; border: 0; border-radius: 12px; gap: 20px; background: var(--bw-surface); }
+.platform-rework .internal-profile-aside .profile-identity-copy { display: flex; flex-direction: column; flex-wrap: nowrap; align-items: flex-start; gap: 10px; width: 100%; }
+.platform-rework .internal-profile-aside .profile-identity-copy > p { flex-basis: auto; max-width: 100%; overflow-wrap: anywhere; }
+.platform-rework .internal-profile-aside .profile-avatar { width: 64px; height: 64px; font-size: 24px; border-radius: 12px; }
+.platform-rework .internal-profile-aside .profile-identity-copy h2 { font-size: 22px !important; font-weight: 600 !important; }
+.platform-rework .internal-profile-aside .student-cv { margin: 0; padding: 24px; border: 0; border-radius: 12px; background: var(--bw-surface); }
+.platform-rework .internal-profile-aside .cv-upload-area { margin-top: 20px; padding: 24px 16px; border: 1px dashed var(--bw-text-muted); border-radius: 8px; background: var(--bw-bg-alt); }
+.platform-rework .student-profile-layout[data-internal-layout] > :is(.profile-personal,.profile-academic-disclosure,.profile-security-section) { grid-column: 2; margin: 0; border: 0; border-radius: 12px; background: var(--bw-surface); min-width: 0; }
+.platform-rework .profile-edit-grid { display: block; }
+.platform-rework .profile-edit-main { padding: 32px; }
+.platform-rework .profile-panel-heading h2 { font-size: 20px !important; font-weight: 600 !important; }
+.platform-rework .profile-fields { gap: 24px; }
+.platform-rework .profile-bio { margin-top: 28px; }
+.platform-rework #profileBio { min-height: 168px; }
+.platform-rework .cv-upload-area > i { background: transparent; border: 0; box-shadow: none; border-radius: 0; }
+.platform-rework .profile-edit-main .journey-skills { padding-top: 28px; margin-top: 28px; }
+.platform-rework .profile-edit-main .profile-form-footer { padding-top: 24px; margin-top: 28px; }
+.platform-rework .student-profile-layout[data-internal-layout] > .profile-academic-disclosure { padding: 28px 32px; }
+.platform-rework .profile-academic-disclosure > header { padding: 0 0 24px; }
+.platform-rework .profile-academic-disclosure .profile-academic { padding: 0; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
+.platform-rework .profile-academic > div { border: 0; padding: 0; }
+.platform-rework .student-profile-layout[data-internal-layout] > .profile-security-section { padding: 28px 32px; }
+@media(max-width:1000px) {
+  .platform-rework .student-profile-layout[data-internal-layout] { grid-template-columns: 240px minmax(0,1fr); gap: 24px; }
+  .platform-rework .profile-fields { grid-template-columns: minmax(0,1fr); }
+  .platform-rework .profile-field-wide { grid-column: auto; }
+}
+@media(max-width:760px) {
+  .platform-rework .student-profile-layout[data-internal-layout] { grid-template-columns: minmax(0,1fr); }
+  .platform-rework .internal-profile-aside { grid-column: 1; grid-row: auto; }
+  .platform-rework .internal-profile-aside .profile-identity { flex-direction: row; padding: 24px; gap: 20px; }
+  .platform-rework .student-profile-layout[data-internal-layout] > :is(.profile-personal,.profile-academic-disclosure,.profile-security-section) { grid-column: 1; }
+  .platform-rework .student-profile-layout[data-internal-layout] > .student-cv { grid-column: 1; margin: 0; padding: 24px; border: 0; border-radius: 12px; background: var(--bw-surface); }
+  .platform-rework :is(.profile-edit-main,.student-profile-layout[data-internal-layout] > .profile-academic-disclosure,.student-profile-layout[data-internal-layout] > .profile-security-section) { padding: 24px; }
+  .platform-rework .profile-academic-disclosure .profile-academic { grid-template-columns: minmax(0,1fr); }
+}

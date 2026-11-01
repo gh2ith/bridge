@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bridgeway — Account Settings &amp; Security</title>
+  <title>Account Settings &amp; Security | Bridgeway</title>
   <meta name="description" content="Manage your Bridgeway account preferences, password security, and notifications.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,13 +20,14 @@
   <link rel="stylesheet" href="../../shared/css/portal-enhancements.css?v=layout-2">
 
   <link rel="stylesheet" href="../../shared/css/interactions.css?v=portal-clean-2">
-  <link rel="stylesheet" href="account-settings.css?v=2">
-<link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
+  <link rel="stylesheet" href="account-settings.css?v=internal-2">
+<link rel="stylesheet" href="../../shared/css/portal-ux.css?v=semantic-intent-63">
   <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
 <link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
 <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-9">
+  <link rel="stylesheet" href="../../shared/css/interface-craft.css?v=metric-alignment-2">
 </head>
-<body class="portal-layout company-workspace portal-unified" data-portal-role="student" id="page-account-settings">
+<body class="portal-layout company-workspace portal-unified platform-rework" data-portal-role="student" id="page-account-settings">
 
   <div class="bw-company-layout"><aside class="bw-masar-sidebar" aria-label="Student navigation"><div class="bw-masar-top"><div class="bw-masar-header">
           <a href="../home/index.html" class="bw-masar-brand" title="Bridgeway Home">
@@ -79,7 +80,7 @@
           <div>
             <span class="bw-eyebrow">Security &amp; Preferences</span>
             <h1 class="bw-title">Account settings</h1>
-            <p class="bw-subtitle">Manage your account details, password requirements, and notification preferences.</p>
+            <p class="bw-subtitle">Review your account, check password requirements, and choose your preferences.</p>
           </div>
           <a href="../student-dashboard/student-dashboard.html" class="bw-btn-block bw-btn-outline" data-style="s3">
             <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
@@ -90,9 +91,9 @@
       <div class="bw-card-panel" data-style="s4">
         <div class="bw-card-panel-header">
           <div>
-            <h3 data-style="s5" data-presentation="font-weight font-weight-800">
+            <h2 data-style="s5" data-presentation="font-weight font-weight-800">
               Account details
-            </h3>
+            </h2>
             <div data-style="s6">
               Your registered email and account role.
             </div>
@@ -121,9 +122,9 @@
       <div class="bw-card-panel" data-style="s4">
         <div class="bw-card-panel-header">
           <div>
-            <h3 data-style="s5" data-presentation="font-weight font-weight-800">
-              Change password
-            </h3>
+            <h2 data-style="s5" data-presentation="font-weight font-weight-800">
+              Password requirements
+            </h2>
             <div data-style="s6">
               Check your password requirements. Changing credentials requires a connected authentication service.
             </div>
@@ -133,17 +134,17 @@
         <form id="passwordChangeForm" aria-describedby="passwordConnectionNote">
           <p id="passwordConnectionNote" class="password-help">Authentication is not connected. This form checks requirements only; no password is changed or saved.</p>
           <div class="bw-form-group">
-            <label class="bw-form-label" for="currentPasswordInput">Current Password *</label>
+            <label class="bw-form-label" for="currentPasswordInput">Current password *</label>
             <input type="password" id="currentPasswordInput" class="bw-input" placeholder="Enter current password" autocomplete="current-password" required>
           </div>
 
           <div data-style="s9" data-presentation="grid grid-template-columns">
             <div class="bw-form-group">
-              <label class="bw-form-label" for="newPasswordInput">New Password *</label>
+              <label class="bw-form-label" for="newPasswordInput">New password *</label>
               <input type="password" id="newPasswordInput" class="bw-input" placeholder="Minimum 6 characters" minlength="6" autocomplete="new-password" required>
             </div>
             <div class="bw-form-group">
-              <label class="bw-form-label" for="confirmPasswordInput">Confirm New Password *</label>
+              <label class="bw-form-label" for="confirmPasswordInput">Confirm new password *</label>
               <input type="password" id="confirmPasswordInput" class="bw-input" placeholder="Repeat new password" minlength="6" autocomplete="new-password" required>
             </div>
           </div>
@@ -160,11 +161,11 @@
       <div class="bw-card-panel">
         <div class="bw-card-panel-header">
           <div>
-            <h3 data-style="s5" data-presentation="font-weight font-weight-800">
+            <h2 data-style="s5" data-presentation="font-weight font-weight-800">
               Notifications
-            </h3>
+            </h2>
             <div data-style="s6">
-              Configure alerts for training-report reviews and company application decisions
+              Choose which updates you want to see in your workspace.
             </div>
           </div>
         </div>
@@ -173,7 +174,7 @@
           <label data-style="s13">
             <div>
               <div data-style="s14" data-presentation="font-weight font-weight-700">Weekly report approvals</div>
-              <div data-style="s6">Receive notification when academic supervisor verifies a 15-hour weekly report</div>
+              <div data-style="s6">Updates when your academic supervisor verifies a weekly report.</div>
             </div>
             <input type="checkbox" checked data-style="s15">
           </label>
@@ -202,14 +203,20 @@
 
   <script src="../../shared/js/navigation.js"></script>
   <script src="account-settings.js?v=local-1"></script>
-  <script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
+  <script src="../../shared/js/portal-navigation.js?v=compact-tools-2"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
   <script src="../../shared/js/interactions.js?v=local-1"></script>
-  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
+  <script src="../../shared/js/portal-ux.js?v=semantic-intent-3"></script>
 <script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
-<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
+<script src="../../shared/js/portal-usability.js?v=internal-2"></script>
 <link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
-<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
+<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=semantic-intent-4">
 <script src="../../shared/js/portal-motion.js?v=reference-motion-9"></script>
+  <link rel="stylesheet" href="../../shared/css/internal-platform.css?v=internal-2">
+  <script src="../../shared/js/internal-platform.js?v=tickets-all-5"></script>
+  <link rel="stylesheet" href="../../shared/css/workspace-tools.css?v=ticket-restore-5">
+  <link rel="stylesheet" href="../../shared/css/product-system.css?v=1">
+  <script src="../../shared/js/workspace-tools.js?v=ticket-restore-5"></script>
+  <script src="../../shared/js/product-system.js?v=1"></script>
 </body>
 </html>

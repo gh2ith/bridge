@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <script src="../../shared/js/local-workspace.js?v=local-1"></script><script src="../../shared/js/portal-theme-init.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bridgeway — Partner Company Portal</title>
+  <title>Partner Company Portal | Bridgeway</title>
   <meta name="description" content="Bridgeway Partner Company Portal — Manage verified internship postings, review candidate applications, track weekly curriculum progress, and complete final degree rubrics.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,19 +19,20 @@
   <link rel="stylesheet" href="../../shared/css/portal-enhancements.css?v=layout-2">
 
   <link rel="stylesheet" href="../../shared/css/interactions.css?v=portal-clean-2">
-  <link rel="stylesheet" href="company-dashboard.css?v=college-directory-87">
+  <link rel="stylesheet" href="company-dashboard.css?v=interview-empty-90">
   <link rel="stylesheet" href="../../shared/css/evaluation-radar.css?v=portal-clean-2">
   <link rel="stylesheet" href="../../shared/css/company-evaluation.css?v=night-2">
   <link rel="stylesheet" href="../../shared/css/portal-motion.css?v=reference-motion-16">
-<link rel="stylesheet" href="../../shared/css/portal-ux.css?v=unseen-activity-62">
+<link rel="stylesheet" href="../../shared/css/portal-ux.css?v=semantic-intent-63">
 <link rel="stylesheet" href="../../shared/css/ticket-button.css"><link rel="stylesheet" href="../../shared/css/bridgeway-kinetic.css?v=ticket-curl-27"><script src="../../shared/js/bridgeway-kinetic.js?v=120-hours-1"></script><link rel="stylesheet" href="../../shared/css/workspace-cycle.css?v=college-directory-87">
   <link rel="stylesheet" href="../../shared/css/typography.css?v=project-type-89">
   <link rel="stylesheet" href="../../shared/css/weekly-tasks.css?v=task-chevron-12">
-<link rel="stylesheet" href="../../shared/css/internship-journey.css?v=review-header-21">
+<link rel="stylesheet" href="../../shared/css/internship-journey.css?v=directory-pages-2">
 <link rel="stylesheet" href="../../shared/css/portal-usability.css?v=portal-ux-3">
   <link rel="stylesheet" href="../../shared/css/dashboard-overview.css?v=10">
+  <link rel="stylesheet" href="../../shared/css/interface-craft.css?v=metric-alignment-2">
 </head>
-<body class="portal-layout dashboard-reference company-workspace" data-portal-role="company" id="page-company-dashboard">
+<body class="portal-layout dashboard-reference company-workspace platform-rework" data-portal-role="company" id="page-company-dashboard">
   <svg class="sprite" aria-hidden="true" focusable="false">
     <defs>
       <g id="mascot-art" stroke-linejoin="round" stroke-linecap="round">
@@ -114,6 +115,11 @@
             <span>Dashboard</span>
           </button>
 
+          <a class="bw-masar-item" href="../company-listings/company-listings.html" title="Internship listings">
+            <i class="bi bi-briefcase" aria-hidden="true"></i>
+            <span>Listings</span>
+          </a>
+
           <button type="button" class="bw-masar-item bw-tab-btn" data-tab="tab-candidates">
             <i class="bi bi-people-fill"></i>
             <span>Applications</span><span class="company-nav-count" id="companyApplicationCount">1</span>
@@ -179,7 +185,7 @@
           <h1 id="companyPageTitle">Internship overview</h1>
           <p id="companyPageDescription">A clear view of your opportunities, applicants, and interns.</p>
         </div>
-        <div class="company-heading-tools"><div id="companyOverviewTools"></div></div>
+        <div class="company-heading-tools"><div id="companyOverviewTools"><a class="company-primary" href="../company-post-role/company-post-role.html?v=company-pages-4"><i class="bi bi-plus-lg" aria-hidden="true"></i> Post internship</a></div></div>
       </section>
 
       <section class="bw-kpi-grid" data-dashboard-overview aria-label="Program overview">
@@ -205,45 +211,7 @@
         </button>
       </section>
 
-      <div class="bw-tab-panel is-active" id="tab-posts">
-        <div class="company-overview-layout">
-
-
-        <section class="company-listings" aria-labelledby="listingsTitle">
-          <div class="company-section-heading"><div><h2 id="listingsTitle">Internship listings</h2><p>Your opportunities, at a glance.</p></div><a class="company-primary" href="../company-post-role/company-post-role.html"><i class="bi bi-plus-lg" aria-hidden="true"></i> Post internship</a></div>
-          <div class="listing-toolbar"><div class="listing-filters" role="group" aria-label="Filter listings by status"><button type="button" data-listing-filter="all" aria-pressed="true">All listings</button><button type="button" data-listing-filter="active" aria-pressed="false">Active</button><button type="button" data-listing-filter="paused" aria-pressed="false">Paused</button></div><label class="company-search"><i class="bi bi-search" aria-hidden="true"></i><input id="companyListingSearch" type="search" placeholder="Search listings" aria-label="Search internship listings"></label></div>
-          <div class="listing-table-scroll" tabindex="0" role="region" aria-label="Internship listings table">
-            <table class="listing-table bw-opportunities-grid"><thead><tr><th scope="col">Internship</th><th scope="col">Status</th><th scope="col">Applicants</th><th scope="col">Seats</th><th scope="col">Deadline</th><th scope="col"><span class="listing-detail-label">Actions</span></th></tr></thead>
-              <tbody class="bw-opp-card" data-listing-status="active">
-                <tr>
-                  <th scope="row"><button class="listing-title" type="button" aria-expanded="false" aria-controls="listing-software" data-listing-details><span class="bw-opp-title">Software Engineering Intern</span><i class="bi bi-chevron-down" aria-hidden="true"></i></button><span class="listing-location">Amman · Hybrid</span></th>
-                  <td><span class="post-status-badge listing-status">Active</span></td>
-                  <td><button type="button" class="listing-applicants" data-onclick="switchTab-tab-candidates-2" aria-label="Review applicants for Software Engineering Intern">10<i class="bi bi-arrow-up-right" aria-hidden="true"></i></button></td>
-                  <td><span class="listing-seats">2 <span>/ 3 filled</span></span><meter min="0" max="3" value="2" aria-label="Software Engineering Intern: 2 of 3 seats filled"></meter></td>
-                  <td><time datetime="2026-11-30">Nov 30, 2026</time></td>
-                  <td><button type="button" class="listing-manage" data-listing-details aria-expanded="false" aria-controls="listing-software" aria-label="Manage Software Engineering Intern">Manage <i class="bi bi-chevron-down" aria-hidden="true"></i></button></td>
-                </tr>
-                <tr id="listing-software" class="listing-detail" hidden><td colspan="6"><div class="listing-detail-content"><div><span class="listing-detail-label">Requirements</span><div class="listing-skills"><span>C#</span><span>ASP.NET Core</span><span>PostgreSQL</span><span>GPA &gt; 3.0</span></div></div><div class="listing-detail-actions"><a href="../company-post-role/company-post-role.html">Edit listing</a><button type="button" data-onclick="toggleCompanyPost--5" data-listing-pause>Pause Post</button><button type="button" class="text-danger" data-onclick="openDeletePostModal--6">Delete</button></div></div></td></tr>
-              </tbody>
-              <tbody class="bw-opp-card" data-listing-status="active">
-                <tr>
-                  <th scope="row"><button class="listing-title" type="button" aria-expanded="false" aria-controls="listing-frontend" data-listing-details><span class="bw-opp-title">Frontend React Developer Intern</span><i class="bi bi-chevron-down" aria-hidden="true"></i></button><span class="listing-location">Amman · On-site</span></th>
-                  <td><span class="post-status-badge listing-status">Active</span></td>
-                  <td><button type="button" class="listing-applicants" data-onclick="switchTab-tab-candidates-2" aria-label="Review applicants for Frontend React Developer Intern">4<i class="bi bi-arrow-up-right" aria-hidden="true"></i></button></td>
-                  <td><span class="listing-seats">2 <span>/ 5 filled</span></span><meter min="0" max="5" value="2" aria-label="Frontend React Developer Intern: 2 of 5 seats filled"></meter></td>
-                  <td><time datetime="2026-12-10">Dec 10, 2026</time></td>
-                  <td><button type="button" class="listing-manage" data-listing-details aria-expanded="false" aria-controls="listing-frontend" aria-label="Manage Frontend React Developer Intern">Manage <i class="bi bi-chevron-down" aria-hidden="true"></i></button></td>
-                </tr>
-                <tr id="listing-frontend" class="listing-detail" hidden><td colspan="6"><div class="listing-detail-content"><div><span class="listing-detail-label">Requirements</span><div class="listing-skills"><span>React</span><span>TypeScript</span><span>Tailwind</span><span>GPA &gt; 3.0</span></div></div><div class="listing-detail-actions"><a href="../company-post-role/company-post-role.html">Edit listing</a><button type="button" data-onclick="toggleCompanyPost--5" data-listing-pause>Pause Post</button><button type="button" class="text-danger" data-onclick="openDeletePostModal--7">Delete</button></div></div></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="company-empty" id="companyListingsEmpty" hidden>No matching internships. Try a different search or status.</p>
-          <div class="listing-footer"><span id="companyListingCount" role="status">Showing 2 listings</span><span>Select a role to view requirements and actions</span></div>
-        </section>
-
-        </div>
-      </div>
+      <div class="bw-tab-panel is-active" id="tab-posts" aria-label="Company dashboard"></div>
 
       <div class="bw-tab-panel" id="tab-meetings">
         <section class="company-meetings-panel" aria-labelledby="scheduledMeetingsTitle">
@@ -655,30 +623,38 @@
     </div>
   </div>
 
-  <script src="../../shared/js/portal.js?v=reference-motion-16"></script>
+  <script src="../../shared/js/portal.js?v=qa-directories-17"></script>
 
-  <script src="company-dashboard.js?v=local-1"></script>
+  <script src="company-dashboard.js?v=company-pages-3"></script>
   <script src="../../shared/js/evaluation-radar.js?v=local-1"></script>
   <script src="../../shared/js/portal-motion.js?v=reference-motion-16"></script>
-  <script src="../../shared/js/portal-navigation.js?v=ux-1"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
+  <script src="../../shared/js/portal-navigation.js?v=compact-tools-2"></script><script src="../../shared/js/account-security.js?v=1"></script><script src="../../shared/js/enhancements.js?v=unified-3"></script>
 
   <script src="../../shared/js/interactions.js?v=local-1"></script>
-  <script src="../../shared/js/portal-ux.js?v=local-1"></script>
-  <script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=evaluation-gate-15"></script>
+  <script src="../../shared/js/portal-ux.js?v=semantic-intent-3"></script>
+<script src="../../shared/js/report-visibility.js?v=local-1"></script><script src="../../shared/js/workbook-download.js?v=local-1"></script><script src="../../shared/js/training-hours.js?v=evaluation-gate-15"></script><script src="../../shared/js/workspace-cycle.js?v=company-pages-19"></script>
   <script src="../../shared/js/weekly-tasks.js?v=week-locked-14"></script>
   <script src="../../shared/js/partnership-review.js?v=local-1"></script>
   <link rel="stylesheet" href="../../shared/css/student-training.css?v=1">
   <script src="../../shared/js/application-interviews.js?v=local-1"></script>
 
 <script src="../../shared/js/sidebar-activity.js?v=local-1"></script>
-<script src="../../shared/js/internship-journey.js?v=review-header-21"></script>
-<script src="../../shared/js/portal-usability.js?v=unified-5"></script>
+<script src="../../shared/js/progress-relations.js?v=2"></script>
+<script src="../../shared/js/internship-journey.js?v=qa-host-43"></script>
+<script src="../../shared/js/portal-usability.js?v=internal-2"></script>
 <script src="../../shared/js/dashboard-overview.js?v=3"></script>
 <link rel="stylesheet" href="../../shared/css/portal-layout.css?v=tickets-only-2">
-<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=fullhd-3">
-<link rel="stylesheet" href="../../shared/css/dashboard-insights.css?v=5">
-<script src="../../shared/js/dashboard-insights.js?v=6"></script>
+<link rel="stylesheet" href="../../shared/css/portal-polish.css?v=semantic-intent-4">
+<link rel="stylesheet" href="../../shared/css/dashboard-insights.css?v=scroll-charts-1">
+<script src="../../shared/js/dashboard-insights.js?v=scroll-charts-2"></script>
 <link rel="stylesheet" href="weekly-training.css?v=evaluation-gate-7">
 <script src="evaluation-gate.js?v=3"></script>
+  <link rel="stylesheet" href="../../shared/css/internal-platform.css?v=internal-2">
+  <script src="../../shared/js/internal-platform.js?v=tickets-all-5"></script>
+  <link rel="stylesheet" href="../../shared/css/workspace-tools.css?v=context-actions-3">
+  <link rel="stylesheet" href="../../shared/css/product-system.css?v=company-pages-4">
+  <script src="../../shared/js/workspace-tools.js?v=context-actions-2"></script>
+  <script src="../../shared/js/product-system.js?v=1"></script>
+  <link rel="stylesheet" href="../../shared/css/progress-monitor.css?v=relations-2">
 </body>
 </html>

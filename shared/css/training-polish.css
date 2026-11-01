@@ -1,0 +1,297 @@
+/* The training overview has three independently sized reading areas. */
+body#page-student-dashboard .learning-journal {
+  --training-gap:16px;
+  max-width:none;margin:16px 0 32px;font-family:var(--bw-font-body);
+}
+body#page-student-dashboard.platform-rework .journal-summary,
+body#page-student-dashboard.platform-rework .journal-summary:has(> .certificate-compact) {
+  display:grid;grid-template-columns:minmax(260px,.95fr) minmax(0,1.1fr) minmax(280px,1fr);
+  gap:var(--training-gap);align-items:stretch;padding:0;background:none;margin:0;border:0;
+}
+body#page-student-dashboard.platform-rework .journal-summary:not(:has(> .certificate-compact)) {
+  grid-template-columns:minmax(260px,.8fr) minmax(0,1.4fr);
+}
+body#page-student-dashboard .journal-summary .journal-employer {
+  display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;
+  min-width:0;padding:24px;background:var(--bw-surface);border-radius:12px;
+}
+body#page-student-dashboard .journal-employer .training-placement-label {
+  font-size:13px;color:var(--bw-text-secondary);margin:0 0 10px;
+}
+body#page-student-dashboard .journal-employer h2 { font-size:20px;line-height:1.35;margin:0 0 18px; }
+.training-placement-details { display:grid;gap:12px;margin:0 0 12px; }
+.training-placement-details > div { display:grid;grid-template-columns:135px minmax(0,1fr);gap:8px;align-items:baseline; }
+.training-placement-details dt { color:var(--bw-text-secondary);font-size:12px;line-height:1.5; }
+.training-placement-details dd { color:var(--bw-text);font-size:14px;line-height:1.5;margin:0;overflow-wrap:anywhere; }
+body#page-student-dashboard .journal-employer > button {
+  align-self:flex-start;margin-top:auto;padding:10px 0 0;min-height:44px;
+  font:600 13px var(--bw-font-body);text-decoration:underline;text-underline-offset:3px;
+}
+body#page-student-dashboard.platform-rework .journal-summary .certificate-compact {
+  display:grid;grid-template-columns:100px minmax(0,1fr);grid-template-areas:'preview heading' 'actions actions';
+  grid-template-rows:1fr auto;align-items:center;align-content:stretch;
+  gap:20px 16px;padding:24px;border:0;border-radius:12px;margin:0;background:var(--bw-surface);min-width:0;
+}
+body#page-student-dashboard.platform-rework .certificate-compact > .cycle-heading h2 { font-size:18px!important;line-height:1.35!important;margin:0 0 8px; }
+body#page-student-dashboard.platform-rework .certificate-compact .certificate-preview canvas { width:100px;max-width:100%;height:auto; }
+body#page-student-dashboard.platform-rework .certificate-compact .certificate-actions { gap:8px;flex-wrap:wrap; }
+body#page-student-dashboard .certificate-compact .certificate-actions button { min-height:44px;padding:10px 14px;font-size:13px; }
+@media(max-width:1150px) {
+  body#page-student-dashboard.platform-rework .journal-summary:has(> .certificate-compact) { grid-template-columns:minmax(260px,.95fr) minmax(0,1.1fr); }
+  body#page-student-dashboard.platform-rework .journal-summary .certificate-compact { grid-column:1/-1;grid-template-columns:100px minmax(0,1fr) auto;grid-template-rows:auto;grid-template-areas:'preview heading actions';padding:20px 24px; }
+}
+@media(max-width:700px) {
+  body#page-student-dashboard.platform-rework .journal-summary,
+  body#page-student-dashboard.platform-rework .journal-summary:has(> .certificate-compact),
+  body#page-student-dashboard.platform-rework .journal-summary:not(:has(> .certificate-compact)) { grid-template-columns:minmax(0,1fr); }
+  body#page-student-dashboard.platform-rework .journal-summary .certificate-compact { grid-template-columns:100px minmax(0,1fr);grid-template-areas:'preview heading' 'actions actions'; }
+}
+/* Verified hours are a single aggregate, shown in eight 15-hour segments. */
+body#page-student-dashboard .journal-summary .training-hours-card {
+  --hours-accent:#a5d0ff;
+  --hours-muted:#c9dbf0;
+  position:relative;isolation:isolate;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:space-between;gap:20px;
+  min-height:220px;padding:22px 24px;border:0;background:var(--overview-highlight,#163b69);border-radius:12px;
+}
+.training-hours-card::after {
+  content:'';position:absolute;inset:auto -12px 16px auto;
+  width:168px;max-width:55%;height:88px;mask:url('../assets/dashboard-bridge.svg') center/contain no-repeat;
+  background:white;opacity:.18;pointer-events:none;z-index:-1;
+}
+body#page-student-dashboard .training-hours-card > .training-hours-heading {
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  color:white;font-size:14px;font-weight:500;
+}
+.training-hours-heading > i { font-size:19px;color:var(--hours-accent); }
+body#page-student-dashboard .training-hours-card > .training-hours-content {
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:12px;
+}
+body#page-student-dashboard .training-hours-card .training-hours-number {
+  display:flex;align-items:baseline;gap:6px;white-space:nowrap;
+}
+body#page-student-dashboard .training-hours-number > strong {
+  font-size:clamp(40px,3.2vw,54px);font-weight:600;line-height:1;letter-spacing:-.05em;color:white;
+}
+body#page-student-dashboard .training-hours-number > span { font-size:14px;font-weight:400;color:var(--hours-muted); }
+body#page-student-dashboard .training-hours-total > p { margin-top:8px;font-size:12px;color:var(--hours-muted); }
+.training-hours-ring { flex:0 0 84px;width:84px;height:84px;position:relative;display:grid;place-items:center; }
+.training-hours-ring svg { position:absolute;inset:0;width:100%;height:100%; }
+.training-hours-ring circle { fill:none;stroke-width:5; }
+.training-ring-track { stroke:rgb(255 255 255 / .15); }
+.training-ring-fill { stroke:var(--hours-accent); }
+body#page-student-dashboard .training-hours-ring > span { font-size:18px;line-height:1;font-weight:600;color:white;letter-spacing:-.03em; }
+body#page-student-dashboard .training-hours-card > .training-hours-footer {
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px 12px;
+  padding-top:12px;border-top:1px solid rgb(255 255 255 / .18);font-size:12px;line-height:1.4;
+}
+.training-hours-footer > span:first-child { display:flex;align-items:baseline;gap:6px; }
+body#page-student-dashboard .training-hours-footer strong { font-size:13px;font-weight:600;line-height:1.4;letter-spacing:0; }
+body#page-student-dashboard .training-hours-footer span { font-size:12px; }
+body#page-student-dashboard .training-hours-footer .training-hours-target { color:var(--hours-muted);font-size:11px; }
+@media(max-width:500px) {
+  body#page-student-dashboard .journal-summary .training-hours-card { padding:20px; }
+  .training-hours-ring { width:84px;height:84px;flex-basis:84px; }
+}
+/* The full training page follows a progress → plan → selected work reading order. */
+body#page-student-dashboard .learning-journal { --training-space:24px; }
+body#page-student-dashboard.platform-rework .journal-summary:has(> .certificate-compact) {
+  grid-template-columns:minmax(280px,.85fr) minmax(0,1.3fr);
+}
+body#page-student-dashboard.platform-rework .journal-summary .certificate-compact {
+  grid-column:1/-1;grid-template-columns:84px minmax(0,1fr) auto;
+  grid-template-rows:auto;grid-template-areas:'preview heading actions';gap:16px 24px;padding:16px 24px;
+}
+body#page-student-dashboard.platform-rework .certificate-compact .certificate-preview canvas { width:84px; }
+body#page-student-dashboard .journal-summary .journal-employer { justify-content:space-between; }
+body#page-student-dashboard .journal-employer h2 { font-size:24px;line-height:1.3; }
+body#page-student-dashboard .training-placement-details { gap:16px; }
+body#page-student-dashboard .training-placement-details > div { grid-template-columns:minmax(120px,.7fr) minmax(0,1fr); }
+body#page-student-dashboard .training-placement-details dd { font-size:15px; }
+/* Selected week: strong introduction, compact assignment list, readable objectives. */
+body#page-student-dashboard.platform-rework .journal-week {
+  padding:28px;border-radius:12px;box-shadow:none;
+}
+body#page-student-dashboard .journal-week-heading { align-items:center;gap:16px; }
+body#page-student-dashboard .journal-week-heading h2 {
+  font-size:clamp(23px,2.2vw,29px);font-weight:600;line-height:1.3;letter-spacing:-.035em;
+}
+body#page-student-dashboard .journal-week-number { font-size:13px;font-weight:600;margin-bottom:6px!important; }
+body#page-student-dashboard .journal-state { padding:6px 10px;font-size:12px;border-radius:6px; }
+body#page-student-dashboard .journal-week-meta { padding:14px 0 24px;gap:10px 20px;font-size:13px; }
+body#page-student-dashboard.platform-rework .journal-week > .weekly-tasks {
+  margin:0 0 24px;padding:20px;background:var(--bw-bg-alt);border:0;border-radius:10px;
+}
+body#page-student-dashboard .journal-week .weekly-tasks-title > i { font-size:17px; }
+body#page-student-dashboard .journal-week .weekly-tasks-title h3 { font-size:16px!important;font-weight:600; }
+body#page-student-dashboard .journal-week .weekly-tasks-intro { margin:6px 0 16px;font-size:13px; }
+body#page-student-dashboard .journal-week .weekly-tasks-count { background:var(--bw-surface);border-radius:5px; }
+body#page-student-dashboard .journal-week .weekly-tasks-list { display:grid;gap:8px; }
+body#page-student-dashboard .journal-week .weekly-task-row,
+body#page-student-dashboard .journal-week .weekly-task-row:last-child {
+  align-items:flex-start;gap:12px;padding:12px 14px;background:var(--bw-surface);
+  border:0;border-radius:8px;min-width:0;
+}
+body#page-student-dashboard .journal-week .weekly-task-mark {
+  width:20px;height:32px;background:transparent;border:0;border-radius:0;font-size:16px;color:var(--bw-text-secondary);
+}
+body#page-student-dashboard .journal-week .weekly-task-row-heading { min-height:32px;gap:8px 12px; }
+body#page-student-dashboard .journal-week .weekly-task-row-heading h4 { margin:0;font-size:14px!important;font-weight:600;line-height:1.5; }
+body#page-student-dashboard .journal-week .weekly-task-row-heading .cycle-status { font-size:11px;padding:4px 8px; }
+body#page-student-dashboard .journal-week .weekly-task-actions > .weekly-task-expand {
+  display:flex;align-items:center;justify-content:center;
+  width:44px;min-width:44px;min-height:44px;margin:0;padding:8px;
+  background:var(--bw-bg-alt);color:var(--bw-text-secondary);border:0;border-radius:6px;
+}
+body#page-student-dashboard .journal-week .weekly-task-actions > .weekly-task-expand:hover,
+body#page-student-dashboard .journal-week .weekly-task-actions > .weekly-task-expand[aria-expanded=true] { background:var(--bw-primary-light);color:var(--bw-primary); }
+body#page-student-dashboard .journal-week .weekly-task-body:not([hidden]) { padding-top:12px; }
+body#page-student-dashboard .journal-week .weekly-tasks-empty {
+ min-height:220px;
+ padding:40px 24px;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:12px;
+ background:transparent;
+ border:0;
+ text-align:center;
+}
+body#page-student-dashboard .journal-week .weekly-tasks-empty > i { font-size:28px; }
+body#page-student-dashboard .journal-week .weekly-tasks-empty > div { max-width:440px; }
+body#page-student-dashboard .journal-week .weekly-tasks-empty strong { display:block;font-size:16px;line-height:1.5; }
+body#page-student-dashboard .journal-week .weekly-tasks-empty p { margin-top:8px;font-size:14px; }
+@media(max-width:600px) {
+ body#page-student-dashboard .journal-week .weekly-tasks-empty { min-height:188px;padding:32px 16px; }
+}
+body#page-student-dashboard .journal-objective-panel .journal-task-heading { padding:0;margin:0 0 14px;border:0; }
+body#page-student-dashboard .journal-objective-panel .journal-task-heading h3 { font-size:16px;font-weight:600; }
+body#page-student-dashboard .journal-objective-panel .journal-task-heading > span { font-size:12px; }
+body#page-student-dashboard .journal-objective-panel .journal-lock {
+  padding:12px 14px;margin:0 0 6px;border-radius:8px;gap:10px;
+}
+body#page-student-dashboard .journal-objective-panel .journal-lock p { max-width:none;font-size:13px;line-height:1.6; }
+body#page-student-dashboard .journal-objective-panel .journal-objective { align-items:center;padding:14px 0;gap:12px; }
+body#page-student-dashboard .journal-objective-panel .journal-objective-mark {
+  margin:0;width:24px;height:28px;font-size:16px;background:transparent;border-radius:0;color:var(--bw-text-secondary);
+}
+body#page-student-dashboard .journal-objective-panel .journal-objective-mark.is-done { color:var(--journal-green); }
+body#page-student-dashboard .journal-objective-panel .journal-objective h4 { font-size:14px;font-weight:500;line-height:1.6; }
+body#page-student-dashboard .journal-objective-panel .journal-objective-status { font-size:11px;padding:4px 8px;border-radius:5px; }
+body#page-student-dashboard .journal-week-footer { padding-top:14px;margin-top:12px; }
+@media(max-width:760px) {
+  body#page-student-dashboard.platform-rework .journal-week { padding:20px; }
+  body#page-student-dashboard.platform-rework .journal-week > .weekly-tasks { padding:14px; }
+  body#page-student-dashboard .journal-week-heading { align-items:flex-start;flex-wrap:wrap;gap:12px; }
+  body#page-student-dashboard .journal-week .weekly-task-actions > .weekly-task-expand { width:44px;min-width:44px;min-height:44px; }
+}
+body#page-student-dashboard .journal-objective-panel > summary.journal-task-heading {
+  display:flex;align-items:center;gap:12px;min-height:48px;padding:10px 14px;margin:0;border:1px solid var(--bw-border);
+  border-radius:8px;background:var(--bw-bg-alt);list-style:none;cursor:pointer;
+}
+.journal-objective-panel > summary::-webkit-details-marker { display:none; }
+.journal-objective-panel > summary h3 { flex:1; }
+.journal-objective-panel > summary > i { font-size:13px;color:var(--bw-text-secondary); }
+.journal-objective-panel[open] > summary > i { transform:rotate(180deg); }
+body#page-student-dashboard .journal-objective-panel[open] > summary { margin-bottom:12px; }
+.journal-objective-panel > summary:hover { color:var(--bw-primary); }
+.journal-objective-panel > summary:focus-visible { outline:2px solid var(--bw-primary);outline-offset:3px; }
+/* Expanded student tasks read as instructions, files, and submission record. */
+body#page-student-dashboard .journal-week .weekly-task-row:has(.weekly-task-body:not([hidden])) {
+  padding:18px;border-radius:10px;
+}
+body#page-student-dashboard .journal-week .weekly-task-body:not([hidden]) {
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+  align-items:start;gap:20px 24px;padding-top:16px;
+}
+body#page-student-dashboard .journal-week .weekly-task-body:not(:has(.task-file-row)) { grid-template-columns:minmax(0,1fr); }
+body#page-student-dashboard .journal-week .weekly-task-instructions {
+  grid-column:1/-1;margin:0;max-width:75ch;font-size:14px;line-height:1.7;
+}
+body#page-student-dashboard .journal-week .weekly-task-due { grid-column:1/-1;margin:0; }
+body#page-student-dashboard .journal-week .weekly-task-attachments {
+  width:100%;max-width:none;min-width:0;margin:0;padding:0;
+}
+body#page-student-dashboard .journal-week .task-files-heading { margin:0 0 10px;gap:8px; }
+body#page-student-dashboard .journal-week .task-files-heading strong { font-size:13px;font-weight:600; }
+body#page-student-dashboard .journal-week .task-file-list { gap:6px; }
+body#page-student-dashboard .journal-week .task-file-row {
+  padding:12px;gap:10px;min-width:0;border:0;border-radius:8px;background:var(--bw-bg-alt);
+}
+body#page-student-dashboard .journal-week .task-file-row > i { font-size:20px; }
+body#page-student-dashboard .journal-week .task-file-name { font-size:13px;font-weight:500;line-height:1.5; }
+body#page-student-dashboard .journal-week .task-file-info small { font-size:11px;line-height:1.5;margin-top:3px; }
+body#page-student-dashboard .journal-week .task-file-download {
+  min-height:40px;padding:8px 12px;border:1px solid var(--bw-border);border-radius:6px;background:var(--bw-surface);font-size:12px;
+}
+body#page-student-dashboard .journal-week .task-file-download:hover { border-color:var(--bw-primary);background:var(--bw-primary-light); }
+body#page-student-dashboard .journal-week .task-submissions {
+  min-width:0;max-width:none;width:100%;margin:0;padding:0;border:0;gap:12px;
+}
+body#page-student-dashboard .journal-week .task-submission-version {
+  padding:0;border:1px solid var(--bw-border);border-radius:8px;background:var(--bw-surface);overflow:hidden;
+}
+body#page-student-dashboard .journal-week .task-submission-version > summary {
+  padding:12px 14px;min-height:44px;box-sizing:border-box;cursor:pointer;font-size:13px;font-weight:600;
+}
+body#page-student-dashboard .journal-week .task-submission-version[open] > summary { background:var(--bw-bg-alt);border-bottom:1px solid var(--bw-border); }
+body#page-student-dashboard .journal-week .task-submission-version > p {
+  margin:12px 14px;font-size:13px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;
+}
+body#page-student-dashboard .journal-week .task-submission-version > .cycle-status { margin-inline:14px;font-size:11px; }
+body#page-student-dashboard .journal-week .task-submission-version > a { display:inline-flex;align-items:center;min-height:36px;margin-inline:14px;font-size:13px; }
+body#page-student-dashboard .journal-week .task-submission-history > summary { min-height:44px;padding-block:10px;font-size:12px;color:var(--bw-text-secondary);cursor:pointer; }
+@media(max-width:1000px) {
+  body#page-student-dashboard .journal-week .weekly-task-body:not([hidden]) { grid-template-columns:minmax(0,1fr);gap:20px; }
+}
+@media(max-width:600px) {
+  body#page-student-dashboard .journal-week .weekly-task-row:has(.weekly-task-body:not([hidden])) { padding:12px; }
+  body#page-student-dashboard .journal-week .task-file-row { flex-wrap:wrap; }
+  body#page-student-dashboard .journal-week .task-file-info { flex-basis:calc(100% - 36px); }
+  body#page-student-dashboard .journal-week .task-file-download { margin-inline-start:30px;min-height:44px; }
+}
+/* Finishing details stay local to the student training view. */
+body#page-student-dashboard .journal-week .weekly-tasks-title { flex:1; }
+body#page-student-dashboard .journal-week .weekly-tasks-count {
+  margin-inline-start:auto;min-width:24px;height:24px;font-weight:600;
+}
+body#page-student-dashboard .journal-week .weekly-task-row + .weekly-task-row { border-block-start:0; }
+body#page-student-dashboard .journal-week .weekly-task-row-heading .cycle-status { line-height:1.4; }
+body#page-student-dashboard .journal-week .weekly-task-actions { align-self:flex-start; }
+body#page-student-dashboard .journal-week .task-submission-version > summary::marker { color:var(--bw-text-secondary);font-size:10px; }
+body#page-student-dashboard .journal-week .task-submission-version > summary:hover { color:var(--bw-primary); }
+body#page-student-dashboard .journal-week .task-submission-version > summary:focus-visible,
+body#page-student-dashboard .journal-week .task-file-download:focus-visible {
+  outline:2px solid var(--bw-primary);outline-offset:3px;
+}
+body#page-student-dashboard .journal-week-footer p { font-size:12px;line-height:1.6; }
+body#page-student-dashboard .journal-lock { align-items:flex-start; }
+body#page-student-dashboard .journal-lock > i { flex:none; }
+body#page-student-dashboard .journal-review .journal-review-empty h3 { line-height:1.4; }
+body#page-student-dashboard .journal-review .journal-review-empty p { line-height:1.7;font-size:13px; }
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+  body#page-student-dashboard .journal-week :is(.weekly-task-expand,.task-file-download,summary) {
+    transition:background-color 160ms ease,color 160ms ease,border-color 160ms ease;
+  }
+}
+@media(max-width:600px) {
+  body#page-student-dashboard .journal-week-meta { gap:8px 14px; }
+  body#page-student-dashboard .journal-objective-panel > summary.journal-task-heading { flex-wrap:nowrap;gap:8px; }
+  body#page-student-dashboard .journal-objective-panel > summary h3 { min-width:0;font-size:15px; }
+  body#page-student-dashboard .journal-objective-panel > summary > span { font-size:11px; }
+}
+/* Keep the final overview layout responsive after desktop composition rules. */
+@media(max-width:700px) {
+  body#page-student-dashboard.platform-rework .journal-summary,
+  body#page-student-dashboard.platform-rework .journal-summary:has(> .certificate-compact),
+  body#page-student-dashboard.platform-rework .journal-summary:not(:has(> .certificate-compact)) {
+    grid-template-columns:minmax(0,1fr);
+  }
+  body#page-student-dashboard.platform-rework .journal-summary .certificate-compact {
+    grid-template-columns:84px minmax(0,1fr);grid-template-rows:auto auto;
+    grid-template-areas:'preview heading' 'actions actions';padding:20px;gap:16px;
+  }
+  body#page-student-dashboard .training-placement-details > div {
+    grid-template-columns:minmax(0,.9fr) minmax(0,1fr);
+  }
+}

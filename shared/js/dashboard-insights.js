@@ -27,7 +27,34 @@
     });
     return {trainees:trainees.length,weeks,statuses,learners,completion,verifiedHours:weeks.reduce((sum,w)=>sum+w.hours,0),verifiedReports:weeks.reduce((sum,w)=>sum+w.verified,0),plannedHours:trainees.length*120,plannedReports:trainees.length*8};
   }
-  window.BridgewayDashboardInsights={summarize};
+  function observeCharts(panel){
+    const reduced=window.matchMedia('(prefers-reduced-motion: reduce)'),cards=[...panel.querySelectorAll('.insight-widget')],running=new Set();
+    const anchors=new Map(cards.map(card=>[card,card.querySelector('.insight-completion-rows,.insight-plot,.insight-summary,.insight-student-rows,.insight-pipeline-rows')||card])),cardFor=new Map([...anchors].map(([card,anchor])=>[anchor,card]));
+    let observer;
+    function animate(node,frames,index=0){
+      if(typeof node.animate!=='function')return;
+      const effect=node.animate(frames,{duration:650,delay:Math.min(index*35,140),easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'});running.add(effect);effect.finished.then(()=>running.delete(effect),()=>running.delete(effect));
+    }
+    function play(card){
+      if(card.dataset.chartMotion==='played'||panel.hidden)return;
+      card.dataset.chartMotion='played';observer?.unobserve(anchors.get(card));
+      if(reduced.matches)return;
+      card.querySelectorAll('.insight-horizontal-track > span').forEach((node,index)=>animate(node,[{transform:'scaleX(0)',transformOrigin:'left center'},{transform:'scaleX(1)',transformOrigin:'left center'}],index));
+      card.querySelectorAll('.insight-bar').forEach((node,index)=>animate(node,[{transform:'scaleY(0)',transformOrigin:'center bottom'},{transform:'scaleY(1)',transformOrigin:'center bottom'}],index));
+      card.querySelectorAll('.insight-ring-fill').forEach(node=>animate(node,[{strokeDashoffset:'314.16'},{strokeDashoffset:node.style.strokeDashoffset||window.getComputedStyle(node).strokeDashoffset}]));
+      card.querySelectorAll('.insight-ring-segment').forEach(node=>animate(node,[{strokeDasharray:'0 314.16'},{strokeDasharray:node.getAttribute('stroke-dasharray')}]));
+    }
+    function finish(){running.forEach(effect=>effect.cancel());running.clear();cards.forEach(card=>{card.dataset.chartMotion='played';observer?.unobserve(anchors.get(card));});}
+    function reset(){
+      running.forEach(effect=>effect.cancel());running.clear();
+      if(reduced.matches||!observer){finish();return;}
+      cards.forEach(card=>{card.dataset.chartMotion='waiting';observer.unobserve(anchors.get(card));observer.observe(anchors.get(card));});
+    }
+    if(typeof window.IntersectionObserver==='function')observer=new window.IntersectionObserver(entries=>entries.forEach(entry=>{const card=cardFor.get(entry.target);if(card&&entry.isIntersecting&&entry.intersectionRatio>=.2)play(card);}),{threshold:.2,rootMargin:'0px 0px -24px 0px'});
+    reduced.addEventListener('change',reset);reset();
+    return {reset,destroy(){finish();observer?.disconnect();reduced.removeEventListener('change',reset);}};
+  }
+  window.BridgewayDashboardInsights={summarize,observeCharts};
   document.addEventListener('DOMContentLoaded',()=>{
     const grid=document.querySelector('[data-dashboard-overview]'),C=window.BridgewayCycle;
     if(!grid||!C)return;
@@ -56,7 +83,8 @@
     const pipeline=card('Report pipeline','Submission and verification are separate steps','insight-pipeline'),pipelineRows=E('div',null,'insight-pipeline-rows');pipeline.append(pipelineRows);
     const top=E('div',null,'insight-analytics-top'),bottom=E('div',null,'insight-analytics-bottom');top.append(completion,weekly);bottom.append(distribution,studentProgress,pipeline);panel.append(header,top,bottom);grid.after(panel);
     const overview={admin:'tab-overview',company:'tab-posts',supervisor:'tab-roster',platform_admin:'platform-overview'}[document.body.dataset.portalRole];
-    function visibility(){const wasHidden=panel.hidden;panel.hidden=!document.getElementById(overview)?.classList.contains('is-active');if(wasHidden&&!panel.hidden)requestAnimationFrame(render);}
+    const chartMotion=observeCharts(panel);
+    function visibility(){const wasHidden=panel.hidden;panel.hidden=!document.getElementById(overview)?.classList.contains('is-active');if(wasHidden&&!panel.hidden)requestAnimationFrame(()=>{render();chartMotion.reset();});else if(!wasHidden&&panel.hidden)chartMotion.reset();}
     function renderSelection(){
       const w=data.weeks[selected];bars.forEach(({b},index)=>b.setAttribute('aria-pressed',String(index===selected)));
       detail.textContent=mode==='hours'?`Week ${w.week} · ${w.hours} hours verified · ${w.pendingHours} hours in review`:`Week ${w.week} · ${w.verified} verified · ${w.submitted} in review · ${w.revision} needing revision`;

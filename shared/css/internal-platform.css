@@ -1,0 +1,205 @@
+/* Internal platform only. The public homepage and sign-in do not load this file. */
+body.platform-rework {
+  --platform-canvas: #f4f6f9;
+  --platform-paper: var(--bw-surface);
+  --platform-soft: var(--bw-bg-alt);
+  --platform-ink: var(--bw-text);
+  --platform-sub: var(--bw-text-secondary);
+  --platform-line: var(--bw-border);
+  --platform-input-line: #8795a7;
+  --platform-radius: 12px;
+  --platform-control-radius: 8px;
+  --platform-section-space: 32px;
+  --platform-control-size: 44px;
+  --platform-panel-space: 28px;
+  --platform-reading-width: 70ch;
+  --platform-focus: #1d4ed8;
+  --bw-type-page: 30px;
+  --bw-type-section: 20px;
+  background: var(--platform-canvas);
+}
+[data-theme="dark"] body.platform-rework { --platform-canvas: #0b1526; --platform-input-line: #7890ac; --platform-focus: #a8caff; }
+body.platform-rework :is(button,a,input,textarea,select,summary,[tabindex]):focus-visible { outline: 3px solid var(--platform-focus); outline-offset: 3px; }
+body.platform-rework :is(h1,h2,h3) { text-wrap: balance; }
+body.platform-rework :is(h1,.profile-page-heading h1,.ie-page-heading h1) { font-weight: 600 !important; letter-spacing: -.035em !important; }
+body.platform-rework :is(.bw-page-header,.company-page-heading,.supervisor-page-heading,.profile-page-heading,.ie-page-heading,.journal-header) { margin-block: 28px; }
+body.platform-rework :is(.bw-card-panel-header,.company-section-heading,.cycle-heading,.profile-panel-heading,.ie-section-head) { align-items: flex-start; gap: 16px; }
+body.platform-rework :is(.bw-card-panel-header,.company-section-heading,.cycle-heading,.profile-panel-heading,.ie-section-head) :is(h2,h3) { font-weight: 600 !important; line-height: 1.35 !important; margin-bottom: 8px; }
+body.platform-rework :is(.bw-card-panel,.cycle-section,.platform-panel,.company-listings,.company-applications-panel,.bw-detail-surface,.evaluation-detail,.weekly-report-panel) { border: 0; border-radius: var(--platform-radius); padding: var(--platform-panel-space); background: var(--platform-paper); box-shadow: none; }
+body.platform-rework :is(.bw-card-panel-header,.cycle-heading,.company-section-heading) { border-bottom: 0; padding-bottom: 8px; margin-bottom: 20px; }
+body.platform-rework :is(.bw-subtitle,.cycle-muted,.portal-muted,.bw-form-group > small,.cycle-field > small,.ie-hint) { color: var(--platform-sub); line-height: 1.6; }
+body.platform-rework :is(.bw-input,.bw-textarea,.bw-select,.cycle-field > input,.cycle-field > select,.cycle-field > textarea,.company-search,.bw-table-search) { min-height: var(--platform-control-size); border: 1px solid var(--platform-input-line); border-radius: var(--platform-control-radius); padding: 11px 14px; background: var(--platform-paper); color: var(--platform-ink); font-size: 14px !important; box-sizing: border-box; }
+body.platform-rework :is(textarea,.bw-textarea,.cycle-field > textarea) { min-height: 144px; line-height: 1.7 !important; resize: vertical; }
+body.platform-rework :is(input,textarea)::placeholder { color: var(--platform-sub); opacity: 1; }
+body.platform-rework :is(input,textarea)[readonly] { background: var(--platform-soft); border-color: transparent; cursor: text; }
+body.platform-rework :is(.bw-form-label,.cycle-field > span,.ie-field > label) { display: block; font-weight: 500 !important; color: var(--platform-ink); margin-bottom: 8px; font-size: 13px !important; }
+body.platform-rework :is(.cycle-button,.company-primary,.company-secondary,.bw-btn-primary,.bw-btn-outline,.bw-tag-btn,.platform-table-action,.bw-action-pill-btn,.ie-btn) { min-height: var(--platform-control-size); padding: 10px 18px; gap: 8px; border-radius: var(--platform-control-radius); box-shadow: none; font-weight: 500 !important; line-height: 1.4 !important; }
+body.platform-rework :is(.cycle-button,.company-primary,.company-secondary,.bw-btn-primary,.bw-btn-outline,.bw-tag-btn,.platform-table-action,.ie-btn):disabled { opacity: .55; cursor: not-allowed; }
+body.platform-rework:is(#page-company-dashboard,#page-admin-dashboard,#page-supervisor-dashboard,#page-platform-admin,#page-student-dashboard,#page-company-profile,#page-account-settings) :is(.cycle-button,.company-primary,.company-secondary,.bw-btn-primary,.bw-btn-outline,.bw-tag-btn,.platform-table-action,.bw-action-pill-btn) { min-height: var(--platform-control-size) !important; padding: 10px 18px !important; }
+body.platform-rework :is(.bw-form-group,.cycle-field,.ie-field) { min-width: 0; }
+body.platform-rework :is(.bw-form-group > input,.bw-form-group > select,.bw-form-group > textarea,.cycle-field > input,.cycle-field > select,.cycle-field > textarea) { width: 100%; }
+body.platform-rework :is(.cycle-status,.bw-badge,.publication-status,.listing-status) { box-shadow: none; font-weight: 500 !important; letter-spacing: 0; text-transform: none; border-radius: 6px; }
+body.platform-rework :is(.cycle-callout,.cycle-lock,.partnership-export-bar,.portal-next-action) { border: 0; border-radius: var(--platform-control-radius); background: var(--platform-soft); padding: 20px 24px; box-shadow: none; }
+body.platform-rework :is(.bw-detail-body,.listing-detail-content,.spotlight-document,.cycle-record-detail) p { max-width: var(--platform-reading-width); line-height: 1.75; }
+body.platform-rework :is(.bw-ux-empty,.publication-empty,.cycle-interview-empty,.weekly-tasks-empty,.studio-empty,.support-empty) { padding: 36px 24px; border: 0; border-radius: var(--platform-radius); background: var(--platform-soft); box-shadow: none; }
+body.platform-rework :is(.bw-eyebrow,.company-eyebrow,.spotlight-eyebrow,.record-eyebrow) { letter-spacing: 0; text-transform: none; font-size: 13px; }
+
+/* Directories and moderation: a common scan path from search to rows to actions. */
+body.platform-rework :is(.bw-table-container,.publication-table-wrap,.platform-table-wrap) { border: 0; border-radius: var(--platform-radius); background: var(--platform-paper); box-shadow: none; overflow-x: auto; overscroll-behavior-inline: contain; }
+body.platform-rework :is(.bw-table,.publication-table,.platform-table,.listing-table) { border-collapse: collapse; width: 100%; }
+body.platform-rework :is(.bw-table,.publication-table,.platform-table,.listing-table) th { padding: 16px 20px; background: var(--platform-soft); color: var(--platform-sub); text-transform: none; letter-spacing: 0; font-weight: 500 !important; font-size: 12px !important; white-space: nowrap; }
+body.platform-rework :is(.bw-table,.publication-table,.platform-table,.listing-table) td { padding: 18px 20px; border-bottom: 1px solid var(--platform-line); vertical-align: middle; line-height: 1.6; font-variant-numeric: tabular-nums; }
+body.platform-rework :is(.bw-table,.publication-table,.platform-table,.listing-table) tbody tr:last-child td { border-bottom: 0; }
+body.platform-rework :is(.bw-data-toolbar,.listing-toolbar,.applicants-toolbar,.publication-toolbar,.platform-toolbar,.portal-directory-toolbar) { margin-bottom: 24px; gap: 16px; }
+body.platform-rework :is(.bw-student-avatar,.record-avatar,.spotlight-avatar,.company-profile-avatar,.profile-avatar,.assessment-avatar) { background: var(--platform-soft); color: var(--platform-ink); box-shadow: none; }
+body.platform-rework :is(.bw-detail-facts,.spotlight-facts,.record-placement-facts,.gallery-facts) { background: var(--platform-soft); border: 0; padding: 20px; gap: 20px; border-radius: var(--platform-control-radius); }
+body.platform-rework :is(.company-post-card,.cycle-company-application,.studio-application,.company-college-row,.company-meeting-row) { padding: 24px; border: 0; border-radius: var(--platform-radius); background: var(--platform-paper); box-shadow: none; }
+body.platform-rework :is(.company-post-card,.cycle-company-application,.studio-application) + :is(.company-post-card,.cycle-company-application,.studio-application) { margin-top: 16px; }
+body.platform-rework :is(.company-post-card-facts,.company-post-card-review,.company-post-card-availability) { background: transparent; border: 0; padding-inline: 0; }
+body.platform-rework .company-post-card-heading { align-items: flex-start; gap: 20px; }
+body.platform-rework :is(.company-post-title,.studio-application h2,.cycle-applicant-heading h3) { font-size: 20px !important; font-weight: 600 !important; }
+body.platform-rework :is(.company-post-card-description,.gallery-description,.studio-application p) { max-width: var(--platform-reading-width); font-size: 14px; line-height: 1.7; }
+body.platform-rework .cycle-admission-controls { padding-top: 20px; gap: 12px; }
+body.platform-rework .application-interview { border: 0; padding: 20px; border-radius: var(--platform-control-radius); background: var(--platform-soft); }
+body.platform-rework :is(.gallery-dossier,.role-catalog) { border: 0; border-radius: var(--platform-radius); box-shadow: none; background: var(--platform-paper); }
+body.platform-rework .gallery-dossier { padding: 32px; }
+body.platform-rework .gallery-detail-footer { margin-top: 28px; padding-top: 24px; }
+body.platform-rework .role-catalog-card { padding: 24px; border-radius: var(--platform-radius); box-shadow: none; }
+
+/* Training: week selection, work, and company feedback are distinct reading areas. */
+body.platform-rework .learning-journal { margin-top: 28px; }
+body.platform-rework :is(.journal-placement,.journal-week,.journal-review,.company-week-objectives,.company-week-report) { background: var(--platform-paper); border: 0; border-radius: var(--platform-radius); box-shadow: none; padding: 28px; }
+body.platform-rework .journal-placement { grid-template-columns: minmax(0,1fr) 280px; gap: 32px; }
+body.platform-rework .journal-summary { display: grid; gap: 24px; }
+body.platform-rework .journal-summary:has(> .certificate-compact) { grid-template-columns: minmax(0,1.6fr) minmax(320px,1fr); align-items: stretch; }
+body.platform-rework .journal-summary .journal-placement { grid-template-columns: minmax(0,1fr); gap: 20px; }
+body.platform-rework .journal-summary:not(:has(> .certificate-compact)) .journal-placement { grid-template-columns: minmax(0,1fr) 280px; }
+body.platform-rework .journal-summary .certificate-compact { display: grid; grid-template-columns: 104px minmax(0,1fr); grid-template-areas: "preview heading" "actions actions"; align-content: center; gap: 20px; padding: 24px; margin: 0; min-width: 0; }
+body.platform-rework .certificate-compact > .cycle-heading { grid-area: heading; margin: 0; padding: 0; align-self: center; }
+body.platform-rework .certificate-compact > .cycle-heading h2 { font-size: 18px !important; line-height: 1.4 !important; margin: 0 0 8px; }
+body.platform-rework .certificate-compact > .cycle-heading p { font-size: 13px; line-height: 1.6; }
+body.platform-rework .certificate-compact .certificate-preview { grid-area: preview; align-self: center; margin: 0; padding: 0; border: 0; background: transparent; }
+body.platform-rework .certificate-compact .certificate-preview canvas { width: 104px; height: auto; max-height: none; box-shadow: none; }
+body.platform-rework .certificate-compact .certificate-actions { grid-area: actions; justify-content: flex-start; gap: 10px; }
+body.platform-rework :is(.journal-company-mark,.journal-feedback-mark,.weekly-task-mark,.studio-application-mark,.support-message-avatar,.platform-icon) { background: transparent; border: 0; border-radius: 0; box-shadow: none; color: var(--platform-sub); }
+body.platform-rework .journal-journey { margin-block: 32px; }
+body.platform-rework .journal-stations { gap: 8px; }
+body.platform-rework .journal-station { border-radius: var(--platform-control-radius); padding: 14px; box-shadow: none; }
+body.platform-rework .journal-workspace { gap: 24px; align-items: start; }
+body.platform-rework :is(.journal-objective,.cycle-objective) { padding-block: 18px; }
+body.platform-rework :is(.journal-objective-text p,.journal-feedback-content,.weekly-task-instructions) { font-size: 14px; line-height: 1.75; }
+body.platform-rework :is(.weekly-tasks,.cycle-company-training .weekly-tasks) { border: 0; border-radius: var(--platform-radius); background: var(--platform-paper); padding: 24px; box-shadow: none; }
+body.platform-rework .weekly-task-row { border: 0; border-radius: 0; padding: 20px 0; background: transparent; box-shadow: none; }
+body.platform-rework .weekly-task-row + .weekly-task-row { border-top: 1px solid var(--platform-line); }
+body.platform-rework :is(.task-latest-submission,.task-submission-version,.task-review-feedback,.company-report-task-gate) { border: 0; border-radius: var(--platform-control-radius); background: var(--platform-soft); padding: 20px; }
+body.platform-rework .task-file-row { padding: 14px 16px; gap: 12px; border-radius: var(--platform-control-radius); }
+body.platform-rework .cycle-company-training > .cycle-heading { border: 0; border-radius: var(--platform-radius); padding: 24px; }
+body.platform-rework .company-week-layout { grid-template-columns: minmax(0,1fr) 340px; gap: 24px; }
+body.platform-rework .company-week-report { top: 24px; }
+body.platform-rework :is(.cycle-weeks,.training-week-strip) { gap: 8px; }
+body.platform-rework .journey-monitor-row { border: 0; border-radius: var(--platform-radius); padding: 24px; background: var(--platform-paper); }
+body.platform-rework .journey-monitor-row + .journey-monitor-row { margin-top: 16px; }
+
+/* Assessment and completion stay task-led, with the original rating controls. */
+body.platform-rework :is(.assessment-canvas,.supervisor-assessment-detail,.supervisor-submission,.completion-readiness,.portal-completion-summary) { border: 0; border-radius: var(--platform-radius); box-shadow: none; padding: 28px; }
+body.platform-rework .assessment-canvas { background: var(--platform-soft); color: var(--platform-ink); }
+body.platform-rework .assessment-canvas :is(h2,h3,p,.assessment-college,.assessment-person p) { color: inherit; }
+body.platform-rework .assessment-canvas :is(p,.assessment-college) { color: var(--platform-sub); }
+body.platform-rework :is(.bw-rubric-rating-row,.supervisor-submission-objective) { padding-block: 24px; }
+body.platform-rework :is(.bw-scale-btn,.bw-rubric-btn) { min-width: 44px; min-height: 44px; border-radius: var(--platform-control-radius); }
+body.platform-rework .journey-checklist { gap: 0; }
+body.platform-rework .journey-checklist > div { padding-block: 18px; border-bottom: 1px solid var(--platform-line); }
+body.platform-rework .journey-certificate { border: 0; background: var(--platform-paper); padding: 28px; border-radius: var(--platform-radius); }
+body.platform-rework .placements-summary { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+body.platform-rework .placement-summary { min-width: 0; padding: 20px; gap: 16px; }
+body.platform-rework .placement-summary > i:first-child { background: transparent; border-radius: 0; width: 24px; height: 24px; }
+body.platform-rework .placements-panel { border: 0; border-radius: var(--platform-radius); padding: 28px; background: var(--platform-paper); }
+body.platform-rework .placements-table-wrap { overflow-x: auto; overscroll-behavior-inline: contain; }
+body.platform-rework .placements-toolbar .cycle-field { width: min(430px,100%); }
+body.platform-rework .placements-filters { flex-wrap: wrap; gap: 8px; }
+body.platform-rework :is(.company-objectives-heading,.weekly-tasks-title) > i { background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+
+/* Support: quiet inbox rows, readable conversation, visible reply area. */
+body.platform-rework .support-overview { max-width: none; display: grid; grid-template-columns: 280px minmax(0,1fr); gap: 40px; align-items: start; }
+body.platform-rework.is-ticket-page .support-hub { max-width: 1120px; width: 100%; margin: 0 auto; }
+body.platform-rework.is-ticket-page .support-masthead { min-height: 0; width: 100%; margin: 0 auto; padding: 32px 0; background: transparent; justify-content: flex-start; text-align: start; max-width: 1120px; }
+body.platform-rework.is-ticket-page .support-masthead h1 { color: var(--platform-ink); font-size: 32px !important; }
+body.platform-rework .support-intro { max-width: none; margin: 0; padding: 0; text-align: start; border: 0; background: transparent; box-shadow: none; }
+body.platform-rework .support-intro p { margin-inline: 0; }
+body.platform-rework .support-intro .ticket-btn { margin-inline: 0; }
+body.platform-rework .support-history { min-width: 0; }
+body.platform-rework .support-ticket { padding: 24px; border: 0; border-radius: var(--platform-radius); box-shadow: none; background: var(--platform-paper); }
+body.platform-rework .support-ticket + .support-ticket { margin-top: 12px; }
+body.platform-rework .support-conversation { max-width: 1120px; }
+body.platform-rework :is(.support-thread-surface,.support-ticket-details) { border: 0; border-radius: var(--platform-radius); box-shadow: none; background: var(--platform-paper); padding: 28px; }
+body.platform-rework .support-message { border: 0; border-radius: 0; background: transparent; padding: 24px 0; }
+body.platform-rework .support-message + .support-message { border-top: 1px solid var(--platform-line); }
+body.platform-rework .support-reply-form { border: 0; border-radius: var(--platform-control-radius); background: var(--platform-soft); padding: 20px; }
+body.platform-rework .support-reply-form textarea { min-height: 144px; background: var(--platform-paper); }
+
+/* Overlay forms: actions stay visible while long field groups scroll. */
+body.platform-rework :is(.cycle-dialog,.bw-dialog-surface,.bw-modal-dialog,.platform-dialog) { border: 0; border-radius: 16px; background: var(--platform-paper); color: var(--platform-ink); box-shadow: 0 24px 64px rgb(9 21 43 / 18%); }
+body.platform-rework .cycle-dialog { padding: 28px; }
+body.platform-rework .cycle-dialog > header { align-items: flex-start; gap: 24px; margin-bottom: 24px; padding-bottom: 20px; }
+body.platform-rework .cycle-dialog > header h2 { font-size: 24px !important; font-weight: 600 !important; }
+body.platform-rework .bw-dialog-heading-icon { background: transparent !important; border: 0; border-radius: 0; box-shadow: none; color: var(--platform-sub); }
+body.platform-rework .cycle-dialog::backdrop { background: rgb(9 21 43 / 48%); backdrop-filter: none; }
+body.platform-rework .publication-drawer { border: 0; width: min(640px,100%); padding: 32px; border-radius: 0; box-sizing: border-box; }
+body.platform-rework .managed-account-dialog { padding: 28px; }
+body.platform-rework .managed-account-fields { gap: 28px; }
+body.platform-rework .managed-account-fields fieldset { padding-top: 20px; border: 0; }
+body.platform-rework .managed-account-fields legend { font-size: 16px !important; font-weight: 600 !important; margin-bottom: 16px; }
+body.platform-rework .managed-account-grid { gap: 20px 24px; }
+body.platform-rework .managed-account-footer { margin-top: 24px; padding-top: 20px; }
+body.platform-rework :is(.managed-account-dialog,.weekly-task-dialog) :is(input,select) { min-height: 48px; }
+
+@media (max-width: 1100px) {
+  body.platform-rework .journal-summary:has(> .certificate-compact) { grid-template-columns: minmax(0,1fr); }
+  body.platform-rework .company-week-layout { grid-template-columns: minmax(0,1fr); }
+  body.platform-rework .company-week-report { position: static; }
+  body.platform-rework .support-overview { grid-template-columns: 240px minmax(0,1fr); gap: 24px; }
+}
+@media (max-width: 760px) {
+  body.platform-rework .journal-summary:not(:has(> .certificate-compact)) .journal-placement { grid-template-columns: minmax(0,1fr); }
+  body.platform-rework .journal-summary .certificate-compact { grid-template-columns: 80px minmax(0,1fr); gap: 16px; padding: 20px; }
+  body.platform-rework .certificate-compact .certificate-preview canvas { width: 80px; }
+  body.platform-rework { --platform-panel-space: 20px; --platform-section-space: 24px; }
+  body.platform-rework :is(.support-overview,.journal-placement,.journal-workspace,.assessment-canvas,.support-conversation-layout) { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  body.platform-rework .support-intro { margin-bottom: 8px; }
+  body.platform-rework.is-ticket-page .support-overview { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  body.platform-rework.is-ticket-page .support-masthead { padding-block: 28px; }
+  body.platform-rework :is(.journal-placement,.journal-week,.journal-review,.company-week-objectives,.company-week-report,.support-thread-surface,.support-ticket-details) { padding: 20px; }
+  body.platform-rework :is(.bw-table,.publication-table,.platform-table,.listing-table) :is(th,td) { padding: 14px 16px; }
+  body.platform-rework :is(.bw-detail-facts,.spotlight-facts,.record-placement-facts,.gallery-facts) { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; padding: 16px; }
+  body.platform-rework .managed-account-dialog { padding: 20px; width: calc(100vw - 24px); max-height: calc(100dvh - 24px); }
+  body.platform-rework .cycle-dialog > header { gap: 12px; }
+  body.platform-rework .cycle-dialog > header h2 { font-size: 20px !important; }
+  body.platform-rework .cycle-dialog > header .bw-dialog-heading-icon { display: none; }
+  body.platform-rework .managed-account-grid { grid-template-columns: minmax(0,1fr); }
+  body.platform-rework :is(.cycle-dialog,.weekly-task-dialog) { padding: 20px; }
+  body.platform-rework .gallery-dossier { padding: 24px; }
+  body.platform-rework#page-company-dashboard :is(.bw-weekly-overview-grid,.evaluation-workspace) { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  body.platform-rework :is(#tab-completion,#tab-endorsement) .supervisor-assessment-workspace { grid-template-columns: minmax(0,1fr); gap: 24px; }
+  body.platform-rework .cycle-company-training > .cycle-weeks { grid-template-columns: repeat(4,minmax(0,1fr)); }
+  body.platform-rework .cycle-weeks .cycle-button { padding: 12px 4px !important; min-width: 0; white-space: normal; }
+  body.platform-rework .cycle-plan-title { align-items: flex-start; gap: 12px; min-width: 0; }
+  body.platform-rework .cycle-heading > div { min-width: 0; }
+  body.platform-rework .placements-summary { grid-template-columns: minmax(0,1fr); gap: 12px; }
+  body.platform-rework .placements-panel { padding: 20px; }
+  body.platform-rework .placements-table { min-width: 800px; }
+  body.platform-rework .placement-facts { grid-template-columns: minmax(0,1fr); }
+  body.platform-rework .placement-detail-actions { flex-direction: column; }
+  body.platform-rework :is(.cycle-button,.company-primary,.company-secondary,.bw-btn-primary,.bw-btn-outline,.bw-tag-btn,.platform-table-action,.ie-btn) { min-height: 44px; }
+  body.platform-rework :is(input,textarea,select) { font-size: 16px !important; }
+  body.platform-rework :is(.company-post-title,.studio-application h2) { font-size: 18px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.platform-rework *,body.platform-rework *::before,body.platform-rework *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+@media (forced-colors: active) {
+  body.platform-rework :is(button,a,input,select,textarea,summary):focus-visible { outline-color: Highlight; }
+  body.platform-rework :is(button,input,select,textarea) { border: 1px solid ButtonText; }
+}
+
+/* Visibility is an access state, so its semantic fill survives the shared neutral callout treatment. */
+body.platform-rework .cycle-visibility { border:0;border-radius:var(--platform-control-radius);background:var(--report-visibility-bg);padding:20px 24px;box-shadow:none; }

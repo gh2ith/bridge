@@ -1,0 +1,11 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),path=require('node:path');
+const context=vm.createContext({window:{},document:{addEventListener(){}}});
+vm.runInContext(fs.readFileSync(path.join(__dirname,'../shared/js/college-overview.js'),'utf8'),context);
+const summarize=context.window.BridgewayCollegeOverview.summarize;
+const input=()=>({college:'c1',students:[{id:'s1',college:'c1'},{id:'s2',college:'c1'},{id:'other',college:'c2'}],histories:[{student:'s1',status:'Active'},{student:'s2',status:'Completed'},{student:'s1',status:'Completed'},{student:'other',status:'Active'}],organizations:[{id:'c1',status:'Active'},{id:'co1',status:'Active'},{id:'co2',status:'Inactive'}],listings:[{id:'one',company:'co1',status:'Published'},{id:'two',company:'co1',status:'Pending review'},{id:'three',company:'co2',status:'Published'},{id:'four',company:'co1',status:'Published'}],restrictions:{c1:{four:true}},links:[{college:'c1',company:'co1',status:'Inactive'},{college:'c1',company:'co1',status:'Inactive'},{college:'c2',company:'co2'}]});
+test('summary scopes placements to the college and counts only each student’s latest history as active',()=>{const r=summarize(input());assert.equal(r.active,1);assert.equal(r.completed,2);});
+test('available listings require publication, active organizations, and local availability',()=>{const data=input();assert.equal(summarize(data).available,1);data.organizations[0].status='Inactive';assert.equal(summarize(data).available,0);});
+test('paused partnerships retain active training and partnership totals are unique',()=>{const r=summarize(input());assert.equal(r.active,1);assert.equal(r.partners,1);});
+test('availability is offered across colleges without requiring a partnership',()=>{const data=input();data.links=[];assert.equal(summarize(data).available,1);assert.equal(summarize(data).partners,0);});
+test('summary does not change records and supports an empty workspace',()=>{const data=input(),before=JSON.stringify(data);summarize(data);assert.equal(JSON.stringify(data),before);assert.equal(summarize({college:'c1'}).active,0);});

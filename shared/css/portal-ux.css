@@ -177,7 +177,7 @@
  overflow:auto;animation:bw-decision-enter .2s cubic-bezier(.2,.8,.2,1);
 }
 .bw-decision-dialog::backdrop { background:rgb(6 15 30 / .55);backdrop-filter:blur(6px); }
-.bw-decision-dialog .bw-decision-mark { display:grid;place-items:center;width:56px;height:56px;margin-bottom:22px;border:1px solid color-mix(in srgb,var(--decision-accent) 20%,var(--bw-border));border-radius:18px;background:var(--decision-tint);color:var(--bw-primary);box-shadow:0 3px 0 color-mix(in srgb,var(--decision-accent) 9%,transparent); }
+.bw-decision-dialog .bw-decision-mark { display:grid;place-items:center;width:56px;height:56px;margin-bottom:22px;border:1px solid color-mix(in srgb,var(--decision-accent) 20%,var(--bw-border));border-radius:18px;background:var(--decision-tint);color:var(--decision-icon);box-shadow:0 3px 0 color-mix(in srgb,var(--decision-accent) 9%,transparent); }
 .bw-decision-mark i { font-size:25px;line-height:1; }
 .bw-decision-dialog > header { align-items:flex-start;gap:12px;padding:0;margin:0 0 12px;border:0; }
 .bw-decision-dialog h2 { margin:0 0 12px;font:650 23px/1.3 var(--bw-font-body,system-ui);letter-spacing:-.035em;text-wrap:balance; }
@@ -197,11 +197,6 @@
 @media(prefers-reduced-motion:reduce) { .bw-decision-dialog { animation:none; }.bw-decision-dialog button { transition:none; } }
 
 
-/* Destructive decisions use a restrained red accent within Bridgeway's neutral surfaces. */
-:root { --bw-decision-danger-action:#b43d4e;--bw-decision-danger-tint:#fbf0f2;--bw-decision-danger-icon:#a73244; }
-[data-theme="dark"] { --bw-decision-danger-tint:#362530;--bw-decision-danger-icon:#f1a7b3; }
-.bw-decision-dialog:is([data-decision-tone="danger"],[data-decision-tone="warning"]) { --decision-accent:var(--bw-decision-danger-action);--decision-tint:var(--bw-decision-danger-tint);--decision-icon:var(--bw-decision-danger-icon); }
-.bw-decision-dialog:is([data-decision-tone="danger"],[data-decision-tone="warning"]) .bw-decision-mark { color:var(--decision-icon); }
 /* Legacy popups and all form/detail dialogs share the same surface and title treatment. */
 .bw-dialog-surface { border-color:var(--bw-border);border-radius:22px;background:var(--bw-surface-elevated,var(--bw-surface));box-shadow:0 28px 80px -24px #06132955,0 2px 8px #06132912; }
 .bw-dialog-surface::backdrop { background:rgb(6 15 30 / .55);backdrop-filter:blur(6px); }
@@ -233,3 +228,53 @@
  .bw-sidebar-rail:not(.is-open) .bw-masar-nav .bw-masar-item > .bw-nav-activity:not([hidden]),
  .bw-masar-sidebar.is-collapsed .bw-masar-nav .bw-masar-item > .bw-nav-activity:not([hidden]) { position:absolute;top:7px;right:7px;width:7px;height:7px;min-width:7px; }
 }
+
+/* Shared semantic palette: state and consequence take precedence over brand blue.
+   Solid action colors retain white-text contrast in both themes; subtle surfaces
+   and their text adapt to the theme. Neutral navigation/selection stay branded. */
+:root {
+ --ui-success-action:#087354;--ui-success-hover:#065d44;--ui-success-ink:#087354;--ui-success-bg:#eaf7f1;
+ --ui-warning-action:#865512;--ui-warning-hover:#6d430c;--ui-warning-ink:#865512;--ui-warning-bg:#fff5e4;
+ --ui-danger-action:#b42338;--ui-danger-hover:#951d2f;--ui-danger-ink:#b42338;--ui-danger-bg:#fceef0;
+}
+[data-theme="dark"] {
+ --ui-success-ink:#86e1b8;--ui-success-bg:#173d34;
+ --ui-warning-ink:#f5d290;--ui-warning-bg:#3b311e;
+ --ui-danger-ink:#ffafba;--ui-danger-bg:#41252d;
+}
+[data-action-tone="success"],[data-decision-tone="success"],[data-status-tone="success"] {
+ --intent-action:var(--ui-success-action);--intent-hover:var(--ui-success-hover);--intent-ink:var(--ui-success-ink);--intent-bg:var(--ui-success-bg);
+}
+[data-action-tone="warning"],[data-decision-tone="warning"],[data-status-tone="warning"] {
+ --intent-action:var(--ui-warning-action);--intent-hover:var(--ui-warning-hover);--intent-ink:var(--ui-warning-ink);--intent-bg:var(--ui-warning-bg);
+}
+[data-action-tone="danger"],[data-decision-tone="danger"],[data-status-tone="danger"] {
+ --intent-action:var(--ui-danger-action);--intent-hover:var(--ui-danger-hover);--intent-ink:var(--ui-danger-ink);--intent-bg:var(--ui-danger-bg);
+}
+.bw-decision-dialog:is([data-decision-tone="success"],[data-decision-tone="warning"],[data-decision-tone="danger"]) {
+ --decision-accent:var(--intent-action);--decision-icon:var(--intent-ink);--decision-tint:var(--intent-bg);
+}
+/* Explicit intent beats legacy page-ID styles, without changing dimensions or handlers. */
+body.company-workspace button[data-action-tone] {
+ color:var(--intent-ink)!important;background:var(--intent-bg)!important;border-color:var(--intent-ink)!important;box-shadow:none!important;
+}
+body.company-workspace button[data-action-tone]:hover:not(:disabled) {
+ background:color-mix(in srgb,var(--intent-ink) 10%,var(--intent-bg))!important;
+}
+body.company-workspace button[data-action-tone]:is(.is-primary,.bw-btn-primary,.company-primary),
+body.company-workspace .bw-decision-dialog :is(.cycle-actions,.bw-ux-confirm-actions,.bw-delete-actions,.partner-controls,.bw-modal-footer) button:last-child {
+ color:#fff!important;background:var(--intent-action,var(--decision-accent))!important;border-color:var(--intent-action,var(--decision-accent))!important;
+}
+body.company-workspace button[data-action-tone]:is(.is-primary,.bw-btn-primary,.company-primary):hover:not(:disabled),
+body.company-workspace .bw-decision-dialog :is(.cycle-actions,.bw-ux-confirm-actions,.bw-delete-actions,.partner-controls,.bw-modal-footer) button:last-child:hover:not(:disabled) {
+ background:var(--intent-hover,var(--decision-accent))!important;border-color:var(--intent-hover,var(--decision-accent))!important;filter:none;
+}
+body.company-workspace button[data-action-tone]:focus-visible { outline-color:var(--intent-ink); }
+body.company-workspace :is(.bw-badge,.cycle-status,.platform-status)[data-status-tone]:not([data-status-tone="neutral"]) {
+ color:var(--intent-ink)!important;background:var(--intent-bg)!important;border-color:transparent!important;
+}
+body.company-workspace :is(.bw-badge,.cycle-status,.platform-status)[data-status-tone="neutral"] {
+ color:var(--bw-text-secondary)!important;background:var(--bw-bg-alt)!important;border-color:transparent!important;
+}
+
+[data-status-tone="info"] { --intent-ink:var(--bw-primary);--intent-bg:var(--bw-primary-light); }

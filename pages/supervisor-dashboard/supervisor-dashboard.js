@@ -1,21 +1,86 @@
-// Roster progress comes from supervisor-verified reports, never seeded week labels.
-document.addEventListener('DOMContentLoaded',()=>{
-  function syncRoster(){
-    const C=window.BridgewayCycle;if(!C)return;
-    document.querySelectorAll('#supervisedStudentsTable tbody tr').forEach(row=>{
-      const student=window.BridgewayPartners.students.find(s=>s.supervisor==='Dr. Ahmad S.'&&row.cells[0]?.textContent.includes(s.studentId));
-      if(!student)return;
-      const plan=C.state.plans[student.id]||[],verified=plan.filter(w=>w.status==='verified').length;
-      const track=row.querySelector('.bw-progress-track'),progress=track?.previousElementSibling,bar=row.querySelector('.bw-progress-fill'),hours=row.querySelector('.roster-hours');
-      if(progress)progress.textContent=`${verified} of 8 weeks verified`;
-      if(bar){bar.style.width=`${verified/8*100}%`;bar.parentElement.setAttribute('role','progressbar');bar.parentElement.setAttribute('aria-label',`${student.name}: verified weeks`);bar.parentElement.setAttribute('aria-valuemin','0');bar.parentElement.setAttribute('aria-valuemax','8');bar.parentElement.setAttribute('aria-valuenow',String(verified));}
-      if(hours)hours.textContent=`${C.hours(student.id)} / 120 hours verified`;
-      const badge=row.cells[4]?.querySelector('.bw-badge'),pending=plan.filter(w=>w.status==='submitted').length,revision=plan.some(w=>w.status==='revision');
-      if(badge){badge.textContent=pending?`${pending} to review`:revision?'Revision requested':verified===8?'All weeks verified':'Training in progress';badge.className='bw-badge '+(pending||revision?'bw-badge-warning':'bw-badge-success');}
-    });
+// The roster is built from current academic assignments, not the original HTML rows.
+document.addEventListener('DOMContentLoaded', () => {
+  const table = document.getElementById('supervisedStudentsTable');
+  const body = table?.tBodies[0];
+  if (!body) return;
+  const template = body.rows[0].cloneNode(true);
+  const search = document.getElementById('rosterSearchInput');
+  const total = document.querySelector('#tab-roster .bw-badge-purple');
+  const pager = document.createElement('nav');
+  pager.className = 'roster-pagination';
+  pager.setAttribute('aria-label', 'Assigned student pages');
+  const results = document.createElement('span');
+  results.setAttribute('role', 'status');
+  const previous = document.createElement('button');
+  previous.type = 'button'; previous.textContent = 'Previous'; previous.className = 'bw-tag-btn';
+  const position = document.createElement('span');
+  const next = document.createElement('button');
+  next.type = 'button'; next.textContent = 'Next'; next.className = 'bw-tag-btn';
+  pager.append(results, previous, position, next);
+  table.parentElement.after(pager);
+  table.dataset.portalTable = 'true';
+  let page = 1;
+
+  function render() {
+    const C = window.BridgewayCycle;
+    if (!C) return;
+    const model = window.BridgewayPartners;
+    const assigned = model.students.filter(student => student.supervisor === 'Dr. Ahmad S.');
+    const query = search.value.trim().toLowerCase();
+    const matches = assigned.filter(student => (student.name+' '+student.studentId+' '+C.org(student.company)).toLowerCase().includes(query));
+    const pages = Math.max(1, Math.ceil(matches.length / 10));
+    page = Math.min(page, pages);
+    body.replaceChildren();
+    for (const student of matches.slice((page - 1) * 10, page * 10)) {
+      const row = template.cloneNode(true);
+      row.dataset.studentId = student.id;
+      const name = row.querySelector('[data-style="s10"]');
+      name.textContent = student.name;
+      row.querySelector('.bw-user-avatar').textContent = student.name.split(/\s+/).slice(0,2).map(part => part[0]).join('');
+      row.querySelector('[data-style="s11"]').textContent = 'ID #'+student.studentId;
+      row.cells[1].querySelector('[data-style="s12"]').textContent = student.department || 'Not recorded';
+      row.cells[1].querySelector('[data-style="s14"]').textContent = student.gpa || 'Not recorded';
+      row.cells[2].querySelector('[data-style="s15"]').textContent = student.company ? C.org(student.company) : 'No placement';
+      row.cells[2].querySelector('[data-style="s13"]').textContent = student.mentor ? 'Mentor: '+student.mentor : '';
+      const plan = C.state.plans[student.id] || [];
+      const verified = plan.filter(week => week.status === 'verified').length;
+      const hours = C.hours(student.id);
+      const complete = verified === 8 && hours >= 120;
+      const pending = plan.filter(week => week.status === 'submitted').length;
+      const revision = plan.some(week => week.status === 'revision');
+      const cell = row.cells[3], track = cell.querySelector('.bw-progress-track');
+      cell.classList.add('roster-training-progress');
+      cell.dataset.progressState = complete ? 'verified' : 'in-progress';
+      cell.querySelector('.roster-progress-label').textContent = verified+' of 8 weeks verified';
+      cell.querySelector('.roster-hours').textContent = hours+' / 120 hours verified';
+      cell.querySelector('.bw-progress-fill').style.width = verified / 8 * 100 + '%';
+      track.setAttribute('role','progressbar');track.setAttribute('aria-label',student.name+': verified weeks');
+      track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax','8');track.setAttribute('aria-valuenow',String(verified));
+      const badge = row.cells[4].querySelector('.bw-badge');
+      badge.textContent = pending ? pending+' to review' : revision ? 'Revision requested' : complete ? 'All weeks verified' : plan.length ? 'Training in progress' : 'No training plan';
+      badge.className = 'bw-badge '+(pending || revision ? 'bw-badge-warning' : complete ? 'bw-badge-success' : 'bw-badge-blue');
+      const action = row.cells[5].querySelector('button');
+      action.removeAttribute('data-onclick');
+      action.disabled = !plan.length;
+      action.setAttribute('aria-label','Weekly reports for '+student.name);
+      action.addEventListener('click', () => { window.switchTab('tab-reports'); window.reviewStudentReport(student.name); });
+      body.append(row);
+    }
+    if (!matches.length) {
+      const row = body.insertRow(), cell = row.insertCell();
+      cell.colSpan = 6;
+      cell.textContent = query ? 'No students match your search.' : 'No students assigned yet.';
+    }
+    total.textContent = assigned.length+' assigned students';
+    results.textContent = matches.length ? ((page-1)*10+1)+' to '+Math.min(page*10,matches.length)+' of '+matches.length+' students' : '0 students';
+    position.textContent = 'Page '+page+'/'+pages;
+    previous.disabled = page === 1; next.disabled = page === pages;
   }
-  queueMicrotask(syncRoster);
-  document.addEventListener('bridgeway:cycle-change',syncRoster);
+  previous.addEventListener('click', () => { page--; render(); });
+  next.addEventListener('click', () => { page++; render(); });
+  search.addEventListener('input', () => { page=1; render(); });
+  queueMicrotask(render);
+  document.addEventListener('bridgeway:cycle-change', render);
 });
 
 // Compact, read-only student details without replacing or expanding the dashboard.
@@ -25,7 +90,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   table.addEventListener('click',event=>{
     const opener=event.target.closest('.bw-record-open');if(!opener)return;
     const C=window.BridgewayCycle,row=opener.closest('tr');
-    const s=window.BridgewayPartners.students.find(s=>s.supervisor==='Dr. Ahmad S.'&&row.cells[0].textContent.includes(s.studentId));
+    const s=window.BridgewayPartners.students.find(s=>s.supervisor==='Dr. Ahmad S.'&&s.id===row.dataset.studentId);
     if(!C||!s)return;
     event.preventDefault();event.stopImmediatePropagation();
     const history=C.state.histories.filter(h=>h.student===s.id),current=history[0],plan=C.state.plans[s.id]||[];

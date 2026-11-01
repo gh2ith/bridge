@@ -287,8 +287,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function counts(){
       document.querySelectorAll('#tab-supervisors tbody tr').forEach(row=>{const name=(row.cells[0]?.querySelector('strong,[data-style="s16"]')?.textContent||row.cells[0]?.firstElementChild?.textContent||row.cells[0]?.textContent)?.trim();if(!name||!row.cells[3])return;const count=[...studentsBody.rows].filter(studentRow=>studentRow.cells[4]?.querySelector('select')?.value===name).length;row.cells[3].textContent=`${count} student${count===1?'':'s'}`;});
       const ids=['tab-users','tab-students','tab-companies','tab-supervisors','tab-posts','tab-approved'];
-      const values=[usersBody.rows.length,studentsBody.rows.length,model.links.filter(l=>l.college===college).length,document.querySelectorAll('#tab-supervisors tbody tr').length,document.querySelectorAll('#tab-posts tbody tr').length,document.querySelectorAll('#tab-approved tbody tr:not([data-terminated])').length];
-      ids.forEach((id,i)=>{const badge=document.querySelector(`[data-tab="${id}"] .bw-tab-badge`);if(badge)badge.textContent=values[i];const nav=document.querySelector(`[data-tab="${id}"]`);if(nav)nav.title=nav.textContent.trim();const kpi=document.querySelectorAll('.bw-kpi-value')[i];if(kpi)kpi.textContent=values[i];});
+      const cycle=window.BridgewayCycle,summary=window.BridgewayCollegeOverview?.summarize({college,students:model.students,histories:cycle?.state.histories,listings:cycle?.state.listings,organizations:model.organizations,restrictions:cycle?.state.collegeListingRestrictions,links:model.links});
+      const values=[usersBody.rows.length,studentsBody.rows.length,summary?.partners??model.links.filter(l=>l.college===college).length,document.querySelectorAll('#tab-supervisors tbody tr').length,summary?.available??0,summary?.active??0];
+      ids.forEach((id,i)=>{const badge=document.querySelector(`[data-tab="${id}"] .bw-tab-badge`);if(badge)badge.textContent=values[i];const nav=document.querySelector(`[data-tab="${id}"]`);if(nav)nav.title=nav.textContent.trim();const kpi=document.querySelector(`[data-onclick="querySelector--${i+1}"] .bw-kpi-value`);if(kpi)kpi.textContent=values[i];});
       const badge=document.querySelector('#tab-users .bw-badge');if(badge)badge.textContent=`${values[0]} College accounts`;
     }
     document.getElementById('registerStudentForm')?.addEventListener('submit',event=>{
@@ -312,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
     panel.replaceChildren();const card=el('section',null,'partner-panel');card.append(el('h2',role==='company'?'Connected colleges':'Partner companies'),el('p',role==='company'?'College contacts and current placements with your company.':'Pause or resume your college’s partnerships. Pausing stops new applications and placements; existing training continues. Changes are saved in this browser.'));panel.append(card);
     if(role==='company'){card.classList.add('company-college-directory');card.setAttribute('aria-label','Connected colleges');}
     model.links.filter(link=>role==='company'?link.company===company:link.college===college).forEach(link=>{
-      const org=model.organizations.find(o=>o.id===(role==='company'?link.college:link.company));const row=el('div',null,'partner-row');const info=el('div');info.append(el('strong',org.name),el('small',org.email));const related=model.students.filter(s=>s.company===link.company&&s.college===link.college&&s.stage==='Placed');info.append(el('small',`${related.length} confirmed intern${related.length===1?'':'s'}  /  Fall 2026`));
+      const org=model.organizations.find(o=>o.id===(role==='company'?link.college:link.company));const row=el('div',null,'partner-row');const info=el('div');info.append(el('strong',org.name),el('small',org.email));const related=model.students.filter(s=>s.company===link.company&&s.college===link.college&&s.stage==='Placed');const totals=el('small',null,'partner-placement-summary');info.append(totals);const refreshTotals=()=>{const counts=window.BridgewayPartnerCounts;totals.textContent=counts?counts.label(counts.summarize(link,window.BridgewayCycle?.state.histories||[],model.students)):'Placement records unavailable';};refreshTotals();document.addEventListener('bridgeway:cycle-change',refreshTotals);
       const controls=el('div',null,'partner-controls');const status=el('span',model.effective(link)?'Active':link.status==='Active'?'Account suspended':'Paused','bw-badge bw-badge-blue');controls.append(status);
       if(role==='company'){
         row.classList.add('company-college-row');
@@ -904,18 +905,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Live Student Search Filter in Supervised Students Roster
-    const rosterSearch = document.getElementById('rosterSearchInput');
-    if (rosterSearch) {
-      rosterSearch.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase().trim();
-        const rows = document.querySelectorAll('#supervisedStudentsTable tbody tr');
-        rows.forEach(tr => {
-          const text = tr.textContent.toLowerCase();
-          tr.style.display = text.includes(term) ? '' : 'none';
-        });
-      });
-    }
   }
   // COMPANY PORTAL SPECIFICS
   function initCompanyDashboard() {
