@@ -1,6 +1,6 @@
-# Bridgeway database
+# Installed Bridgeway database (85 tables)
 
-This database targets the locally installed Microsoft SQL Server 2025 engine (17.x, compatibility 170). The application remains a static, browser-local frontend. This work does not connect it to SQL Server or implement authentication, payment processing, Zoom, AI, uploads, email, or cross-device scanning.
+This directory documents the installed SQL Server 2025 database (compatibility level 170). The [database reference page](../docs/database/database.html) contains the separate 60-table revision and its SQL download. The Razor Pages application currently stores portal workflow records in the browser.
 
 ## Findings before schema generation
 
@@ -81,8 +81,8 @@ The model contains **85 tables, 593 columns, 152 foreign-key relationships, 97 C
 * `schema.sql`: generated table DDL, named defaults, keys, checks, restrictive foreign keys and indexes.
 * `procedures.sql`: transactional account, partnership, recruitment, placement, training, attendance, meeting, support and planned-service procedures; guarded write permissions; append-only and report-lock triggers.
 * `validation.sql`: synthetic positive and negative checks. Its database-name guard rejects the actual `Bridgeway` database.
-* `../docs/database/database-data.js`: the single table metadata source and DDL generator used both by the website and `schema.sql`.
-* `../docs/database/database.html`: local static reference with ER, full schema, table directory, SQL and rules views. Its folder has exactly four files.
+* `installed-model.cjs`: the versioned metadata used to regenerate and verify the installed 85-table schema.
+* `../docs/database/database.html`: reference for the revised website schema, including its own SQL download. This document and the installation scripts in this directory describe the installed 85-table version.
 
 Identifiers are `uniqueidentifier` for durable entities. Server defaults use `NEWSEQUENTIALID()`; creation procedures may supply `NEWID()` so an entity ID is available before inserting dependent rows. Natural composite keys identify ordered schedule rows, versions, evaluation criteria, and membership rows. Only the conversation's global ordering number uses `bigint IDENTITY`; it prevents ambiguous ordering of replies with equal millisecond timestamps. Timestamps use UTC `datetime2(3)`, with Amman calendar dates derived through SQL Server's `Jordan Standard Time`. `rowversion` values are concurrency tokens, not dates.
 
@@ -147,7 +147,9 @@ node tools/inspect-database.cjs Bridgeway_Validation_MyRun
 
 Never run `validation.sql` in the application database. Validation fixtures include clearly synthetic `.invalid` accounts, fake provider references and test-only AI outputs. They exist only in the disposable database; no messages, payments, meetings or uploads are actually sent. Validation requires an initially empty database and should not be rerun over its previous fixtures.
 
-For local documentation, serve the repository with the existing static server and open `http://127.0.0.1:8080/docs/database/database.html`. No framework or build step is needed. Regeneration is explicit: `node tools/build-database.cjs` writes the table DDL and the generated guard section of the procedural SQL. `check-database.cjs` rejects schema/documentation drift; `inspect-database.cjs` compares a real installed catalogue against column types, nullability, identities, constraints and ordered foreign-key mappings.
+Open the revised website at `http://127.0.0.1:8080/Reference/Database` with the Bridgeway launch profile. The static reference is at `docs/database/database.html`. Run `node tools/check-database.cjs --website` to check the revised model and its Razor assets.
+
+For the installed version, `node tools/build-database.cjs` regenerates the 85-table schema and its procedural guards from `installed-model.cjs`. Run `node tools/check-database.cjs` to check that version. The read-only `tools/inspect-database.cjs` compares a SQL Server catalog against either model (pass `--website` when inspecting a disposable database created from the revised download).
 
 ## Verification performed
 

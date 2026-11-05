@@ -74,15 +74,56 @@
   function renderTables(){const root=$('table-directory');root.replaceChildren();const chosen=M.tables.filter(match);if(!chosen.length){root.append(el('p','No tables match. Clear the filters to see the model.','empty'));return;}
     for(const group of M.groups){const tables=chosen.filter(t=>t.group===group.id);if(!tables.length)continue;const section=el('section',undefined,'table-group');section.append(el('h3',group.name+(group.planned?' · Planned':'')));
       for(const t of tables){const record=el('details',undefined,'table-record');record.id='table-'+t.id.replace('.','-');const summary=el('summary');summary.append(el('strong',t.id),el('span',`${t.columns.length} columns`));record.append(summary);const detail=el('div',undefined,'table-detail');detail.append(el('p',t.description));const scroll=el('div',undefined,'table-scroll'),table=el('table'),head=el('thead'),hr=el('tr');for(const title of ['Column','SQL Server type','Keys','Nullable','Default / identity']){const th=el('th',title);th.scope='col';hr.append(th);}head.append(hr);table.append(head);const body=el('tbody');for(const col of t.columns){const row=el('tr');for(const [i,value]of [col.name,col.type,flags(t,col)||'None',col.nullable?'Yes':'No',col.identity?'IDENTITY(1,1)':col.default??(col.type==='rowversion'?'Server generated':'None')].entries()){const td=el('td',value,i===0?'field-name':i===2?'key-tag':'');if(i===0)td.title=col.description;row.append(td);}body.append(row);}table.append(body);scroll.append(table);detail.append(scroll);
+        const snapshots = t.columns.filter(column => column.name.endsWith('Json'));
+        if (snapshots.length) {
+          detail.append(el('h4','JSON fields'));
+          const fields = el('ul');
+          for (const column of snapshots) {
+            const item = el('li');
+            item.append(el('code', column.name), document.createTextNode(' — ' + column.description));
+            fields.append(item);
+          }
+          detail.append(fields);
+        }
         const constraints=el('ul',undefined,'constraints');for(const key of [t.primaryKey,...t.uniqueKeys])constraints.append(el('li',`${key.name}: (${key.columns.join(', ')})`));for(const check of t.checks)constraints.append(el('li',`${check.name}: ${check.expression}`));detail.append(el('h4','Constraints'),constraints);
         const indexes=el('ul',undefined,'constraints');for(const ix of t.indexes)indexes.append(el('li',`${ix.name}: (${ix.columns.join(', ')})${ix.unique?' UNIQUE':''}${ix.filter?' WHERE '+ix.filter:''}`));if(!t.indexes.length)indexes.append(el('li','Primary and unique keys supply their own indexes.'));detail.append(el('h4','Indexes'),indexes);
         const refs=el('div',undefined,'references');for(const [title,links]of [['Points to',relationships.filter(f=>f.source===t.id)],['Referenced by',relationships.filter(f=>f.target===t.id)]]){const part=el('section'),ul=el('ul');part.append(el('h4',title));for(const f of links){const li=el('li'),target=title==='Points to'?f.target:f.source;li.append(refButton(target),document.createTextNode(` (${f.columns.join(', ')}) → (${f.targetColumns.join(', ')}). Delete: ${f.onDelete}.`));ul.append(li);}if(!links.length)ul.append(el('li','None'));part.append(ul);refs.append(part);}detail.append(refs);record.append(detail);section.append(record);
       }root.append(section);
     }
   }
-  $('sql-code').textContent=M.ddl();
-  $('download-sql').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([M.ddl()],{type:'application/sql;charset=utf-8'})),a=el('a');a.href=url;a.download='schema.sql';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('sql-status').textContent='Schema downloaded. Install procedures.sql afterward.';});
-  $('copy-sql').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(M.ddl());$('sql-status').textContent='SQL copied to clipboard.';}catch{$('sql-status').textContent='Clipboard access is unavailable. Select the SQL text and copy it, or use Download.';}});
+  const scripts = [
+    {id: 'schema', title: 'Create the revised schema', filename: 'schema-revised.sql', sql: M.ddl(),
+      description: 'This script creates the revised tables and their constraints. The installed database and its workflow procedures use the earlier schema.'},
+    ...M.queries
+  ];
+  const scriptPicker = $('query-choice');
+  scripts.slice(1).forEach(script => scriptPicker.add(new Option(script.title, script.id)));
+  const currentScript = () => scripts[scriptPicker.selectedIndex];
+  function showScript() {
+    const script = currentScript();
+    $('sql-code').textContent = script.sql;
+    $('query-description').textContent = script.description;
+    $('sql-status').textContent = '';
+  }
+  scriptPicker.addEventListener('change', showScript);
+  showScript();
+  $('download-sql').addEventListener('click', () => {
+    const script = currentScript(), link = el('a');
+    const url = URL.createObjectURL(new Blob([script.sql], {type: 'application/sql;charset=utf-8'}));
+    link.href = url;
+    link.download = script.filename || script.id + '.sql';
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    $('sql-status').textContent = 'Downloaded ' + link.download;
+  });
+  $('copy-sql').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(currentScript().sql);
+      $('sql-status').textContent = 'SQL copied to clipboard.';
+    } catch {
+      $('sql-status').textContent = 'Select and copy the SQL below, or choose Download SQL.';
+    }
+  });
   for(const r of M.rules){const item=el('article',undefined,'rule'),heading=el('div');heading.append(el('h3',r.title),el('small',r.phase==='Planned'?'Planned integration':'Current workflow'));const copy=el('div');copy.append(el('p',r.description),el('p',r.enforcement));item.append(heading,copy);$('rules').append(item);}
   refresh();
 })();

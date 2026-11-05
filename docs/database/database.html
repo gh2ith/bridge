@@ -11,9 +11,9 @@
 </head>
 <body>
   <a class="skip" href="#workspace">Skip to database reference</a>
-  <header class="site-header"><a class="brand" href="../../pages/home/index.html">Bridgeway</a><span>Database reference</span><a href="../../database/README.md">Implementation notes</a></header>
+  <header class="site-header"><a class="brand" href="../../pages/home/index.html">Bridgeway</a><span>Database reference</span><a href="../../database/README.md">Installed database notes</a></header>
   <main id="workspace">
-    <section class="intro"><div><h1>The Bridgeway data model.</h1><p>Explore the data behind opportunities, training, and completion.</p></div><p class="engine">Microsoft SQL Server 2025<span id="model-summary"></span></p></section>
+    <section class="intro"><div><h1>The Bridgeway data model.</h1><p>The revision brings 85 tables down to 60. Of these, 44 support current workflows and 16 cover planned courses, checkout, AI matching and notifications.</p></div><p class="engine">Microsoft SQL Server 2025<span id="model-summary"></span></p></section>
     <div class="tabs" role="tablist" aria-label="Database reference views">
       <button id="tab-er" role="tab" aria-selected="true" aria-controls="panel-er" tabindex="0" data-view="er">ER diagram</button>
       <button id="tab-schema" role="tab" aria-selected="false" aria-controls="panel-schema" tabindex="-1" data-view="schema">Schema diagram</button>
@@ -36,10 +36,19 @@
       <div class="diagram-viewport" id="viewport-schema" tabindex="0" aria-label="Scrollable full schema diagram"><svg id="diagram-schema" role="img" aria-labelledby="schema-title"><title id="schema-title">Bridgeway schema and field-level foreign keys</title></svg></div>
       <p id="selection-schema" class="selection-note" role="status">Choose a workflow and zoom in to read fields. Each table can be selected with Enter or Space.</p>
     </section>
-    <section id="panel-tables" class="panel" role="tabpanel" aria-labelledby="tab-tables" hidden><div class="section-heading"><h2>Table directory</h2><p>Definitions, constraints, indexes, and incoming and outgoing references.</p></div><div id="table-directory"></div></section>
-    <section id="panel-sql" class="panel" role="tabpanel" aria-labelledby="tab-sql" hidden><div class="sql-heading"><div><h2>Executable table schema</h2><p>Generated from the same metadata as these diagrams. Foreign keys follow table creation to handle cycles.</p></div><div class="actions"><button id="copy-sql" type="button">Copy SQL</button><button id="download-sql" class="primary" type="button">Download schema.sql</button></div></div><p class="sql-notice">Run against an empty database. GO separates client batches. Workflow procedures, guards, and permissions are maintained separately in <a href="../../database/procedures.sql">procedures.sql</a>.</p><p id="sql-status" role="status"></p><pre tabindex="0" aria-label="SQL Server schema"><code id="sql-code"></code></pre></section>
-    <section id="panel-rules" class="panel" role="tabpanel" aria-labelledby="tab-rules" hidden><div class="section-heading"><h2>Rules the records must keep</h2><p>Database guarantees and future service responsibilities are stated separately.</p></div><p class="rules-note">The frontend is still browser-local. This schema does not authenticate users, upload documents, create Zoom rooms, process payments, run AI, or send messages. Planned means the database supports a future integration.</p><div id="rules"></div><div class="status-mapping"><h3>Stored and displayed states</h3><dl><div><dt>Partnership Inactive</dt><dd>Paused</dd></div><div><dt>Application Accepted</dt><dd>Company accepted; awaiting placement activation</dd></div><div><dt>Week Submitted</dt><dd>In review; zero verified hours</dd></div><div><dt>Week Revision</dt><dd>Revision requested; zero verified hours</dd></div><div><dt>Missing attendance record</dt><dd>Not recorded</dd></div></dl></div></section>
+    <section id="panel-tables" class="panel" role="tabpanel" aria-labelledby="tab-tables" hidden><div class="section-heading"><h2>Table directory</h2><p>Definitions, constraints, indexes, and incoming and outgoing references.</p></div><details><summary>Why the table count changed</summary><p>The earlier schema kept a separate table for each application’s answers and skills, for each report review, and for several fixed evaluation criteria. The revised schema keeps those values with the application, report or evaluation they describe. Interviews and academic meetings also share the same scheduling tables.</p><p>Payments, task submissions, report versions and attendance events still have their own records. Each can happen more than once or needs its own history.</p></details><div id="table-directory"></div></section>
+    <section id="panel-sql" class="panel" role="tabpanel" aria-labelledby="tab-sql" hidden>
+      <div class="sql-heading">
+        <div><h2>SQL for the revised schema</h2><p>Create the tables in a new, empty SQL Server 2025 database, then try a query against them.</p></div>
+        <div class="actions"><button id="copy-sql" type="button">Copy SQL</button><button id="download-sql" class="primary" type="button">Download SQL</button></div>
+      </div>
+      <label class="query-choice">Script<select id="query-choice"><option value="schema">Create the revised schema</option></select></label>
+      <p id="query-description" class="sql-notice"></p>
+      <p id="sql-status" role="status"></p>
+      <pre tabindex="0" aria-label="Selected SQL script"><code id="sql-code"></code></pre>
+    </section>
+    <section id="panel-rules" class="panel" role="tabpanel" aria-labelledby="tab-rules" hidden><div class="section-heading"><h2>Rules the records must keep</h2><p>Database guarantees and future service responsibilities are stated separately.</p></div><p class="rules-note">The schema download creates tables, keys, indexes and checks. The rules below also specify what the backend must verify when it writes data. The existing 85-table installation uses a separate set of procedures.</p><div id="rules"></div><div class="status-mapping"><h3>Stored and displayed states</h3><dl><div><dt>Partnership Inactive</dt><dd>Paused</dd></div><div><dt>Application Accepted</dt><dd>Company accepted; awaiting placement activation</dd></div><div><dt>Week Submitted</dt><dd>In review; zero verified hours</dd></div><div><dt>Week Revision</dt><dd>Revision requested; zero verified hours</dd></div><div><dt>Missing attendance record</dt><dd>Not recorded</dd></div></dl></div></section>
   </main>
-  <footer class="site-footer"><span>Bridgeway · Versioned agreements. Retained history.</span><a href="../../database/README.md">Setup, decisions, and verification</a></footer>
+  <footer class="site-footer"><span>Bridgeway database reference</span><a href="../../database/README.md">Installed database documentation</a></footer>
 </body>
 </html>
